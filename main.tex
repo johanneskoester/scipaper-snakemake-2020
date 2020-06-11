@@ -9,19 +9,20 @@
 \usepackage[backend=biber]{biblatex}
 \addbibresource{literature.bib}
 
-\newcommand{\sharedfirst}{$\dagger$\affil[$\dagger$]{Shared first}}
-%\newcommand{\sharedfirsttext}[1]{\affil[\sharedfirstauthormark]{#1}}
-%\newcommand
+\newcommand{\sharedfirst}{$\dagger$}
+\newcommand{\sharedfirsttext}[1]{\affil[\sharedfirst]{#1}}
+\newcommand{\corresponding}{*}
+\newcommand{\correspondingtext}[1]{\affil[\corresponding]{#1}}
 
 \begin{document}
 
 \author[1,2,\sharedfirst]{Felix Mölder}
 \author[1,2,\sharedfirst]{Felix Mölder}
-\author[1,*]{Johannes Köster}
+\author[1,\corresponding]{Johannes Köster}
 \affil[1]{Algorithms for reproducible bioinformatics, Genome Informatics, Institute of Human Genetics, University Hospital Essen, University of Duisburg-Essen}
 \affil[2]{Institute of Pathology, University Hospital Essen, University of Duisburg-Essen}
-%\sharedfirsttext{Shared first author}
-\affil[*]{To whom correspondence should be addressed}
+\sharedfirsttext{Shared first author}
+\correspondingtext{To whom correspondence should be addressed}
 
 \title{Insert document title}
 \maketitle
