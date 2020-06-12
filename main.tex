@@ -2,13 +2,33 @@
 \usepackage[utf8]{inputenc}
 \usepackage{amsmath}
 \usepackage{graphicx}
+\usepackage{authblk}
 \usepackage{xr}
 \externaldocument{supplement.tex}
 
 \usepackage[backend=biber]{biblatex}
 \addbibresource{literature.bib}
 
+\newcommand{\sharedfirst}{$\dagger$}
+\newcommand{\sharedfirsttext}[1]{\affil[\sharedfirst]{#1}}
+\newcommand{\corresponding}{*}
+\newcommand{\correspondingtext}[1]{\affil[\corresponding]{#1}}
+
 \begin{document}
+
+\author[1,2,\sharedfirst]{Felix Mölder}
+\author[3,\sharedfirst]{Soo Lee}
+\author[4,\sharedfirst]{Michael Hall}
+\author[4,\sharedfirst]{Brice Letcher}
+\author[3,\sharedfirst]{Soo Lee}
+\author[1,5,\corresponding]{Johannes Köster}
+\affil[1]{Algorithms for reproducible bioinformatics, Genome Informatics, Institute of Human Genetics, University Hospital Essen, University of Duisburg-Essen, Essen, Germany}
+\affil[2]{Institute of Pathology, University Hospital Essen, University of Duisburg-Essen, Essen, Germany}
+\affil[3]{Biomedical Informatics, Harvard Medical School, Harvard University, Boston, USA}
+\affil[4]{EMBL-EBI}
+\affil[5]{Medical Oncology, Harvard Medical School, Harvard University, Boston, USA}
+\sharedfirsttext{Shared first author}
+\correspondingtext{To whom correspondence should be addressed}
 
 \title{Insert document title}
 \maketitle
