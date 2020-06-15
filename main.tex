@@ -69,15 +69,30 @@ Here, a main advantage is that the same workflow definition can be executed on v
 Today, several of the above mentioned systems support full in silico reproducibility of data analyses (e.g. Galaxy, Nextflow, Snakemake, WDL, CWL), via allowing the definition and automatic scalable execution of each involved step, together with the ability to define and automatically deploy the software stack needed for each step (e.g. via the Conda package manager,~\url{https://docs.conda.io}, or Docker containers~\url{https://www.docker.com}).
 
 Reproducibility is important to generate trust in scientific results.
-However, we postulate that a truly sustainable data analysis needs to consider a full hierarchy of interdependent aspects (see Fig.~{\ref{374653}}).
+However, we postulate that a truly sustainable data analysis needs to consider a full hierarchy of interdependent aspects (see Fig.~{\ref{fig:sustainability}}).
 
 \begin{figure}
 	\image{sustainability-in-wms.pdf}
 	\caption{
 		Hierarchy of aspects to consider for sustainable data analysis.
 		By supporting the top layer, a workflow management system can promote the center layer, and thereby help to obtain true sustainability.
-	}
+	}\label{fig:sustainability}
 \end{figure}
+
+By being \emph{automated}, \emph{scalable} to various computational platforms and levels of parallelism, and \emph{portable}, in the sense that it is able to be automatically deployed with all required software in exactly the needed versions, a data analysis gains full in silico \emph{reproducibility.
+}
+
+While being able to reproduce results is a major achievement, \emph{transparency} is equally important: the validity of results can only be fully assessed if~the parameters, software and custom code of each analysis step is fully accessible.
+On the level of the code, a data analysis therefore has to be \emph{readable} and well \emph{documented}.
+On the level of the results it has to be possible to \emph{trace} parameters, software stack and code through all involved steps.
+
+Finally, valid results yielded from a reproducible data analysis become even more beneficial for the scientific community once the analysis can be reused for other projects.
+In practice, this will almost never be a plain reuse, and instead requires~\emph{adaptability} to new circumstances, e.g. being able to extend the analysis, replace or modify steps and adjust parameter choices.
+Such adaptability can only be achieved if the data analysis can easily be executed at a different computational environment (e.g. a different institute), thus it has to be \emph{scalable} and \emph{portable} again.
+In addition, it is crucial that the analysis code is as \emph{readable} as possible such that it can be easily modified.
+
+In this work, we show how sustainability in terms of these aspects is supported by Snakemake.
+Since its original publication in 2012, Snakemake has gained a wide adoption, culminating in, on average, nowadays more than 3 new citations per week, and over 600 citations in total (Fig.~{\ref{fig:citations}}), making it one of the most widely used workflow management systems in science.
 
 \printbibliography
 \end{document}
