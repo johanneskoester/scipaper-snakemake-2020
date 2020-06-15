@@ -14,6 +14,16 @@
 \maketitle
 
 \section{Readability}\label{sec:readability}
+Statements in Snakemake workflow definitions fall into seven categories:
+\begin{enumerate}
+	\item a natural language word, followed by a colon (e.g.~\lstinline!input:! and~\lstinline!output:!),
+	\item the word ``rule'', followed by a name and a colon (e.g. \lstinline!rule\ convert\_to\_pdf:!),
+	\item a quoted filename pattern (e.g. \lstinline!"{prefix}.pdf"!),
+	\item a quoted shell command,
+	\item a quoted wrapper identifier,
+	\item a quoted container URL
+	\item a Python statement.
+\end{enumerate}
 
 \printbibliography
 \end{document}
