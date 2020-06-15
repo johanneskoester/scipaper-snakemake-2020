@@ -1,17 +1,19 @@
-\documentclass{scrartcl}
+\documentclass[parskip=half]{scrartcl}
 \usepackage[utf8]{inputenc}
 \usepackage{amsmath}
+\usepackage{amssymb}
 \usepackage{graphicx}
 \usepackage{authblk}
+\usepackage{xr}
 \usepackage[hidelinks]{hyperref}
 \usepackage{listings}
 \usepackage{enumitem}
 \setlist[enumerate]{itemsep=0mm}
 \setlist[itemize]{itemsep=0mm}
-\usepackage{xr}
-\externaldocument{supplement.tex}
 
-\usepackage[backend=biber]{biblatex}
+\externaldocument[s-]{supplement}
+
+\usepackage[maxbibnames=999,backend=bibtex]{biblatex}
 \addbibresource{literature.bib}
 
 \newcommand{\sharedfirst}{$\dagger$}
@@ -149,17 +151,104 @@ Then Snakemake goes on recursively for the latter, until all input files of all 
 The workflow definition language of Snakemake is designed to allow maximum readability, which is crucial for transparency and adaptability.
 For natural language readability, the occurrence of known words is important.~For example, the Dale-Chall readability formula derives a score from the fraction of potentially unknown words (which do not occur in a list of common words) among all words in a text~\parencite{chall_readability_1995}.
 For workflow definition languages, one has to additionally consider whether punctuation and operator usage is intuitively understandable.
-When analyzing above example workflow (Fig.~\ref{fig:example}a) under these aspects, code statements fall into seven categories: 
+When analyzing above example workflow (Fig.~\ref{fig:example}a) under these aspects, code statements fall into seven categories (\autoref{s-sec:readability}).
+In addition, for each line, we can judge whether it needs 
 
 \begin{enumerate}
-	\item a natural language word, followed by a colon (e.g.~\lstinline!input:! and~\lstinline!output:!),
-	\item the word ``rule'', followed by a name and a colon (e.g. \lstinline!rule\ convert\_to\_pdf:!),
-	\item a quoted filename pattern (e.g. \lstinline!"{prefix}.pdf"!),
-	\item a quoted shell command,
-	\item a quoted wrapper identifier,
-	\item a quoted container URL
-	\item a Python statement.
+	\item domain knowledge (from the field analyzed in the given workflow),
+	\item technical knowledge (e.g. about Unix-style shell commands or Python),
+	\item Snakemake knowledge,
+	\item general education (e.g. they should be understandable for everybody).
 \end{enumerate}
+
+In Fig.~{\ref{fig:example}}, we hypothesize the required knowledge for readability of each code line.
+Most statements are understandable with either general education, domain, or technical knowledge.
+In particular, only five lines need specific Snakemake knowledge (Fig.~{\ref{fig:example}}d).
+The rationale for each hypothesis can be found in supplementary \autoref{s-sec:readability}.
+
+While this example is obviously not as evolved as real world data analyses, the ratio of Snakemake knowledge lines and lines that are readable with general education, domain or technical knowledge can be expected to stay roughly the same.
+Since Snakemake supports modularization of workflow definitions, it is moreover possible to hide away more technical parts of the workflow definition (e.g. helper functions or variables), in order to not distract the reader from understanding the main steps of the data analysis.
+
+Since dependencies between jobs are implicitly encoded via matching filename patterns, we hypothesize that in general no specific technical knowledge is necessary to understand the connections between the rules.
+Instead, it should be quite intuitive to conclude that an input of one rule that reoccurs as an output of another reflects a dependency.
+
+\subsubsection{Jupyter notebook integration}
+
+\subsubsection{Tool wrappers}\label{sec:wrappers}
+
+\subsubsection{Standardized code linting and formatting}
+
+\subsection{Portability}
+
+\subsubsection{Conda integration}
+
+\subsubsection{Container integration}
+
+\subsection{Traceability and documentation}
+
+\subsection{Scalability}
+
+\subsubsection{Job scheduling}
+
+Naturally, due to their dependencies, not all jobs in a workflow can be executed at the same time.
+Instead, one can imagine two cut lines, that partition the DAG of jobs into those that are already finished, those that have already been scheduled but are not finished yet, and those that have not yet been scheduled.
+Within the latter partition, all jobs that have no incoming edge from the same partition can be scheduled next.
+We call this the set $J$ of pending jobs.
+The scheduling problem a workflow manager like Snakemake has to solve is to select the subset $E \subseteq J$ that leads to an optimal execution of the workflow, while not exceeding given computational resources.
+Optimality of execution is thereby fueled by three criteria.
+First, it should be as fast as possible.
+Second, high priority jobs should be preferred (Snakemake allows prioritization of jobs via the workflow definition and the command line).
+Third, temporary output files should be deleted as fast as possible (Snakemake allows to mark output files as temporary, which leads to their automatic deletion once all consuming jobs have been finished).
+
+\newcommand{\N}{\mathbb{N}}
+
+Let $R$ be the set of resources used in the workflow.
+For each job $j \in J$, let $p_j \in \N$ be its priority, let $u_{r,j} \in \N$ be its usage of resource $r \in R$.
+Further, let $U_r$ be the free capacity of resource $r \in R$ (initially what is provided to Snakemake at the command line, later what is left given already running resources).
+\\
+Let $F$ be the set of all temporary output files in the workflow, let $n_{f,j} \in \{0,1\}$ be an indicator variable denoting whether job $j \in J$ in consumes the temporary file $f$, and let $s_f$ be the size of file $f \in F$.
+
+Then, the scheduling problem can be written as linear optimization problem 
+
+\begin{align*}
+	\text{minimize} & T \cdot S \cdot \sum_{j \in J} x_j \cdot P_j + S \cdot \sum_{j \in J} x_j \cdot (T_j+1) + \sum_{f \in F} i_f \cdot S_f \\ \text{subject to} & x_j \in \{0,1\}\\ \quad & i_j \in [0,1]
+\end{align*}
+
+\subsubsection{Between workflow caching} 
+
+While data analysis usually entails the handling of a set of datasets or samples that are specific to a particular project, it often additionally relies on a set of steps that retrieve and post-processes some common datasets.
+For example, in the life sciences, such datasets are reference genomes and corresponding annotations.
+Since such datasets potentially reoccur in many analyses conducted in a lab or institute, re-executing the corresponding analysis steps for retrieval and post-processing thereof for each individual data analysis would waste both disk space and computation time.
+
+Historically, the solution in practice was to build up shared resources with the postprocessed datasets that could then be referrred to from the workflow definition.
+For example, in the life sciences, this has led to the Illumina iGenomes resource (\url{https://support.illumina.com/sequencing/sequencing\_software/igenome.html}) and the GATK resource bundle (\url{https://gatk.broadinstitute.org/hc/en-us/articles/360035890811-Resource-bundle}).
+In addition, in order to provide a more flexible way of selection and retrieval for such shared resources, so-called reference management systems have been published, like Go Get Data (\url{https://gogetdata.github.io}) and RefGenie (\url{http://refgenie.databio.org}).
+Here, the logic for retrieval and post-processing is curated in a set of recipes or scripts, and the resulting resources can be automatically retrieved via command line utilities.
+The downside of all these approaches is that the transparency of the data analysis is hampered since the steps taken to obtain the used resources are hidden away and inaccessible without additional work for the reader of the data analysis.
+
+Snakemake provides a new, generic approach to the problem which does not have this downside (see \autoref{fig:caching}).
+Leveraging the workflow-inherent information, Snakemake can calculate a hash value for each job which unambiguously captures exactly how an output file is generated, prior to actually generating the file.
+This hash can be used to store and lookup output files in a central cache (e.g. a folder on the same machine or in a remote storage).
+Hence, for any output file in a workflow, if the corresponding rule is marked as eligible for caching, Snakemake can obtain the file from the cache if it has been created before in a different workflow or by a different user on the same system, thereby saving computation time, as well as disk space (the file can be linked instead of copied).
+
+\begin{figure}
+	\image{caching.pdf}
+	\caption{
+		Blockchain based between workflow caching scheme of Snakemake.
+		If a job is eligible for caching, its code, parameters, raw input files, software environment and the hashes of its dependencies are used to calculate a SHA-256 hash value, under which the output files are stored in a central cache.
+		Subsequent runs of the same job (with the same dependencies) in other workflows can skip the execution and directly take the output files from the cache.
+	}
+	\label{fig:caching}
+\end{figure}
+
+The hash value is calculated in the following way.
+Let $J$ be the set of jobs of a workflow.
+For any job $j \in J$, let $c_j$ denote its code (shell command, script, wrapper, or notebook), let $P_j = \{(k_i, v_i) \mid i=0,\dots,m\}$ be its set of parameters (with key $k_i$ and JSON-encoded value $v_i$), let $F_j$ be its set of input files that are not created by any other job, and let $s_j$ be a string describing the associated software environment (either a container URL, a conda environment definition, or both).
+Then, assuming that job $j \in J$ with dependencies $D_j \subset J$ is the job of interest, we can calculate the hash value as $$ h(j) = h'\left( c_j \oplus \left(\bigoplus_{i=0}^m k_i \oplus v_i \right) \oplus \left( \bigoplus_{f \in F_j} h'(f) \right) \oplus s_j \oplus \left( \bigoplus_{j' \in D_j} h(j') \right) \right) $$ with $h'$ being the SHA256 \parencite{Handschuh} hash function, $\oplus$ being the string concatenation, and $\bigoplus$ being the string concatenation of its operands in lexicographic order.
+
+The hash function~\(h(j)\) hence comprehensively describes everything that affects the content of the output files of job~\(j\), namely code, parameters, raw input files, software environment and input generated by jobs it depends on.
+For the latter, we recursively apply the hash function~\(h\) again.
+In other words, for each dependency~\(j' \in D_j\) we include a hash value into the hash of job~\(j\), which is in fact the hashing principle behind blockchains \parencite{narayanan_bitcoin_2016}.
 
 \printbibliography
 \end{document}
