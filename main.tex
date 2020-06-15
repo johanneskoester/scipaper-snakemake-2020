@@ -161,5 +161,56 @@ When analyzing above example workflow (Fig.~\ref{fig:example}a) under these aspe
 	\item a Python statement.
 \end{enumerate}
 
+In addition, for each line, we can judge whether it needs 
+
+\begin{enumerate}
+	\item domain knowledge (from the field analyzed in the given workflow),
+	\item technical knowledge (e.g. about Unix-style shell commands or Python),
+	\item Snakemake knowledge,
+	\item general education (e.g. they should be understandable for everybody).
+\end{enumerate}
+
+In Fig.~{\ref{fig:example}}, we hypothesize the required knowledge for readability of each code line.
+Most statements are understandable with either general education, domain, or technical knowledge.
+In particular, only five lines need specific Snakemake knowledge (Fig.~{\ref{fig:example}}d).
+Below, we list the rationale of our assessment for each category: 
+
+\begin{enumerate}
+	\item The natural language word is either understandable with general education~(e.g.~\lstinline!input:! and~\lstinline!output:!) or technical knowledge (\lstinline!container:! or~\lstinline!conda:!).
+	      The colon straightforwardly shows that the content follows next.
+	      Only for the wrapper directive (\lstinline!wrapper:!) one needs to have the Snakemake specific knowledge that it is possible to refer to publicly available tool wrappers.
+	\item
+	      The word rule is understandable with general education, and when
+	      carefully choosing rule names, at most domain knowledge is needed for
+	      understanding such statements.
+	\item
+	      Filename patterns can mostly be understood with domain knowledge,
+	      since the file extensions should tell the expert what kind of content
+	      will be used or created.
+	      We hypothesize that wildcard definitions (e.g.~\lstinline!{country}!) are straightforwardly understandable as a placeholder.
+	\item
+	      Shell commands will usually need domain and technical knowledge for
+	      reception.
+	\item
+	      Wrapper identifiers can be understood with Snakemake knowledge only,
+	      since one needs to know about the central tool wrapper repository of
+	      Snakemake.
+	      Nevertheless, with only domain knowledge one can at least conclude that the mentioned tool (last part of the wrapper ID) will be used in the wrapper.
+	\item
+	      A container URL will usually be understandable with technical
+	      knowledge.
+	\item
+	      Python statements will either need technical knowledge or Snakemake
+	      knowledge (when using the Snakemake API, as it happens here with the
+	      expand command, which allows to aggregate over a combination of
+	      wildcard values).
+\end{enumerate}
+
+While this example is obviously not as evolved as real world data analyses, the ratio of Snakemake knowledge lines and lines that are readable with general education, domain or technical knowledge can be expected to stay roughly the same.
+Since Snakemake supports modularization of workflow definitions, it is moreover possible to hide away more technical parts of the workflow definition (e.g. helper functions or variables), in order to not distract the reader from understanding the main steps of the data analysis.
+
+Since dependencies between jobs are implicitly encoded via matching filename patterns, we hypothesize that in general no specific technical knowledge is necessary to understand the connections between the rules.
+Instead, it should be quite intuitive to conclude that an input of one rule that reoccurs as an output of another reflects a dependency.
+
 \printbibliography
 \end{document}
