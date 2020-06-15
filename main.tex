@@ -5,7 +5,6 @@
 \usepackage{authblk}
 \usepackage{xr}
 \usepackage[hidelinks]{hyperref}
-\usepackage{cleveref}
 \usepackage{listings}
 \usepackage{enumitem}
 \setlist[enumerate]{itemsep=0mm}
@@ -164,7 +163,7 @@ In addition, for each line, we can judge whether it needs
 In Fig.~{\ref{fig:example}}, we hypothesize the required knowledge for readability of each code line.
 Most statements are understandable with either general education, domain, or technical knowledge.
 In particular, only five lines need specific Snakemake knowledge (Fig.~{\ref{fig:example}}d).
-The rationale for each hypothesis can be found in \cref{s-sec:readability}.
+The rationale for each hypothesis can be found in \autoref{s-sec:readability}.
 
 While this example is obviously not as evolved as real world data analyses, the ratio of Snakemake knowledge lines and lines that are readable with general education, domain or technical knowledge can be expected to stay roughly the same.
 Since Snakemake supports modularization of workflow definitions, it is moreover possible to hide away more technical parts of the workflow definition (e.g. helper functions or variables), in order to not distract the reader from understanding the main steps of the data analysis.
