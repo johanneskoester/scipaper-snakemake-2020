@@ -3,6 +3,11 @@
 \usepackage{amsmath}
 \usepackage{graphicx}
 \usepackage{authblk}
+\usepackage[hidelinks]{hyperref}
+\usepackage{listings}
+\usepackage{enumitem}
+\setlist[enumerate]{itemsep=0mm}
+\setlist[itemize]{itemsep=0mm}
 \usepackage{xr}
 \externaldocument{supplement.tex}
 
@@ -14,6 +19,8 @@
 \newcommand{\corresponding}{*}
 \newcommand{\correspondingtext}[1]{\affil[\corresponding]{#1}}
 \newcommand{\image}[1]{\centering\includegraphics[width=\textwidth]{#1}}
+\let\plainurl\url
+\renewcommand{\url}[1]{\protect\plainurl{#1}}
 
 \begin{document}
 
@@ -69,7 +76,7 @@ Here, a main advantage is that the same workflow definition can be executed on v
 Today, several of the above mentioned systems support full in silico reproducibility of data analyses (e.g. Galaxy, Nextflow, Snakemake, WDL, CWL), via allowing the definition and automatic scalable execution of each involved step, together with the ability to define and automatically deploy the software stack needed for each step (e.g. via the Conda package manager,~\url{https://docs.conda.io}, or Docker containers~\url{https://www.docker.com}).
 
 Reproducibility is important to generate trust in scientific results.
-However, we postulate that a truly sustainable data analysis needs to consider a full hierarchy of interdependent aspects (see Fig.~{\ref{fig:sustainability}}).
+However, we postulate that a truly sustainable data analysis needs to consider a full hierarchy of interdependent aspects (see Fig.~\ref{fig:sustainability}).
 
 \begin{figure}
 	\image{sustainability-in-wms.pdf}
@@ -92,16 +99,67 @@ Such adaptability can only be achieved if the data analysis can easily be execut
 In addition, it is crucial that the analysis code is as \emph{readable} as possible such that it can be easily modified.
 
 In this work, we show how sustainability in terms of these aspects is supported by Snakemake.
-Since its original publication in 2012, Snakemake has gained a wide adoption, culminating in, on average, nowadays more than 3 new citations per week, and over 600 citations in total (Fig.~{\ref{fig:citations}}), making it one of the most widely used workflow management systems in science.
+Since its original publication in 2012, Snakemake has gained a wide adoption, culminating in, on average, nowadays more than 3 new citations per week, and over 600 citations in total (Fig.~\ref{fig:citations}), making it one of the most widely used workflow management systems in science.
 
 \begin{figure}
 	\image{citations.pdf}
 	\caption{
 		Citations of the original Snakemake article, (a) by year, (b) by scientific discipline of the citing article.
-		Data source:~\protect\url{https://badge.dimensions.ai/details/id/pub.1018944052}, 2020/05/20.
+		Data source:~\url{https://badge.dimensions.ai/details/id/pub.1018944052}, 2020/05/20.
 	}
 	\label{fig:citations}
 \end{figure}
+
+We first present several central and novel contributions to the field implemented in Snakemake.
+Second, we show how Snakemake comprehensively covers data analysis needs by introducing generic workflow design patterns that can serve as blueprints for composing any kind of analysis.
+
+\section{Results}
+
+In the following, we describe how sustainability is achieved with Snakemake by following the central goals outlined above.
+
+\subsection{Automation}
+
+The key idea of Snakemake is that workflows are specified by decomposing them into steps, which are represented as~\emph{rules~}(Fig.~\ref{fig:example}).
+Each rule describes how to obtain a set of output files from a set of input files.
+This can happen via a shell command, a block of Python code, an external script (Python, R, or Julia), a Jupyter notebook (\url{https://jupyter.org}), or a so-called tool wrapper (see Sec.~\ref{sec:wrappers}).
+By the use of wildcards, rules can be generic.
+For example, see the rule~\lstinline!select_by_country! in Fig.~\ref{fig:example}a.
+It can be applied to generate any output file of the form~\lstinline!by-country/{country}.csv!, with~\lstinline!{country}! being a wildcard that can be replaced with any non-empty string.
+In shell commands, input, and output files, as well as additional parameters are directly accessible by enclosing the respective keywords in curly braces (in case of more than a single item in any of these, access can happen by name or index).
+
+\begin{figure}
+	\image{example-workflow.pdf}
+	\caption{
+		Example Snakemake workflow. (a) workflow definition; hypothesized knowledge requirement for line readability is color-coded on the left next to the line numbers. (b) directed acyclic graph (DAG) of jobs, representing the automatically derived execution plan from the example workflow; job node colors reflect rule colors in the workflow definition. (c) content of script plot-hist.py referred from rule plot\_histogram. (d) knowledge requirements for readability by statement category.
+	}
+	\label{fig:example}
+\end{figure}
+
+When using script integration instead of shell commands, Snakemake automatically inserts an object giving access to all properties of the job (e.g. \lstinline!snakemake.output[0]!, see Fig.
+\ref{example}c).
+This way, the boiler plate code for parsing command line arguments can be avoided.
+
+By replacing wildcards with concrete values, Snakemake turns any rule into a job which will be executed in order to generate the defined output files.
+Dependencies between jobs are implicit, and inferred automatically in the following way.
+For each input file of a job, Snakemake determines a rule that can generate it, for example by replacing wildcards again (ambiguity can be resolved by prioritization or constraining wildcards) yielding another job.
+Then Snakemake goes on recursively for the latter, until all input files of all jobs are either generated by another job or already present in the used storage (e.g. on disk).
+
+\subsection{Readability}
+
+The workflow definition language of Snakemake is designed to allow maximum readability, which is crucial for transparency and adaptability.
+For natural language readability, the occurrence of known words is important.~For example, the Dale-Chall readability formula derives a score from the fraction of potentially unknown words (which do not occur in a list of common words) among all words in a text~\parencite{chall_readability_1995}.
+For workflow definition languages, one has to additionally consider whether punctuation and operator usage is intuitively understandable.
+When analyzing above example workflow (Fig.~\ref{fig:example}a) under these aspects, code statements fall into seven categories: 
+
+\begin{enumerate}
+	\item a natural language word, followed by a colon (e.g.~\lstinline!input:! and~\lstinline!output:!),
+	\item the word ``rule'', followed by a name and a colon (e.g. \lstinline!rule\ convert\_to\_pdf:!),
+	\item a quoted filename pattern (e.g. \lstinline!"{prefix}.pdf"!),
+	\item a quoted shell command,
+	\item a quoted wrapper identifier,
+	\item a quoted container URL
+	\item a Python statement.
+\end{enumerate}
 
 \printbibliography
 \end{document}
