@@ -9,7 +9,7 @@
 \setlist[enumerate]{itemsep=0mm}
 \setlist[itemize]{itemsep=0mm}
 \usepackage{xr}
-\externaldocument{supplement.tex}
+\externaldocument[s-]{supplement.tex}
 
 \usepackage[backend=biber]{biblatex}
 \addbibresource{literature.bib}
@@ -136,7 +136,7 @@ In shell commands, input, and output files, as well as additional parameters are
 \end{figure}
 
 When using script integration instead of shell commands, Snakemake automatically inserts an object giving access to all properties of the job (e.g. \lstinline!snakemake.output[0]!, see Fig.
-\ref{fig:example}c).
+\ref{example}c).
 This way, the boiler plate code for parsing command line arguments can be avoided.
 
 By replacing wildcards with concrete values, Snakemake turns any rule into a job which will be executed in order to generate the defined output files.
@@ -149,7 +149,7 @@ Then Snakemake goes on recursively for the latter, until all input files of all 
 The workflow definition language of Snakemake is designed to allow maximum readability, which is crucial for transparency and adaptability.
 For natural language readability, the occurrence of known words is important.~For example, the Dale-Chall readability formula derives a score from the fraction of potentially unknown words (which do not occur in a list of common words) among all words in a text~\parencite{chall_readability_1995}.
 For workflow definition languages, one has to additionally consider whether punctuation and operator usage is intuitively understandable.
-When analyzing above example workflow (Fig.~\ref{fig:example}a) under these aspects, code statements fall into seven categories: 
+When analyzing above example workflow (Fig.~\ref{fig:example}a) under these aspects, code statements fall into seven categories (: 
 
 \begin{enumerate}
 	\item a natural language word, followed by a colon (e.g.~\lstinline!input:! and~\lstinline!output:!),
@@ -176,7 +176,7 @@ In particular, only five lines need specific Snakemake knowledge (Fig.~{\ref{fig
 Below, we list the rationale of our assessment for each category: 
 
 \begin{enumerate}
-	\item The natural language word is either understandable with general education~(e.g.~\lstinline!input:! and~\lstinline!output:!) or technical knowledge (\lstinline!container:! or~\lstinline!conda:!).
+	\item The natural language word is either understandable with general education~(e.g.\ \lstinline!input:! and \lstinline!output:!) or technical knowledge (\lstinline!container:! or~\lstinline!conda:!).
 	      The colon straightforwardly shows that the content follows next.
 	      Only for the wrapper directive (\lstinline!wrapper:!) one needs to have the Snakemake specific knowledge that it is possible to refer to publicly available tool wrappers.
 	\item
