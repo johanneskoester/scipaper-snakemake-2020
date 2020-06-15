@@ -4,6 +4,7 @@
 \usepackage{graphicx}
 \usepackage{authblk}
 \usepackage[hidelinks]{hyperref}
+\usepackage{listings}
 \usepackage{enumitem}
 \setlist[enumerate]{itemsep=0mm}
 \setlist[itemize]{itemsep=0mm}
@@ -151,7 +152,7 @@ For workflow definition languages, one has to additionally consider whether punc
 When analyzing above example workflow (Fig.~\ref{fig:example}a) under these aspects, code statements fall into seven categories: 
 
 \begin{enumerate}
-	\item a natural language word, followed by a colon (e.g.~\texttt{input:} and~\texttt{output:}),
+	\item a natural language word, followed by a colon (e.g.~\lstinline{input:} and~\texttt{output:}),
 	\item the word ``rule'', followed by a name and a colon (e.g. \texttt{rule\ convert\_to\_pdf:}),
 	\item a quoted filename pattern (e.g. \texttt{"\{prefix\}.pdf"}),
 	\item a quoted shell command,
