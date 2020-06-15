@@ -50,16 +50,16 @@ been published
 spoken, these can be partitioned into four niches, for which we will
 highlight the major representatives below.~
 
-First, workflow management systems like Galaxy~\cite{Afgan2018} offer
+First, workflow management systems like Galaxy~\parencite{Afgan2018} offer
 a graphical user interface for composition and execution of workflows.
 The obvious advantage is the shallow learning curve, making such systems
 accessible for everybody, without the need for programming skills.
 
-Second, with systems like Anduril~\cite{Cervera2019},
-Balsam~\cite{papka2018}, Hyperloom~\cite{cima2018hyperloom},
-Jug~\cite{Coelho_2017}, Pwrake~\cite{Tanaka_2010},
-Ruffus~\cite{Goodstadt2010}, SciPipe~\cite{Lampa2019}, SCOOP
-\cite{SCOOP_XSEDE2014}, and COMPSs~\cite{Lordan_2013} workflows are
+Second, with systems like Anduril~\parencite{Cervera2019},
+Balsam~\parencite{papka2018}, Hyperloom~\parencite{cima2018hyperloom},
+Jug~\parencite{Coelho_2017}, Pwrake~\parencite{Tanaka_2010},
+Ruffus~\parencite{Goodstadt2010}, SciPipe~\parencite{Lampa2019}, SCOOP
+\parencite{SCOOP_XSEDE2014}, and COMPSs~\parencite{Lordan_2013} workflows are
 specified using~ a set of classes and functions for generic programming
 languages like Python, Scala and others. Such systems have the advantage
 that they can be used without a graphical interface (e.g. in a server
@@ -67,10 +67,10 @@ environment), and that workflows can be straighforwardly managed with
 version control systems like Git
 (\url{https://git-scm.com}).~
 
-Third, with systems like Nextflow~\cite{Di_Tommaso_2017},
-Snakemake~\selectlanguage{ngerman}\cite{Köster2012}, BioQueue~\cite{Yao2017},
-Bpipe~\cite{Sadedin2012}, ClusterFlow~\cite{Ewels2016},
-Cylc~\cite{J_Oliver_2018},~and BigDataScript~\cite{Cingolani_2014},
+Third, with systems like Nextflow~\parencite{Di_Tommaso_2017},
+Snakemake~\selectlanguage{ngerman}\parencite{Köster2012}, BioQueue~\parencite{Yao2017},
+Bpipe~\parencite{Sadedin2012}, ClusterFlow~\parencite{Ewels2016},
+Cylc~\parencite{J_Oliver_2018},~and BigDataScript~\parencite{Cingolani_2014},
 workflows are specified using a domain specific language (DSL). Here,
 the advantages of the second niche are shared, while adding the
 additional benefit of improved readability since the DSL provides
@@ -82,7 +82,7 @@ and Python), even access to the full power of the underlying programming
 language is maintained (e.g. for implementing conditional execution and
 handling configuration).
 
-Fourth, with systems like Popper~\cite{Jimenez_2017}, workflow
+Fourth, with systems like Popper~\parencite{Jimenez_2017}, workflow
 specification happens in a purely declarative way via configuration file
 formats like YAML. Here, most of the benefits of the third niche are
 shared. In addition, workflow specification can be particularly readable
@@ -91,11 +91,11 @@ restricted since the facilities of imperative or functional programming
 are not available.
 
 Fifth, there are system-independent workflow specification languages
-like CWL~\cite{cwl} and WDL~\cite{voss_full-stack_2017}. These define a
+like CWL~\parencite{cwl} and WDL~\parencite{voss_full-stack_2017}. These define a
 (declarative) syntax for specifying workflows, which can be parsed and
 executed by arbitrary executors, e.g. Cromwell
-(\url{https://cromwell.readthedocs.io}), Toil~\cite{Vivian_2017} and
-Tibanna~\cite{Lee_2019}. Here, a main advantage is that the same
+(\url{https://cromwell.readthedocs.io}), Toil~\parencite{Vivian_2017} and
+Tibanna~\parencite{Lee_2019}. Here, a main advantage is that the same
 workflow definition can be executed on various specialized execution
 backends, thereby promising scalability to virtually any computing
 platform.
@@ -111,7 +111,7 @@ containers~\url{https://www.docker.com}).
 Reproducibility is important to generate trust in scientific results.
 However, we postulate that a truly sustainable data analysis needs to
 consider a full hierarchy of interdependent aspects (see
-Fig.~{\ref{374653}}).\selectlanguage{english}
+Fig.~{\ref{374653}}).
 
 \printbibliography
 \end{document}
