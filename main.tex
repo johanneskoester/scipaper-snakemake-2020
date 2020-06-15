@@ -123,8 +123,8 @@ The key idea of Snakemake is that workflows are specified by decomposing them in
 Each rule describes how to obtain a set of output files from a set of input files.
 This can happen via a shell command, a block of Python code, an external script (Python, R, or Julia), a Jupyter notebook (\url{https://jupyter.org}), or a so-called tool wrapper (see Sec.~\ref{sec:wrappers}).
 By the use of wildcards, rules can be generic.
-For example, see the rule~\texttt{select\_by\_country} in Fig.~\ref{fig:example}a.
-It can be applied to generate any output file of the form~\texttt{by-country/\{country\}.csv}, with~\texttt{\{country\}} being a wildcard that can be replaced with any non-empty string.
+For example, see the rule~\lstinline!select_by_country! in Fig.~\ref{fig:example}a.
+It can be applied to generate any output file of the form~\lstinline!by-country/{country}.csv!, with~\lstinline!{country}! being a wildcard that can be replaced with any non-empty string.
 In shell commands, input, and output files, as well as additional parameters are directly accessible by enclosing the respective keywords in curly braces (in case of more than a single item in any of these, access can happen by name or index).
 
 \begin{figure}
@@ -135,7 +135,7 @@ In shell commands, input, and output files, as well as additional parameters are
 	\label{fig:example}
 \end{figure}
 
-When using script integration instead of shell commands, Snakemake automatically inserts an object giving access to all properties of the job (e.g. \texttt{snakemake.output{[}0{]}}, see Fig.
+When using script integration instead of shell commands, Snakemake automatically inserts an object giving access to all properties of the job (e.g. \lstinline!snakemake.output[0]!, see Fig.
 \ref{example}c).
 This way, the boiler plate code for parsing command line arguments can be avoided.
 
@@ -152,9 +152,9 @@ For workflow definition languages, one has to additionally consider whether punc
 When analyzing above example workflow (Fig.~\ref{fig:example}a) under these aspects, code statements fall into seven categories: 
 
 \begin{enumerate}
-	\item a natural language word, followed by a colon (e.g.~\lstinline{input:} and~\texttt{output:}),
-	\item the word ``rule'', followed by a name and a colon (e.g. \texttt{rule\ convert\_to\_pdf:}),
-	\item a quoted filename pattern (e.g. \texttt{"\{prefix\}.pdf"}),
+	\item a natural language word, followed by a colon (e.g.~\lstinline!input:! and~\lstlinline!output:!),
+	\item the word ``rule'', followed by a name and a colon (e.g. \lstinline!rule\ convert\_to\_pdf:!),
+	\item a quoted filename pattern (e.g. \lstinline!"{prefix}.pdf"!),
 	\item a quoted shell command,
 	\item a quoted wrapper identifier,
 	\item a quoted container URL
