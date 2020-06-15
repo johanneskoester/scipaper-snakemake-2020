@@ -13,6 +13,7 @@
 \newcommand{\sharedfirsttext}[1]{\affil[\sharedfirst]{#1}}
 \newcommand{\corresponding}{*}
 \newcommand{\correspondingtext}[1]{\affil[\corresponding]{#1}}
+\newcommand{\image}[1]{\centering\includegraphics[width=\textwidth]{#1}}
 
 \begin{document}
 
@@ -69,6 +70,13 @@ Today, several of the above mentioned systems support full in silico reproducibi
 
 Reproducibility is important to generate trust in scientific results.
 However, we postulate that a truly sustainable data analysis needs to consider a full hierarchy of interdependent aspects (see Fig.~{\ref{374653}}).
+
+\begin{figure}
+	\image{sustainability-in-wms.pdf}
+	\caption{Hierarchy of aspects to consider for sustainable data analysis.
+		By supporting the top layer, a workflow management system can promote the center layer, and thereby help to obtain true sustainability.
+	}
+\end{figure}
 
 \printbibliography
 \end{document}
