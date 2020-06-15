@@ -136,7 +136,7 @@ In shell commands, input, and output files, as well as additional parameters are
 \end{figure}
 
 When using script integration instead of shell commands, Snakemake automatically inserts an object giving access to all properties of the job (e.g. \lstinline!snakemake.output[0]!, see Fig.
-\ref{example}c).
+\ref{fig:example}c).
 This way, the boiler plate code for parsing command line arguments can be avoided.
 
 By replacing wildcards with concrete values, Snakemake turns any rule into a job which will be executed in order to generate the defined output files.
@@ -176,7 +176,7 @@ In particular, only five lines need specific Snakemake knowledge (Fig.~{\ref{fig
 Below, we list the rationale of our assessment for each category: 
 
 \begin{enumerate}
-	\item The natural language word is either understandable with general education~(e.g.\ \lstinline!input:! and \lstinline!output:!) or technical knowledge (\lstinline!container:! or~\lstinline!conda:!).
+	\item The natural language word is either understandable with general education~(e.g.~\lstinline!input:! and~\lstinline!output:!) or technical knowledge (\lstinline!container:! or~\lstinline!conda:!).
 	      The colon straightforwardly shows that the content follows next.
 	      Only for the wrapper directive (\lstinline!wrapper:!) one needs to have the Snakemake specific knowledge that it is possible to refer to publicly available tool wrappers.
 	\item
