@@ -149,18 +149,7 @@ Then Snakemake goes on recursively for the latter, until all input files of all 
 The workflow definition language of Snakemake is designed to allow maximum readability, which is crucial for transparency and adaptability.
 For natural language readability, the occurrence of known words is important.~For example, the Dale-Chall readability formula derives a score from the fraction of potentially unknown words (which do not occur in a list of common words) among all words in a text~\parencite{chall_readability_1995}.
 For workflow definition languages, one has to additionally consider whether punctuation and operator usage is intuitively understandable.
-When analyzing above example workflow (Fig.~\ref{fig:example}a) under these aspects, code statements fall into seven categories (: 
-
-\begin{enumerate}
-	\item a natural language word, followed by a colon (e.g.~\lstinline!input:! and~\lstinline!output:!),
-	\item the word ``rule'', followed by a name and a colon (e.g. \lstinline!rule\ convert\_to\_pdf:!),
-	\item a quoted filename pattern (e.g. \lstinline!"{prefix}.pdf"!),
-	\item a quoted shell command,
-	\item a quoted wrapper identifier,
-	\item a quoted container URL
-	\item a Python statement.
-\end{enumerate}
-
+When analyzing above example workflow (Fig.~\ref{fig:example}a) under these aspects, code statements fall into seven categories (\autoref{s-sec:readability}).
 In addition, for each line, we can judge whether it needs 
 
 \begin{enumerate}
