@@ -138,7 +138,7 @@ In shell commands, input, and output files, as well as additional parameters are
 \end{figure}
 
 When using script integration instead of shell commands, Snakemake automatically inserts an object giving access to all properties of the job (e.g. \lstinline!snakemake.output[0]!, see Fig.
-\ref{example}c).
+\ref{fig:example}c).
 This way, the boiler plate code for parsing command line arguments can be avoided.
 
 By replacing wildcards with concrete values, Snakemake turns any rule into a job which will be executed in order to generate the defined output files.
