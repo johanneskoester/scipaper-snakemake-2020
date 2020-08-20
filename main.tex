@@ -224,10 +224,14 @@ Let $F$ be the set of all temporary output files in the workflow, let $n_{f,j} \
 Then, the scheduling problem can be written as linear optimization problem 
 
 \begin{align*}
-	\text{minimize} & T \cdot S \cdot \sum_{j \in J} x_j \cdot P_j + S \cdot \sum_{j \in J} x_j \cdot (T_j+1) + \sum_{f \in F} i_f \cdot S_f \\ \text{subject to} & x_j \in \{0,1\}\\ \quad & i_j \in [0,1]
+	\text{minimize } & T \cdot S \cdot \sum_{j \in J} x_j \cdot P_j + S \cdot \sum_{j \in J} x_j \cdot (T_j+1) + \sum_{f \in F} i_f \cdot s_f \\ \text{subject to } & x_j \in \{0,1\}\\ \quad & i_j \in [0,1].
 \end{align*}
 
-\subsubsection{Between workflow caching} 
+In essence, jobs are selected such that jobs those with highest priority are preferred.
+Upon ties, jobs are selected upon their number of threads.
+Upon ties, jobs are preferred if they lead to closing temp files.
+
+\subsubsection{Between workflow caching}
 
 While data analysis usually entails the handling of a set of datasets or samples that are specific to a particular project, it often additionally relies on a set of steps that retrieve and post-processes some common datasets.
 For example, in the life sciences, such datasets are reference genomes and corresponding annotations.
