@@ -181,7 +181,7 @@ The rationale for each hypothesis can be found in supplementary \autoref{s-sec:r
 While this example is obviously not as evolved as real world data analyses, the ratio of Snakemake knowledge lines and lines that are readable with general education, domain or technical knowledge can be expected to stay roughly the same.
 Since Snakemake supports modularization of workflow definitions, it is moreover possible to hide away more technical parts of the workflow definition (e.g. helper functions or variables), in order to not distract the reader from understanding the main steps of the data analysis.
 
-Since dependencies between jobs are implicitly encoded via matching filename patterns, we hypothesize that in general no specific technical knowledge is necessary to understand the connections between the rules.
+Since dependencies between jobs are implicitly encoded via matching filename patterns, we hypothesize that in general no specific technical knowledge is necessary to understand the connections between the rules (except for special cases like conditional or dynamically determined dependencies).
 Instead, it should be quite intuitive to conclude that an input of one rule that reoccurs as an output of another reflects a dependency.
 
 \subsubsection{Jupyter notebook integration}
