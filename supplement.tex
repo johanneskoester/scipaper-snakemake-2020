@@ -4,8 +4,24 @@
 \usepackage{graphicx}
 \usepackage{listings}
 \usepackage[hidelinks]{hyperref}
+\usepackage{enumitem}
+\setlist[enumerate]{itemsep=0mm}
+\setlist[itemize]{itemsep=0mm}
+
+% Cross referencing external documents.
 \usepackage{xr}
-\externaldocument[m-]{main.tex}
+% Command for registering file dependencies with latexmk.
+\makeatletter
+\newcommand*{\addFileDependency}[1]{% argument=file name and extension
+  \typeout{(#1)}
+  \@addtofilelist{#1}
+  \IfFileExists{#1}{}{\typeout{No file #1.}}
+}
+\makeatother
+
+\externaldocument[m-]{main}
+\addFileDependency{main.tex}
+\addFileDependency{main.aux}
 
 \renewcommand{\thesection}{S\arabic{section}}
 \renewcommand{\thefigure}{S\arabic{figure}}
