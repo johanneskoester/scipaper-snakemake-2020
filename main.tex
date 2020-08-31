@@ -189,27 +189,30 @@ Instead, it should be quite intuitive to conclude that an input of one rule that
 \subsubsection{Modularization and interactive prototyping}\label{sec:modularization}
 
 Typically a data analysis consists of steps that are quite specific and unique to the analysis, as well as steps that are common to the scientific field and utilize reoccuring tools or libraries and a relatively standard way.
-For the latter, Snakemake provides the ability to deposit \emph{tool wrappers} in a central repository.
+For the latter, Snakemake provides the ability to deposit and use \emph{tool wrappers} in/from a central repository.
 In contrast, the former can require custom code, often written in various scripting languages like R or Python.
 Snakemake allows to interactively craft such steps by integrating with Jupyter notebooks (\url{https://jupyter.org}).
 
 \paragraph{Jupyter notebook integration}
+Analogously to script integration (see \autoref{fig:example}a, line 42), a special directive \lstinline!notebook! allows to define a path to a jupyter notebook.
+Via the command line interface, it is possible to instruct Snakemake to open a Jupyter notebook server for editing the notebook.
+Within the notebook, 
 
-\paragraph{Tool wrappers}
+\paragraph{Tool wrappers} 
 
-\subsubsection{Standardized code linting and formatting}
+\subsubsection{Standardized code linting and formatting} 
 
-\subsection{Portability}
+\subsection{Portability} 
 
-\subsubsection{Conda integration}
+\subsubsection{Conda integration} 
 
-\subsubsection{Container integration}
+\subsubsection{Container integration} 
 
-\subsection{Traceability and documentation}
+\subsection{Traceability and documentation} 
 
-\subsection{Scalability}
+\subsection{Scalability} 
 
-\subsubsection{Job scheduling}
+\subsubsection{Job scheduling} 
 
 Naturally, due to their dependencies, not all jobs in a workflow can be executed at the same time.
 Instead, one can imagine two cut lines, that partition the DAG of jobs into those that are already finished, those that have already been scheduled but are not finished yet, and those that have not yet been scheduled.
