@@ -218,18 +218,24 @@ Third, temporary output files should be deleted as fast as possible (Snakemake a
 
 Let $R$ be the set of resources used in the workflow (e.g. CPU cores and memory; by default, Snakemake only considers CPU cores which we in the following indicate with $\cores$, i.e. $R = \{\cores\}$).
 Let $F$ be the set of temporary files that will be generated during the workflow.
-We first define constants for each job $j \in J$: let $p_j \in \N$ be its priority, let $u_{r,j} \in \N$ be its usage of resource $r \in R$, and let $z_{f,j} \in \{0,1\}$ indicate whether it consumes temporary file $f \in F$.
+We first define constants for each job $j \in J$: let $p_j \in \N$ be its priority, let $u_{r,j} \in \N$ be its usage of resource $r \in R$, and let $z_{f,j} \in \{0,1\}$ indicate whether it consumes temporary file $f \in F$ ($1$) or not ($0$).
 Further, let $U_r$ be the free capacity of resource $r \in R$ (initially what is provided to Snakemake at the command line, later what is left given already running resources), and let $S_f$ be the size of file $f \in F$.
+
+Next, we define variables $x_j \in \{0,1\}$ for each job $j \in J$, indicating whether a job is selected for execution ($1$) or not ($0$).
+Finally, for each temporary file $f \in F$, we define a variable $\delta_f \in \[0,\]$ indicating the fraction of consuming jobs that have already or will be scheduled.
+We also call this variable the lifetime fraction of temporary file $f$.
+In other words, $\delta_f = 1.0$ means that all consuming jobs will be completed after this scheduling round has been processed.
 
 Then, the scheduling problem can be written as linear optimization problem 
 
 \begin{align*}
-	\text{minimize } & T \cdot S \cdot \sum_{j \in J} x_j \cdot p_j + S \cdot \sum_{j \in J} x_j \cdot (u_{\cores,j+1}) + \sum_{f \in F} \delta_f \cdot S_f \\ \text{subject to } & x_j \in \{0,1\}\\ \quad & \delta_j \in [0,1]\\ \quad & \sum_{j \in J} x_j \cdot u_{r,j} \leq U_r \quad \forall r \in R\\ \quad & \delta_f \leq \frac{\sum_{j \in J} x_j \cdot z_{f,j}}{\sum_{j \in J} z_{f,j}} \quad\forall f \in F.
+	\text{minimize } & T \cdot S \cdot \sum_{j \in J} x_j \cdot p_j + S \cdot \sum_{j \in J} x_j \cdot (u_{\cores,j+1}) + \sum_{f \in F} \delta_f \cdot S_f \\ \text{subject to } & x_j \in \{0,1\} \quad & \delta_j \in [0,1]\\ \quad & \sum_{j \in J} x_j \cdot u_{r,j} \leq U_r \quad \forall r \in R\\ \quad & \delta_f \leq \frac{\sum_{j \in J} x_j \cdot z_{f,j}}{\sum_{j \in J} z_{f,j}} \quad\forall f \in F.
 \end{align*}
 
-In essence, jobs are selected such that jobs those with highest priority are preferred.
-Upon ties, jobs are selected upon their number of threads.
-Upon ties, jobs are preferred if they lead to closing temp files.
+In essence, jobs are selected such that those with highest priority are preferred.
+Upon ties, jobs are selected such that the number of used cores in maximized.
+Upon ties, jobs are preferred such that they reduce the life time of temporary files.
+
 
 \subsubsection{Between workflow caching}
 
