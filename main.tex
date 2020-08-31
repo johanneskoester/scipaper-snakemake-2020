@@ -4,6 +4,7 @@
 \usepackage{amssymb}
 \usepackage{graphicx}
 \usepackage{authblk}
+\PassOptionsToPackage{hyphens}{url}
 \usepackage[hidelinks]{hyperref}
 \usepackage{listings}
 \usepackage{enumitem}
@@ -135,7 +136,7 @@ In the following, we describe how sustainability is achieved with Snakemake by f
 
 The key idea of Snakemake is that workflows are specified by decomposing them into steps, which are represented as~\emph{rules~}(Fig.~\ref{fig:example}).
 Each rule describes how to obtain a set of output files from a set of input files.
-This can happen via a shell command, a block of Python code, an external script (Python, R, or Julia), a Jupyter notebook (\url{https://jupyter.org}), or a so-called tool wrapper (see Sec.~\ref{sec:wrappers}).
+This can happen via a shell command, a block of Python code, an external script (Python, R, or Julia), a Jupyter notebook (\url{https://jupyter.org}), or a so-called tool wrapper (see Sec.~\ref{sec:modularization}).
 By the use of wildcards, rules can be generic.
 For example, see the rule~\lstinline!select_by_country! in Fig.~\ref{fig:example}a.
 It can be applied to generate any output file of the form~\lstinline!by-country/{country}.csv!, with~\lstinline!{country}! being a wildcard that can be replaced with any non-empty string.
@@ -185,11 +186,33 @@ Since Snakemake supports modularization of workflow definitions, it is moreover 
 Since dependencies between jobs are implicitly encoded via matching filename patterns, we hypothesize that in general no specific technical knowledge is necessary to understand the connections between the rules (except for special cases like conditional or dynamically determined dependencies).
 Instead, it should be quite intuitive to conclude that an input of one rule that reoccurs as an output of another reflects a dependency.
 
-\subsubsection{Jupyter notebook integration}
+\subsubsection{Modularization and interactive prototyping}\label{sec:modularization}
 
-\subsubsection{Tool wrappers}\label{sec:wrappers}
+Specific data analysis steps can become quite complicated, e.g. when plotting figures or working around idiosyncracies of used tools.
+It helps readability to modularize these away such that the reader of a workflow only has to inspect them if she or he is interested in the specific step.
+Some of these steps can be quite specific and unique to the analysis.
+Others can be common to the scientific field and utilize reoccuring tools or libraries in a relatively standard way.
+For the latter, Snakemake provides the ability to deposit and use \emph{tool wrappers} in/from a central repository.
+In contrast, the former can require custom code, often written in various scripting languages like R or Python.
+Snakemake allows to interactively craft such steps by integrating with Jupyter notebooks (\url{https://jupyter.org}).
+
+\paragraph{Jupyter notebook integration}
+Analogously to script integration (see \autoref{fig:example}a, line 42), a special directive \lstinline!notebook! allows to define a path to a jupyter notebook.
+Via the command line interface, it is possible to instruct Snakemake to open a Jupyter notebook server for editing the notebook in the context of a specific job derived from the rule that refers to the notebook.
+Within the notebook, all properties of the job (input files, output files and parameters) are available via a global \lstinline!snakemake! object (also see \autoref{fig:example}c) enabling to interactively program the notebook until the desired results (e.g. a certain plot or figure) are created as intended.
+Upon saving of the notebook, Snakemake generalizes it such that other jobs from the same rule can susequently re-use it automatically without the need of another interactive notebook session.
+
+\paragraph{Tool wrappers}
+Reoccuring tools or libraries can be shared between workflows via Snakemake tool wrappers.
+\url{https://snakemake-wrappers.readthedocs.io} provides a central repository that allows deposition of new wrappers by the community.
+Each wrapper consists of a Python or R script that either uses some libraries of the respective scripting language or calls a shell command.
+Often, shell command wrappers contain some additional code that works around various idiosyncracies of the wrapped tool (e.g. dealing with temporary directories or converting job properties into command line arguments).
+Upon each repository change, all wrappers are automatically tested to run without errors.
+Inclusion of a wrapper works by simply copying and adapting (e.g. by modifying input and output file paths) a provided example rule.
 
 \subsubsection{Standardized code linting and formatting}
+
+The readability of programming code can be heavily influenced by following a common style and best practices \parencite{tysell_sundkvist_code_2017}.
 
 \subsection{Portability}
 
