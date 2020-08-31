@@ -197,7 +197,7 @@ In contrast, the former can require custom code, often written in various script
 Snakemake allows to interactively craft such steps by integrating with Jupyter notebooks (\url{https://jupyter.org}).
 
 \paragraph{Jupyter notebook integration}
-Analogously to script integration (see \autoref{fig:example}a, line 42), a special directive \lstinline!notebook! allows to define a path to a jupyter notebook.
+Analogously to script integration (see \autoref{fig:example}a, line~42), a special directive \lstinline!notebook! allows to define a path to a jupyter notebook.
 Via the command line interface, it is possible to instruct Snakemake to open a Jupyter notebook server for editing the notebook in the context of a specific job derived from the rule that refers to the notebook.
 Within the notebook, all properties of the job (input files, output files and parameters) are available via a global \lstinline!snakemake! object (also see \autoref{fig:example}c) enabling to interactively program the notebook until the desired results (e.g. a certain plot or figure) are created as intended.
 Upon saving of the notebook, Snakemake generalizes it such that other jobs from the same rule can susequently re-use it automatically without the need of another interactive notebook session.
@@ -206,9 +206,11 @@ Upon saving of the notebook, Snakemake generalizes it such that other jobs from 
 Reoccuring tools or libraries can be shared between workflows via Snakemake tool wrappers.
 \url{https://snakemake-wrappers.readthedocs.io} provides a central repository that allows deposition of new wrappers by the community.
 Each wrapper consists of a Python or R script that either uses some libraries of the respective scripting language or calls a shell command.
+Moreover, each wrapper provides a Conda environment that defines the used software stack, including tool and library versions (see \autoref{sec:portability}).
 Often, shell command wrappers contain some additional code that works around various idiosyncracies of the wrapped tool (e.g. dealing with temporary directories or converting job properties into command line arguments).
 Upon each repository change, all wrappers are automatically tested to run without errors.
 Inclusion of a wrapper works by simply copying and adapting (e.g. by modifying input and output file paths) a provided example rule.
+Upon execution, the wrapper code and the Conda environment are downloaded from the repository and automatically deployed to the running system.
 
 \subsubsection{Standardized code linting and formatting}
 
@@ -216,20 +218,25 @@ The readability of programming code can be heavily influenced by following a com
 Therefore Snakemake provides automatic code formatting (via the tool \lstinline!snakefmt!) of workflows, together with any contained Python code.
 In addition, Snakemake has a built in \emph{code linter} which detects code that violates best practices (e.g. missing directives, indentation issues, missing environment variables, etc.) while providing suggestions how to improve the code.
 
-\subsection{Portability}
+\subsection{Portability}\label{sec:portability}
 
 Being able to deploy a data analysis workflow to a new unprepared system depends on, (a) the ability to install the workflow management system itself, and (b) the ability to obtain and use the required software stack for each analysis step.
-Snakemake itself is easily installable via the Conda package manager (\url{https://conda.io}), as a Python package (\url{https://pypi.io}) 
+Snakemake itself is easily deployable via the Conda package manager (\url{https://conda.io}), as a Python package (\url{https://pypi.io}) or a docker container (\url{https://hub.docker.com/r/snakemake/snakemake}).
 
-\subsubsection{Conda integration} 
+The management of software stacks needed for individual rules is directly integrated into Snakemake itself, via two complementary mechanisms.
 
-\subsubsection{Container integration} 
+\paragraph{Conda integration}
 
-\subsection{Traceability and documentation} 
+For each rule, it is possible to define an software environment that will be automatically deployed via the Conda package manager.
+While efficiently sharing base libraries like Glib with the underlying operating system, any software defined in the environment takes precedence over the same software in the operating system, and is isolated and independent from the same software in other Conda environments.
 
-\subsection{Scalability} 
+\paragraph{Container integration}
 
-\subsubsection{Job scheduling} 
+\subsection{Traceability and documentation}
+
+\subsection{Scalability}
+
+\subsubsection{Job scheduling}
 
 Naturally, due to their dependencies, not all jobs in a workflow can be executed at the same time.
 Instead, one can imagine two cut lines, that partition the DAG of jobs into those that are already finished, those that have already been scheduled but are not finished yet, and those that have not yet been scheduled.
