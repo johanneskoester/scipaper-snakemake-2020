@@ -136,7 +136,7 @@ In the following, we describe how sustainability is achieved with Snakemake by f
 
 The key idea of Snakemake is that workflows are specified by decomposing them into steps, which are represented as~\emph{rules~}(Fig.~\ref{fig:example}).
 Each rule describes how to obtain a set of output files from a set of input files.
-This can happen via a shell command, a block of Python code, an external script (Python, R, or Julia), a Jupyter notebook (\url{https://jupyter.org}), or a so-called tool wrapper (see Sec.~\ref{sec:wrappers}).
+This can happen via a shell command, a block of Python code, an external script (Python, R, or Julia), a Jupyter notebook (\url{https://jupyter.org}), or a so-called tool wrapper (see Sec.~\ref{sec:modularization}).
 By the use of wildcards, rules can be generic.
 For example, see the rule~\lstinline!select_by_country! in Fig.~\ref{fig:example}a.
 It can be applied to generate any output file of the form~\lstinline!by-country/{country}.csv!, with~\lstinline!{country}! being a wildcard that can be replaced with any non-empty string.
@@ -186,9 +186,16 @@ Since Snakemake supports modularization of workflow definitions, it is moreover 
 Since dependencies between jobs are implicitly encoded via matching filename patterns, we hypothesize that in general no specific technical knowledge is necessary to understand the connections between the rules (except for special cases like conditional or dynamically determined dependencies).
 Instead, it should be quite intuitive to conclude that an input of one rule that reoccurs as an output of another reflects a dependency.
 
-\subsubsection{Jupyter notebook integration}
+\subsubsection{Modularization and interactive prototyping}\label{sec:modularization}
 
-\subsubsection{Tool wrappers}\label{sec:wrappers}
+Typically a data analysis consists of steps that are quite specific and unique to the analysis, as well as steps that are common to the scientific field and utilize reoccuring tools or libraries and a relatively standard way.
+For the latter, Snakemake provides the ability to deposit \emph{tool wrappers} in a central repository.
+In contrast, the former can require custom code, often written in various scripting languages like R or Python.
+Snakemake allows to interactively craft such steps by integrating with Jupyter notebooks (\url{https://jupyter.org}).
+
+\paragraph{Jupyter notebook integration}
+
+\paragraph{Tool wrappers}
 
 \subsubsection{Standardized code linting and formatting}
 
