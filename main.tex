@@ -214,16 +214,17 @@ Second, high priority jobs should be preferred (Snakemake allows prioritization 
 Third, temporary output files should be deleted as fast as possible (Snakemake allows to mark output files as temporary, which leads to their automatic deletion once all consuming jobs have been finished).
 
 \newcommand{\N}{\mathbb{N}}
+\newcommand{\cores}{\text{c}}
 
-Let $R$ be the set of resources used in the workflow (e.g. CPU cores and memory).
+Let $R$ be the set of resources used in the workflow (e.g. CPU cores and memory; by default, Snakemake only considers CPU cores which we in the following indicate with $\cores$, i.e. $R = \{\cores\}$).
 Let $F$ be the set of temporary files that will be generated during the workflow.
 We first define constants for each job $j \in J$: let $p_j \in \N$ be its priority, let $u_{r,j} \in \N$ be its usage of resource $r \in R$, and let $z_{f,j} \in \{0,1\}$ indicate whether it consumes temporary file $f \in F$.
-Further, let $U_r$ be the free capacity of resource $r \in R$ (initially what is provided to Snakemake at the command line, later what is left given already running resources), and let $s_f$ be the size of file $f \in F$.
+Further, let $U_r$ be the free capacity of resource $r \in R$ (initially what is provided to Snakemake at the command line, later what is left given already running resources), and let $S_f$ be the size of file $f \in F$.
 
 Then, the scheduling problem can be written as linear optimization problem 
 
 \begin{align*}
-	\text{minimize } & T \cdot S \cdot \sum_{j \in J} x_j \cdot p_j + S \cdot \sum_{j \in J} x_j \cdot (u_{t,j+1}) + \sum_{f \in F} \delta_f \cdot s_f \\ \text{subject to } & x_j \in \{0,1\}\\ \quad & \delta_j \in [0,1].
+	\text{minimize } T \cdot S \cdot \sum_{j \in J} x_j \cdot p_j + S \cdot \sum_{j \in J} x_j \cdot (u_{\cores,j+1}) + \sum_{f \in F} \delta_f \cdot S_f \\ \text{subject to } & x_j \in \{0,1\}\\ \quad & \delta_j \in [0,1]\\ \quad & \sum_{j \in J} x_j \cdot u_{r,j} \leq U_r \quad \forall r \in R\\ \quad & \delta_f \leq \frac{\sum_{j \in J} x_j \cdot z_{f,j}}{\sum_{j \in J} z_{f,j}} \quad\forall f \in F.
 \end{align*}
 
 In essence, jobs are selected such that jobs those with highest priority are preferred.
