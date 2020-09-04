@@ -238,13 +238,17 @@ While efficiently sharing base libraries like Glib with the underlying operating
 \paragraph{Container integration}
 
 Instead defining conda environments, it is as well possible to define a container for each rule.
-Upon execution, Snakemake will pull the requested container image and run a job inside that container using Singularity .
+Upon execution, Snakemake will pull the requested container image and run a job inside that container using Singularity \parencite{kurtzer_singularity_2017}.
+The advantage of using containers is that the execution environment can be controlled down to the system libraries, and becomes portable across operating systems, thereby further increasing reproducibility.
+The downside of using containers is that generating and modifying container images requires requires additional effort, as well as storage, since the image has to be uploaded to a container registry.
+A sweet spot between containers and Conda can be exploited by combining \lstinline!container! and \lstinline!conda! directives.
+In that case, Snakemake will generate the requested conda environment inside of the container, providing both the additional 
 
-\subsection{Traceability and documentation}
+\subsection{Traceability and documentation} 
 
-\subsection{Scalability}
+\subsection{Scalability} 
 
-\subsubsection{Job scheduling}
+\subsubsection{Job scheduling} 
 
 Naturally, due to their dependencies, not all jobs in a workflow can be executed at the same time.
 Instead, one can imagine two cut lines, that partition the DAG of jobs into those that are already finished, those that have already been scheduled but are not finished yet, and those that have not yet been scheduled.
