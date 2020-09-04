@@ -194,12 +194,17 @@ Some of these steps can be quite specific and unique to the analysis.
 Others can be common to the scientific field and utilize reoccuring tools or libraries in a relatively standard way.
 For the latter, Snakemake provides the ability to deposit and use \emph{tool wrappers} in/from a central repository.
 In contrast, the former can require custom code, often written in various scripting languages like R or Python.
-Snakemake allows to interactively craft such steps by integrating with Jupyter notebooks (\url{https://jupyter.org}).
+Snakemake allows to modularize such steps either into scripts or to craft them interactively by integrating with Jupyter notebooks (\url{https://jupyter.org}).
+
+\paragraph{Script integration}
+Integrating a script works via a special \lstinline!script! directive (see \autoref{fig:example}a, line~42).
+The referrred script does not need any boilerplate code, and can instead directly use all properties of the job (input files, output files, wildcard values, parameters, etc.)
+, which are automatically inserted as a global \lstinline!snakemake! object before the script is executed (see \autoref{fig:example}c).
 
 \paragraph{Jupyter notebook integration}
-Analogously to script integration (see \autoref{fig:example}a, line~42), a special directive \lstinline!notebook! allows to define a path to a jupyter notebook.
+Analogously to script integration, a \lstinline!notebook! directive allows to define a path to a jupyter notebook.
 Via the command line interface, it is possible to instruct Snakemake to open a Jupyter notebook server for editing the notebook in the context of a specific job derived from the rule that refers to the notebook.
-Within the notebook, all properties of the job (input files, output files and parameters) are available via a global \lstinline!snakemake! object (also see \autoref{fig:example}c) enabling to interactively program the notebook until the desired results (e.g. a certain plot or figure) are created as intended.
+The notebook server can be accessed via a web browser in order to interactively program the notebook until the desired results (e.g. a certain plot or figure) are created as intended.
 Upon saving of the notebook, Snakemake generalizes it such that other jobs from the same rule can susequently re-use it automatically without the need of another interactive notebook session.
 
 \paragraph{Tool wrappers}
