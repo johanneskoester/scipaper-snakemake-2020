@@ -249,9 +249,18 @@ In that case, Snakemake will generate the requested conda environment inside of 
 While processing a workflow, Snakemake tracks input files, output files, parameters, software, and code of each executed job.
 After completion, this information can be made available via self-contained, interactive, HTML based reports.
 Output files in the workflow can be annotated for automatic inclusion in the report.
-This enables the presentation of results along with all available provenance information.
+This enables the interactive exploration of results along with all available provenance information.
+Since the results are included into the report, their presentation does not depend on availability of server applications, making Snakemake reports easily portable and archivable.
+In the future, Snakemake reports will be extended to additionally follow the RO-crate standard, which will make them machine readable and allow an integrated representation and search from web services like \url{https://workflowhub.eu}.
 
 \subsection{Scalability}
+
+Being able to scale a workflow to available computational resources is crucial for both reproducing previous results as well as adapting a data analysis for a novel research question or dataset.
+Like many other state of the art workflow management systems, Snakemake allows to scale workflows to various computational platforms, ranging from single workstations to large compute servers, any cluster middleware, grid computing, and cloud computing (with native support for Kubernetes, the Google Life Science API, and Amazon AWS).
+
+Snakemake's design ensures that scaling a workflow to a specific platform should only entail the modification of command line parameters.
+The workflow itself can remain untouched.
+Via configuration profiles, it is possible to persist and share the command line setup of Snakemake for any computing platform (\url{https://github.com/snakemake-profiles/doc}).
 
 \subsubsection{Job scheduling}
 
