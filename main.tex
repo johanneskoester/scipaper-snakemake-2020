@@ -337,5 +337,16 @@ In other words, for each dependency~\(j' \in D_j\) we include a hash value into 
 
 \section{Conclusion}
 
+While having been almost the holy grail of data analysis workflow management in recent years and being certainly of high importance, reproducibility alone is not enough to sustain the hours of work that scientists invest in crafting data analyses.
+Here, we outlined how the interplay of automation, scalability, portability, readability, traceability, and documentation can help to reach beyond reproducibility, making data analyses adaptable and transparent.
+Adaptable data analyses can not only be repeated on the same data, but also be modified and extended for new questions or scenarios, thereby greatly increasing their value for both the scientific community and the original authors.
+While reproducibility is a necessary property for checking the validity of scientific results, it is not sufficient.
+Being able to reproduce exactly the same figure on a different machine tells us that the analysis is robust and valid from a technical perspective.
+However, it does not tell anything about the methodological validity (correctness of statistical assumptions, avoidance of overfitting, etc.)
+.
+The latter can only be secured by having a transparent yet accessible view on the analysis code.
+
+By analyzing its readability, its modularization, portability, reporting, scheduling and caching abilities, we have shown how Snakemake supports all these aspects, and thereby provides a comprehensive framework for sustainable data analysis.
+
 \printbibliography
 \end{document}
