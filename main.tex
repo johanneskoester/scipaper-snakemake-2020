@@ -356,11 +356,16 @@ When executing a Snakemake workflow in a cluster or cloud setting, by default ev
 For short running jobs, this can result in a considerable overhead, as they will have to wait in a queue, and also might cause additional delays or costs when accessing files from remote storage or network file systems.
 To minimize such overhead, Snakemake offers the ability to partition the DAG of jobs into subgraphs that will be submitted together, as a single cluster or cloud job.
 
-Partitioning happens by assigning rules to groups.
+Partitioning happens by assigning rules to groups (see \autoref{fig:grouping}).
 Upon execution, Snakemake determines connected subgraphs with the same assigned group for each job, and submits such subgraphs together (as a so called \emph{group job}) instead of submitting each job separately.
 For each group, it is in addition possible to define how many connected subgraphs shall be spanned when submitting (one by default).
 This way, it is possible to adjust the partition size to the needs of the available computational platform.
 The resource usage of a group job is determined by sorting involved jobs topologically, summing resource usage per level and taking the maximum over all levels.
+
+\begin{figure}
+	\image{group-jobs.pdf}
+	\caption{Job graph partitioning by assigning rules to groups.}\label{fig:grouping}
+\end{figure}
 
 \subsubsection{Streaming}
 
