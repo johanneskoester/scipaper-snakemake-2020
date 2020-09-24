@@ -99,10 +99,18 @@ Thereby, $n$ is defined via the \lstinline!scattergather! directive at the begin
 In addition, $n$ can be set via the command line via the flag \lstlinline!--set-scatter!.
 For example, here, we could set the number of scatter items to 16 by specifying \lstinline!--set-scatter someprocess=16!.
 
-\paragraph{Streaming.} Snakemake allows to stream output between jobs, instead of writing it to disk (see \autoref{m-sec:streaming}). Here, the output of rule \lstinline!step1! and \lstinline!step2! is streamed into rule \lstinline!step3!.
+\paragraph{Streaming (b).} Snakemake allows to stream output between jobs, instead of writing it to disk (see \autoref{m-sec:streaming} in the main document). Here, the output of rule \lstinline!step1! and \lstinline!step2! is streamed into rule \lstinline!step3!.
 
-\paragraph{Non-file parameters.} Often, data analysis steps need additional non-file input in the form of parameters, that are for example obtained from the workflow configuration (see \autoref{m-sec:automation}).
+\paragraph{Non-file parameters (c).} Often, data analysis steps need additional non-file input in the form of parameters, that are for example obtained from the workflow configuration (see \autoref{m-sec:automation} in the main document). Both input files and such non-file parameters can optionally be defined via a Python function, which is evaluated for each job, when wildcard values are known. 
+In this example, we define a lambda expression (an anonymous function in Python), that retrieves a threshold depending on the value of the wildcard sample (\lstinline!w.sample!).
+Wildcard values are passed as the first positional argument to such functions (here \lstinline!w!).
 
+\paragraph{Sample sheet based configuration (d).} Often scientific experiments entail multiple samples, for which meta-information is known (e.g. gender, tissue etc. in biomedicine).
+Portable encapsulated projects (PEPs, \url{https://pep.databio.org}) are an approach to standardize such information and provide them in a shareable format.
+Snakemake workflows can be directly integrated with PEPs, thereby allowing to configure them via meta-information that is contained in the sample sheets defined by the PEP.
+Here, a pepfile is defined, followed by an aggregation over all samples defined in the contained sample sheet.
+
+\paragraph{Conditional execution (e).}
 
 \printbibliography
 \end{document}
