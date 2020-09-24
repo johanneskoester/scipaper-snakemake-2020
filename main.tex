@@ -345,11 +345,12 @@ In other words, for each dependency~\(j' \in D_j\) we include a hash value into 
 
 A data analysis workflow can consist of a diversity of different computing jobs, some of which will be long running, and some might be very short running (down to a few seconds or even less).
 When executing a Snakemake workflow in a cluster or cloud setting, by default every job will be submitted separately to the underlying queuing system.
-For short running jobs, this can result in a considerable overhead, as they will have to wait in 
+For short running jobs, this can result in a considerable overhead, as they will have to wait in a queue, and also might cause additional delays or costs when accessing files from remote storage or network file systems.
+To minimize such overhead, Snakemake offers the ability to partition the DAG of jobs into subgraphs that will be submitted together, as a single cluster or cloud job.
 
-\subsubsection{Streaming} 
+\subsubsection{Streaming}
 
-\section{Conclusion} 
+\section{Conclusion}
 
 While having been almost the holy grail of data analysis workflow management in recent years and being certainly of high importance, reproducibility alone is not enough to sustain the hours of work that scientists invest in crafting data analyses.
 Here, we outlined how the interplay of automation, scalability, portability, readability, traceability, and documentation can help to reach beyond reproducibility, making data analyses adaptable and transparent.
