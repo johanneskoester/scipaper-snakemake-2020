@@ -241,7 +241,9 @@ In addition, Snakemake has a built in \emph{code linter} which detects code that
 
 \begin{figure}
 	\image{design-patterns}
-	\caption{Additional design patterns for Snakemake workflows. (a)}
+	\caption{Additional design patterns for Snakemake workflows.
+		For brevity only rule properties that are necessary to understand each example are shown (e.g. omitting log directives and shell commands).
+		(a) scatter/gather process: the rule \lstinline!scatter! splits an data into $n$ items; the rule \lstinline!step2! is applied to each item; the rule \lstinline!gather! aggregates over the outputs of \lstinline!step2! for each item. (b) streaming (see \autoref{sec:streaming}): output of rule \lstinline!step1! and \lstinline!step2! is streamed into \lstinline!step3!. (c)   }
 \end{figure}
 
 \subsection{Portability}\label{sec:portability}
@@ -379,7 +381,7 @@ The resource usage of a group job is determined by sorting involved jobs topolog
 	}\label{fig:grouping}
 \end{figure}
 
-\subsubsection{Streaming}
+\subsubsection{Streaming}\label{sec:streaming}
 
 Sometimes, intermediate results of a data analysis can be huge, but unimportant enough to not store them on disk.
 Apart from the option to mark such files as temporary, so that Snakemake automatically deletes them once not needed anymore, it is also possible to instruct Snakemake to never store them on disk at all, but instead directly stream their content from the producing job to to the consuming job.
