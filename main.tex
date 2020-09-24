@@ -66,7 +66,7 @@ Performing data analysis has become ubiquitous across scientific disciplines.
 Along with that, securing \emph{in silico} reproducibility has been identified as a major challenge~\parencite{Mesirov2010,Baker2016,Munaf__2017}.
 In consequence, recent years have seen a wide adoption of scientific workflow management systems by the community.
 Countless workflow management systems have been published (see~\url{https://github.com/pditommaso/awesome-pipeline}).
-Roughly spoken, these can be partitioned into four niches, for which we will highlight the major representatives below.~ 
+Roughly spoken, these can be partitioned into five niches, for which we will highlight the major representatives below.~ 
 
 First, workflow management systems like Galaxy~\parencite{Afgan2018} offer a graphical user interface for composition and execution of workflows.
 The obvious advantage is the shallow learning curve, making such systems accessible for everybody, without the need for programming skills.
@@ -138,7 +138,7 @@ Each rule describes how to obtain a set of output files from a set of input file
 This can happen via a shell command, a block of Python code, an external script (Python, R, or Julia), a Jupyter notebook (\url{https://jupyter.org}), or a so-called tool wrapper (see Sec.~\ref{sec:wrappers}).
 By the use of wildcards, rules can be generic.
 For example, see the rule~\lstinline!select_by_country! in Fig.~\ref{fig:example}a.
-It can be applied to generate any output file of the form~\lstinline!by-country/{country}.csv!, with~\lstinline!{country}! being a wildcard that can be replaced with any non-empty string.
+It can be applied to generate any output file of the form~\lstinline!results/by-country/{country}.csv!, with~\lstinline!{country}! being a wildcard that can be replaced with any non-empty string.
 In shell commands, input, and output files, as well as additional parameters are directly accessible by enclosing the respective keywords in curly braces (in case of more than a single item in any of these, access can happen by name or index).
 
 \begin{figure}
@@ -224,7 +224,7 @@ Let $F$ be the set of all temporary output files in the workflow, let $n_{f,j} \
 Then, the scheduling problem can be written as linear optimization problem 
 
 \begin{align*}
-	\text{minimize } & T \cdot S \cdot \sum_{j \in J} x_j \cdot P_j + S \cdot \sum_{j \in J} x_j \cdot (T_j+1) + \sum_{f \in F} i_f \cdot s_f \\ \text{subject to } & x_j \in \{0,1\}\\ \quad & i_j \in [0,1].
+	\text{maximize} & T \cdot S \cdot \sum_{j \in J} x_j \cdot P_j + S \cdot \sum_{j \in J} x_j \cdot (T_j+1) + \sum_{f \in F} i_f \cdot s_f \\ \text{subject to } & x_j \in \{0,1\}\\ \quad & i_j \in [0,1].
 \end{align*}
 
 In essence, jobs are selected such that jobs those with highest priority are preferred.
@@ -237,7 +237,7 @@ While data analysis usually entails the handling of a set of datasets or samples
 For example, in the life sciences, such datasets are reference genomes and corresponding annotations.
 Since such datasets potentially reoccur in many analyses conducted in a lab or institute, re-executing the corresponding analysis steps for retrieval and post-processing thereof for each individual data analysis would waste both disk space and computation time.
 
-Historically, the solution in practice was to build up shared resources with the postprocessed datasets that could then be referrred to from the workflow definition.
+Historically, the solution in practice was to build up shared resources with the postprocessed datasets that could then be referred to from the workflow definition.
 For example, in the life sciences, this has led to the Illumina iGenomes resource (\url{https://support.illumina.com/sequencing/sequencing\_software/igenome.html}) and the GATK resource bundle (\url{https://gatk.broadinstitute.org/hc/en-us/articles/360035890811-Resource-bundle}).
 In addition, in order to provide a more flexible way of selection and retrieval for such shared resources, so-called reference management systems have been published, like Go Get Data (\url{https://gogetdata.github.io}) and RefGenie (\url{http://refgenie.databio.org}).
 Here, the logic for retrieval and post-processing is curated in a set of recipes or scripts, and the resulting resources can be automatically retrieved via command line utilities.
