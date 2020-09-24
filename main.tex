@@ -331,7 +331,7 @@ This hash can be used to store and lookup output files in a central cache (e.g. 
 Hence, for any output file in a workflow, if the corresponding rule is marked as eligible for caching, Snakemake can obtain the file from the cache if it has been created before in a different workflow or by a different user on the same system, thereby saving computation time, as well as disk space (the file can be linked instead of copied).
 
 \begin{figure}
-	\image{caching.pdf}
+	\image[width=0.7\textwidth]{caching.pdf}
 	\caption{
 		Blockchain based between workflow caching scheme of Snakemake.
 		If a job is eligible for caching, its code, parameters, raw input files, software environment and the hashes of its dependencies are used to calculate a SHA-256 hash value, under which the output files are stored in a central cache.
