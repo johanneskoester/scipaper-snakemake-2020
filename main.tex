@@ -239,13 +239,6 @@ The readability of programming code can be heavily influenced by following a com
 Therefore Snakemake provides automatic code formatting (via the tool \lstinline!snakefmt!) of workflows, together with any contained Python code.
 In addition, Snakemake has a built in \emph{code linter} which detects code that violates best practices (e.g. missing directives, indentation issues, missing environment variables, etc.) while providing suggestions how to improve the code.
 
-\begin{figure}[t]
-	\image{design-patterns}
-	\caption{Additional design patterns for Snakemake workflows.
-		For brevity only rule properties that are necessary to understand each example are shown (e.g. omitting log directives and shell commands).
-		(a) scatter/gather process: the rule \lstinline!scatter! splits an data into $n$ items; the rule \lstinline!step2! is applied to each item; the rule \lstinline!gather! aggregates over the outputs of \lstinline!step2! for each item. (b) streaming (see \autoref{sec:streaming}): output of rule \lstinline!step1! and \lstinline!step2! is streamed into \lstinline!step3!. (c)   }
-\end{figure}
-
 \subsection{Portability}\label{sec:portability}
 
 Being able to deploy a data analysis workflow to a new unprepared system depends on, (a) the ability to install the workflow management system itself, and (b) the ability to obtain and use the required software stack for each analysis step.
