@@ -83,7 +83,7 @@ Below, we list the rationale of our assessment for each category in \autoref{m-f
 
 \begin{figure}
 \image{design-patterns.pdf}
-\caption{Additional design patterns for Snakemake workflows. For brevity only rule properties that are necessary to understand each example are shown (e.g. omitting log directives and shell commands). (a) scatter/gather process: the rule \lstinline!scatter! splits an data into $n$ items; }\label{fig:design-patterns}
+\caption{Additional design patterns for Snakemake workflows. For brevity only rule properties that are necessary to understand each example are shown (e.g. omitting log directives and shell commands). (a) scatter/gather process: the rule \lstinline!scatter! splits an data into $n$ items; the rule \lstinline!step2! is applied to each item; the rule \lstinline!gather! aggregates over the outputs of \lstinline!step2! for each item. (b) streaming (see \autoref{m-sec:streaming}): output of rule \lstinline!step1! and \lstinline!step2! is streamed into \lstinline!step3!. (c) non-file parameters.}\label{fig:design-patterns}
 \end{figure}
 
 \printbibliography
