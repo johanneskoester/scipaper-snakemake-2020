@@ -7,6 +7,7 @@
 \PassOptionsToPackage{hyphens}{url}
 \usepackage[hidelinks]{hyperref}
 \usepackage{listings}
+\lstset{basicstyle=\ttfamily}
 \usepackage{enumitem}
 \setlist[enumerate]{itemsep=0mm}
 \setlist[itemize]{itemsep=0mm}
@@ -298,8 +299,9 @@ Then, the scheduling problem can be written as linear optimization problem
 \end{align*}
 
 In essence, jobs are selected such that those with highest priority are preferred.
-Upon ties, jobs are selected such that the number of used cores in maximized.
+Upon ties, jobs are selected such that the number of used cores is maximized.
 Upon another tie, jobs are preferred such that they reduce the life time of temporary files.
+Unless the user explicitly requests it, all jobs will have the same priority, meaning that in general the optimization problem maximizes the number of used cores while trying to get rid of as amany temporary files as possible.
 The first constraint ensures that the available amount $U_r$ of each resource $r \in R$ is not exceeded by the selection.
 The second constraint (together with the fact that it occurs in the maximization) calculates the lifetime fraction of each temporary file $f \in F$.
 
@@ -339,9 +341,25 @@ The hash function $h(j)$ hence comprehensively describes everything that affects
 For the latter, we recursively apply the hash function~\(h\) again.
 In other words, for each dependency~\(j' \in D_j\) we include a hash value into the hash of job~\(j\), which is in fact the hashing principle behind blockchains \parencite{narayanan_bitcoin_2016}.
 
-\subsubsection{Graph partitioning}
+\subsubsection{Graph partitioning}\label{sec:partitioning}
+
+A data analysis workflow can consist of a diversity of different computing jobs, some of which will be long running, and some might be very short running (down to a few seconds or even less).
+When executing a Snakemake workflow in a cluster or cloud setting, by default every job will be submitted separately to the underlying queuing system.
+For short running jobs, this can result in a considerable overhead, as they will have to wait in a queue, and also might cause additional delays or costs when accessing files from remote storage or network file systems.
+To minimize such overhead, Snakemake offers the ability to partition the DAG of jobs into subgraphs that will be submitted together, as a single cluster or cloud job.
+
+Partitioning happens by assigning rules to groups.
+Upon execution, Snakemake determines connected subgraphs with the same assigned group for each job, and submits such subgraphs together (as a so called \emph{group job}) instead of submitting each job separately.
+For each group, it is in addition possible to define how many connected subgraphs shall be spanned when submitting (one by default).
+This way, it is possible to adjust the partition size to the needs of the available computational platform.
+The resource usage of a group job is determined by sorting involved jobs topologically, summing resource usage per level and taking the maximum over all levels.
 
 \subsubsection{Streaming}
+
+Sometimes, intermediate results of a data analysis can be huge, but unimportant enough to not store them on disk.
+Apart from the option to mark such files as temporary, so that Snakemake automatically deletes them once not needed anymore, it is also possible to instruct Snakemake to never store them on disk at all, but instead directly stream their content from the producing job to to the consuming job.
+This implies that the producing and consuming jobs have to run at the same time on the same computing node (then, the output of the producer can be written to a small in-memory buffer; on Unix, this is called a named pipe).
+Snakemake ensures this by submitting producer and consumer as a group job (see \autoref{sec:partitioning}).
 
 \section{Conclusion}
 
