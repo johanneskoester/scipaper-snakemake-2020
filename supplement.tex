@@ -88,24 +88,35 @@ Below, we list the rationale of our assessment for each category in \autoref{m-f
 \autoref{fig:design-patterns} shows advanced design patterns which are less common but useful in certain situations.
 
 \begin{figure}
-\image{design-patterns.pdf}
-\caption{Additional design patterns for Snakemake workflows. For brevity only rule properties that are necessary to understand each example are shown (e.g. omitting log directives and shell commands). (a) scatter/gather process, (b) streaming, (c) non-file parameters, (d) sample sheet based configuration, (e) conditional execution, (f) benchmarking. See \autoref{sec:design-patterns} for details.}\label{fig:design-patterns}
+	\image{design-patterns.pdf}
+	\caption{Additional design patterns for Snakemake workflows.
+		For brevity only rule properties that are necessary to understand each example are shown (e.g. omitting log directives and shell commands).
+		(a) scatter/gather process, (b) streaming, (c) non-file parameters, (d) sample sheet based configuration, (e) conditional execution, (f) benchmarking.
+		See \autoref{sec:design-patterns} for details.
+	}\label{fig:design-patterns}
 \end{figure}
 
-\paragraph{Scatter/gather processes (a).} Snakemakes ability to emply arbitrary Python code for defining a rule's input and output files already enables any kind of scattering, gathering, and aggregations in workflows. Nevertheless, it can be more readable and scalable to use Snakemake's explicit support for scatter/gather processes. 
+\paragraph{Scatter/gather processes (a).}
+Snakemakes ability to emply arbitrary Python code for defining a rule's input and output files already enables any kind of scattering, gathering, and aggregations in workflows.
+Nevertheless, it can be more readable and scalable to use Snakemake's explicit support for scatter/gather processes.
 A Snakemake workflow can have any number of such processes, each of which has a name (here \lstinline!someprocess!).
 In this example, the rule \lstinline!scatter! splits an data into $n$ items; the rule \lstinline!step2! is applied to each item; the rule \lstinline!gather! aggregates over the outputs of \lstinline!step2! for each item.
 Thereby, $n$ is defined via the \lstinline!scattergather! directive at the beginning, which sets $n$ for each scatter/gather process in the workflow.
-In addition, $n$ can be set via the command line via the flag \lstlinline!--set-scatter!.
+In addition, $n$ can be set via the command line via the flag \lstinline!--set-scatter!.
 For example, here, we could set the number of scatter items to 16 by specifying \lstinline!--set-scatter someprocess=16!.
 
-\paragraph{Streaming (b).} Snakemake allows to stream output between jobs, instead of writing it to disk (see \autoref{m-sec:streaming} in the main document). Here, the output of rule \lstinline!step1! and \lstinline!step2! is streamed into rule \lstinline!step3!.
+\paragraph{Streaming (b).}
+Snakemake allows to stream output between jobs, instead of writing it to disk (see \autoref{m-sec:streaming} in the main document).
+Here, the output of rule \lstinline!step1! and \lstinline!step2! is streamed into rule \lstinline!step3!.
 
-\paragraph{Non-file parameters (c).} Often, data analysis steps need additional non-file input in the form of parameters, that are for example obtained from the workflow configuration (see \autoref{m-sec:automation} in the main document). Both input files and such non-file parameters can optionally be defined via a Python function, which is evaluated for each job, when wildcard values are known. 
+\paragraph{Non-file parameters (c).}
+Often, data analysis steps need additional non-file input in the form of parameters, that are for example obtained from the workflow configuration (see \autoref{m-sec:automation} in the main document).
+Both input files and such non-file parameters can optionally be defined via a Python function, which is evaluated for each job, when wildcard values are known.
 In this example, we define a lambda expression (an anonymous function in Python), that retrieves a threshold depending on the value of the wildcard sample (\lstinline!w.sample!).
 Wildcard values are passed as the first positional argument to such functions (here \lstinline!w!).
 
-\paragraph{Sample sheet based configuration (d).} Often scientific experiments entail multiple samples, for which meta-information is known (e.g. gender, tissue etc. in biomedicine).
+\paragraph{Sample sheet based configuration (d).}
+Often scientific experiments entail multiple samples, for which meta-information is known (e.g. gender, tissue etc. in biomedicine).
 Portable encapsulated projects (PEPs, \url{https://pep.databio.org}) are an approach to standardize such information and provide them in a shareable format.
 Snakemake workflows can be directly integrated with PEPs, thereby allowing to configure them via meta-information that is contained in the sample sheets defined by the PEP.
 Here, a pepfile is defined, followed by an aggregation over all samples defined in the contained sample sheet.
