@@ -299,8 +299,9 @@ Then, the scheduling problem can be written as linear optimization problem
 \end{align*}
 
 In essence, jobs are selected such that those with highest priority are preferred.
-Upon ties, jobs are selected such that the number of used cores in maximized.
+Upon ties, jobs are selected such that the number of used cores is maximized.
 Upon another tie, jobs are preferred such that they reduce the life time of temporary files.
+Unless the user explicitly requests it, all jobs will have the same priority, meaning that in general the optimization problem maximizes the number of used cores while trying to get rid of as amany temporary files as possible.
 The first constraint ensures that the available amount $U_r$ of each resource $r \in R$ is not exceeded by the selection.
 The second constraint (together with the fact that it occurs in the maximization) calculates the lifetime fraction of each temporary file $f \in F$.
 
@@ -342,9 +343,13 @@ In other words, for each dependency~\(j' \in D_j\) we include a hash value into 
 
 \subsubsection{Graph partitioning}
 
-\subsubsection{Streaming}
+A data analysis workflow can consist of a diversity of different computing jobs, some of which will be long running, and some might be very short running (down to a few seconds or even less).
+When executing a Snakemake workflow in a cluster or cloud setting, by default every job will be submitted separately to the underlying queuing system.
+For short running jobs, this can result in a considerable overhead, as they will have to wait in 
 
-\section{Conclusion}
+\subsubsection{Streaming} 
+
+\section{Conclusion} 
 
 While having been almost the holy grail of data analysis workflow management in recent years and being certainly of high importance, reproducibility alone is not enough to sustain the hours of work that scientists invest in crafting data analyses.
 Here, we outlined how the interplay of automation, scalability, portability, readability, traceability, and documentation can help to reach beyond reproducibility, making data analyses adaptable and transparent.
