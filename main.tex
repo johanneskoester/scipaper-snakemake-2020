@@ -221,7 +221,7 @@ Upon saving of the notebook, Snakemake generalizes it such that other jobs from 
 
 \paragraph{Tool wrappers.}
 Reoccuring tools or libraries can be shared between workflows via Snakemake tool wrappers.
-\url{https://snakemake-wrappers.readthedocs.io} provides a central repository that allows deposition of new wrappers by the community.
+A central repository (\url{https://snakemake-wrappers.readthedocs.io}) allows the community to share wrappers with each other.
 Each wrapper consists of a Python or R script that either uses some libraries of the respective scripting language or calls a shell command.
 Moreover, each wrapper provides a Conda environment that defines the used software stack, including tool and library versions (see \autoref{sec:portability}).
 Often, shell command wrappers contain some additional code that works around various idiosyncracies of the wrapped tool (e.g. dealing with temporary directories or converting job properties into command line arguments).
