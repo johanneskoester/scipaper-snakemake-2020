@@ -76,22 +76,21 @@
 \maketitle
 
 \begin{abstract}
-	Data analysis often entails a multitude of heterogeneous steps, from the application of command line tools to the usage of scripting languages like R or Python for the generation of plots and tables.
+	Data analysis often entails a multitude of heterogeneous steps, from the application of various command line tools to the usage of scripting languages like R or Python for the generation of plots and tables.
 	It is widely recognized that such processes have to be conducted in a reproducible way.
 	Reproducibility enables to verify the technical validity of a data analysis and to regenerate results on the original or even new data.
-	However, reproducibility alone is not sufficient to obtain a truly sustainable data analysis.
-	Equally important is adaptability and transparency.
-	The former describes the ability to modify the analysis to answer e.g. extended or slightly different research questions.
+	However, reproducibility alone is by no means sufficient to deliver an analysis that is of lasting impact (i.e. sustainable) for the field, or even just the own research group.
+	We postulate that it is equally important to ensure adaptability and transparency.
+	The former describes the ability to modify the analysis to answer for example extended or slightly different research questions.
 	The latter describes the ability to understand the analysis, in order to judge whether it is not only technically, but methodologically valid.
 
-	Here, we analyse the properties needed for a data analysis to become reproducible, adaptable and transparent, and show how the popular workflow management system Snakemake can be used to fulfill all these needs.
+	Here, we analyze the properties needed for a data analysis to become reproducible, adaptable and transparent, and show how the popular workflow management system Snakemake can be used to fulfill all these needs.
 \end{abstract}
 
 Performing data analysis has become ubiquitous across scientific disciplines.
 Along with that, securing \emph{in silico} reproducibility has been identified as a major challenge~\parencite{Mesirov2010,Baker2016,Munaf__2017}.
-In consequence, recent years have seen a wide adoption of scientific workflow management systems by the community.
-Countless workflow management systems have been published (see~\url{https://github.com/pditommaso/awesome-pipeline}).
-Roughly spoken, these can be partitioned into five niches, for which we will highlight the major representatives below.
+In consequence, recent years have seen a wide adoption of scientific workflow management systems by the community and countless workflow management systems have been published (see~\url{https://github.com/pditommaso/awesome-pipeline}).
+These can be partitioned into five niches, for which we will highlight the major representatives below.
 
 First, workflow management systems like Galaxy~\parencite{Afgan2018} offer a graphical user interface for composition and execution of workflows.
 The obvious advantage is the shallow learning curve, making such systems accessible for everybody, without the need for programming skills.
@@ -103,19 +102,19 @@ Third, with systems like Nextflow~\parencite{Di_Tommaso_2017}, Snakemake~\parenc
 Here, the advantages of the second niche are shared, while adding the additional benefit of improved readability since the DSL provides statements and declarations that specifically model central components of workflow management, thereby obviating superfluous operators or boilerplate code.
 In case of Nextflow and Snakemake, where the DSL is implemented as an extension to a generic programming language (Groovy and Python), even access to the full power of the underlying programming language is maintained (e.g. for implementing conditional execution and handling configuration).
 
-Fourth, with systems like Popper~\parencite{Jimenez_2017}, workflow specification happens in a purely declarative way via configuration file formats like YAML.
+Fourth, with systems like Popper~\parencite{Jimenez_2017}, workflow specification happens in a purely declarative way, via configuration file formats like YAML.
 Here, most of the benefits of the third niche are shared.
 In addition, workflow specification can be particularly readable for non developers.
 This comes however with the downside of being more restricted since the facilities of imperative or functional programming are not available.
 
 Fifth, there are system-independent workflow specification languages like CWL~\parencite{cwl} and WDL~\parencite{voss_full-stack_2017}.
-These define a (declarative) syntax for specifying workflows, which can be parsed and executed by arbitrary executors, e.g. Cromwell (\url{https://cromwell.readthedocs.io}), Toil~\parencite{Vivian_2017} and Tibanna~\parencite{Lee_2019}.
+These define a (declarative) syntax for specifying workflows, which can be parsed and executed by arbitrary executors, e.g. Cromwell (\url{https://cromwell.readthedocs.io}), Toil~\parencite{Vivian_2017}, and Tibanna~\parencite{Lee_2019}.
 Here, a main advantage is that the same workflow definition can be executed on various specialized execution backends, thereby promising scalability to virtually any computing platform.
 
-Today, several of the above mentioned approaches support full in silico reproducibility of data analyses (e.g. Galaxy, Nextflow, Snakemake, WDL, CWL), via allowing the definition and automatic scalable execution of each involved step, together with the ability to define and automatically deploy the software stack needed for each step (e.g. via the Conda package manager,~\url{https://docs.conda.io}, or Docker containers~\url{https://www.docker.com}).
+Today, several of the above mentioned approaches support full in silico reproducibility of data analyses (e.g. Galaxy, Nextflow, Snakemake, WDL, CWL), by allowing the definition and automatic scalable execution of each involved step, together with the ability to define and automatically deploy the software stack needed for each step (e.g. via the Conda package manager,~\url{https://docs.conda.io}, or Docker containers~\url{https://www.docker.com}).
 
 Reproducibility is important to generate trust in scientific results.
-However, we postulate that a truly sustainable data analysis needs to consider a full hierarchy of additional interdependent aspects (see Fig.~\ref{fig:sustainability}).
+However, we postulate that a data analysis is of lasting value (and thus sustainable) for the authors and the scientific field only if a hierarchy of additional interdependent properties is ensured (see Fig.~\ref{fig:sustainability}).
 
 \begin{figure}
 	\image{sustainability-in-wms.pdf}
@@ -149,12 +148,13 @@ Since its original publication in 2012, Snakemake has gained a wide adoption, cu
 	\label{fig:citations}
 \end{figure}
 
-We first present several central and novel contributions to the field implemented in Snakemake.
-Second, we show how Snakemake comprehensively covers data analysis needs by introducing generic workflow design patterns that can serve as blueprints for composing any kind of analysis.
-
 \section{Results}
 
-In the following, we describe how sustainability is achieved with Snakemake by following the central goals outlined above.
+We present how Snakemake enables the researcher to conduct data analyses that have all properties to become reproducible, adaptable, and transparent, such that they provide a sustained value for the authors themselves and the scientific community.
+We will thereby introduce features of both the workflow definition language as well as the execution environment.
+Several of them are shared with other tools (e.g. Conda and Container integration), while others are (at the time of writing) exclusive to Snakemake (e.g., the scheduling mechanism, the graph partitioning).
+Finally, there will be features that other tools provide while Snakemake does not (or not yet) offer them.
+We explictly refrain from performing a full comparison with other tools, as we believe that such a view will never be unbiased (and quickly outdated), and should instead be provided by review articles or performed by the potential users based on their individual needs.
 
 \subsection{Automation}\label{sec:automation}
 
@@ -164,9 +164,9 @@ This can happen via a shell command, a block of Python code, an external script 
 Depending on the used computing platform and how Snakemake is configured, input and output files are either stored on disk, or in a remote storage (e.g. FTP, Amazon S3, Google Storage, etc.)
 .
 By the use of wildcards, rules can be generic.
-For example, see the rule~\lstinline!select_by_country! in Fig.~\ref{fig:example}a.
+For example, see the rule~\lstinline!select_by_country! in Fig.~\ref{fig:example}a (line 20).
 It can be applied to generate any output file of the form~\lstinline!results/by-country/{country}.csv!, with~\lstinline!{country}! being a wildcard that can be replaced with any non-empty string.
-In shell commands, input, and output files, as well as additional parameters are directly accessible by enclosing the respective keywords in curly braces (in case of more than a single item in any of these, access can happen by name or index).
+In shell commands, input and output files, as well as additional parameters are directly accessible by enclosing the respective keywords in curly braces (in case of more than a single item in any of these, access can happen by name or index).
 
 \begin{figure}
 	\image{example-workflow.pdf}
@@ -293,7 +293,7 @@ Snakemake's design ensures that scaling a workflow to a specific platform should
 The workflow itself can remain untouched.
 Via configuration profiles, it is possible to persist and share the command line setup of Snakemake for any computing platform (\url{https://github.com/snakemake-profiles/doc}).
 
-\subsubsection{Job scheduling}
+\subsubsection{Job scheduling}\label{sec:scheduling}
 
 Naturally, due to their dependencies, not all jobs in a workflow can be executed at the same time.
 Instead, one can imagine two cut lines, that partition the DAG of jobs into those that are already finished, those that have already been scheduled but are not finished yet, and those that have not yet been scheduled.
