@@ -101,7 +101,7 @@ Below, we explain each example in detail.
 Snakemakes ability to emply arbitrary Python code for defining a rule's input and output files already enables any kind of scattering, gathering, and aggregations in workflows.
 Nevertheless, it can be more readable and scalable to use Snakemake's explicit support for scatter/gather processes.
 A Snakemake workflow can have any number of such processes, each of which has a name (here \lstinline!someprocess!).
-In this example, the rule \lstinline!scatter! (line 4) splits an data into $n$ items; the rule \lstinline!step2! (line 8) is applied to each item; the rule \lstinline!gather! (line 14) aggregates over the outputs of \lstinline!step2! for each item.
+In this example, the rule \lstinline!scatter! (line 4) splits some data into $n$ items; the rule \lstinline!step2! (line 8) is applied to each item; the rule \lstinline!gather! (line 14) aggregates over the outputs of \lstinline!step2! for each item.
 Thereby, $n$ is defined via the \lstinline!scattergather! directive (line 1) at the beginning, which sets $n$ for each scatter/gather process in the workflow.
 In addition, $n$ can be set via the command line via the flag \lstinline!--set-scatter!.
 For example, here, we could set the number of scatter items to 16 by specifying \lstinline!--set-scatter someprocess=16!.
