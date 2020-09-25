@@ -48,23 +48,27 @@
 \author[3]{Soo Lee}
 \author[8]{Sven~O.~Twardziok}
 \author[9]{Alexander Kanitz}
-\author[1]{Jan Forster}
+\author[14]{Andreas Wilm}
+\author[1,13]{Jan Forster}
 \author[10,8]{Manuel Holtgrewe}
-\author{Chris Tomkins-Tinch}
-\author{Christian Meesters}
-\author{Sven Nahnsen}
+\author[11]{Chris Tomkins-Tinch}
+\author[12]{Sven Nahnsen}
 \author[1,7,\corresponding]{Johannes Köster}
 
 \affil[1]{Algorithms for reproducible bioinformatics, Genome Informatics, Institute of Human Genetics, University Hospital Essen, University of Duisburg-Essen, Essen, Germany}
 \affil[2]{Institute of Pathology, University Hospital Essen, University of Duisburg-Essen, Essen, Germany}
 \affil[3]{Biomedical Informatics, Harvard Medical School, Harvard University, Boston, USA}
-\affil[4]{EMBL-EBI}
-\affil[5]{Stanford Computing, Stanford University}
-\affil[6]{ETH Zürich}
+\affil[4]{TODO EMBL-EBI}
+\affil[5]{TODO Stanford Computing, Stanford University}
+\affil[6]{TODO ETH Zürich}
 \affil[7]{Medical Oncology, Harvard Medical School, Harvard University, Boston, USA}
 \affil[8]{Charité - Universitätsmedizin Berlin, corporate member of Freie Universität Berlin, Humboldt-Universität zu Berlin, and Berlin Institute of Health (BIH), Center for Digital Health, Berlin, Germany}
 \affil[9]{Biozentrum, University of Basel, Switzerland \& SIB Swiss Institute of Bioinformatics / ELIXIR Switzerland, Lausanne, Switzerland}
 \affil[10]{CUBI – Core Unit Bioinformatics, Berlin Institute of Health, Berlin, Germany}
+\affil[11]{TODO}
+\affil[12]{TODO}
+\affil[13]{TODO}
+\affil[14]{TODO}
 \sharedfirsttext{Shared first author}
 \correspondingtext{To whom correspondence should be addressed}
 
@@ -72,7 +76,7 @@
 \maketitle
 
 \begin{abstract}
-	Modern data analysis often entails tens of heterogeneous steps, from the application of command line tools to the usage of scripting languages like R or Python for the generation of plots and tables.
+	Data analysis often entails a multitude of heterogeneous steps, from the application of command line tools to the usage of scripting languages like R or Python for the generation of plots and tables.
 	It is widely recognized that such processes have to be conducted in a reproducible way.
 	Reproducibility enables to verify the technical validity of a data analysis and to regenerate results on the original or even new data.
 	However, reproducibility alone is not sufficient to obtain a truly sustainable data analysis.
@@ -190,7 +194,7 @@ Supplementary \autoref{s-sec:design-patterns} presents additional, more exotic p
 The workflow definition language of Snakemake is designed to allow maximum readability, which is crucial for transparency and adaptability.
 For natural language readability, the occurrence of known words is important.~For example, the Dale-Chall readability formula derives a score from the fraction of potentially unknown words (which do not occur in a list of common words) among all words in a text~\parencite{chall_readability_1995}.
 For workflow definition languages, one has to additionally consider whether punctuation and operator usage is intuitively understandable.
-When analyzing above example workflow (Fig.~\ref{fig:example}a) under these aspects, code statements fall into seven categories (\autoref{s-sec:readability}).
+When analyzing above example workflow (Fig.~\ref{fig:example}a) under these aspects, code statements fall into seven categories (supplementary \autoref{s-sec:readability}).
 In addition, for each line, we can judge whether it needs 
 
 \begin{enumerate}
@@ -280,7 +284,7 @@ This enables the interactive exploration of results along with all available pro
 Since the results are included into the report, their presentation does not depend on availability of server applications, making Snakemake reports easily portable and archivable.
 In the future, Snakemake reports will be extended to additionally follow the RO-crate standard, which will make them machine readable and allow an integrated representation and search from web services like \url{https://workflowhub.eu}.
 
-\subsection{Scalability}
+\subsection{Scalability}\label{sec:scalability}
 
 Being able to scale a workflow to available computational resources is crucial for both reproducing previous results as well as adapting a data analysis for a novel research question or dataset.
 Like many other state of the art workflow management systems, Snakemake allows to scale workflows to various computational platforms, ranging from single workstations to large compute servers, any cluster middleware, grid computing, and cloud computing (with native support for Kubernetes, the Google Life Science API, Amazon AWS, TES (\url{https://www.ga4gh.org}), and Microsoft Azure, the latter two in an upcoming release).
@@ -413,7 +417,7 @@ Vanessa Sochat has designed and implemented the Google Life Science API executio
 Soo Lee has designed and implemented the AWS execution backend via integration with Tibanna (\autoref{sec:scalability}).
 Sven O.
 Twardziok and Alexander Kanitz have designed and implemented the TES execution backend (\autoref{sec:scalability}).
-Manuel Holtgrewe has designed and implemented benchmarking support (\autoref{s-sec:design-patterns}).
+Manuel Holtgrewe has designed and implemented benchmarking support (supplementary \autoref{s-sec:design-patterns}).
 Jan Forster has designed and implemented meta-wrapper support (\autoref{sec:modularization}).
 Chris Tomkins-Tinch has designed and implemented remote storage support (\autoref{sec:automation}).
 Christian Meesters has supervised the implementation of an initial prototype of the graph partitioning functionality (\autoref{sec:partitioning}).
