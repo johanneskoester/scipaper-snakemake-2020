@@ -86,6 +86,8 @@ Below, we list the rationale of our assessment for each category in \autoref{m-f
 \section{Design patterns}\label{sec:design-patterns}
 
 \autoref{fig:design-patterns} shows advanced design patterns which are less common but useful in certain situations.
+For brevity only rule properties that are necessary to understand each example are shown (e.g. omitting log directives and shell commands).
+Below, we explain each example in detail.
 
 \begin{figure}
 	\image{design-patterns.pdf}
@@ -96,32 +98,54 @@ Below, we list the rationale of our assessment for each category in \autoref{m-f
 	}\label{fig:design-patterns}
 \end{figure}
 
-\paragraph{Scatter/gather processes (a).}
+\paragraph{Scatter/gather processes (\autoref{fig:design-patterns}a).}
 Snakemakes ability to emply arbitrary Python code for defining a rule's input and output files already enables any kind of scattering, gathering, and aggregations in workflows.
 Nevertheless, it can be more readable and scalable to use Snakemake's explicit support for scatter/gather processes.
 A Snakemake workflow can have any number of such processes, each of which has a name (here \lstinline!someprocess!).
-In this example, the rule \lstinline!scatter! splits an data into $n$ items; the rule \lstinline!step2! is applied to each item; the rule \lstinline!gather! aggregates over the outputs of \lstinline!step2! for each item.
-Thereby, $n$ is defined via the \lstinline!scattergather! directive at the beginning, which sets $n$ for each scatter/gather process in the workflow.
+In this example, the rule \lstinline!scatter! (line 4) splits some data into $n$ items; the rule \lstinline!step2! (line 8) is applied to each item; the rule \lstinline!gather! (line 14) aggregates over the outputs of \lstinline!step2! for each item.
+Thereby, $n$ is defined via the \lstinline!scattergather! directive (line 1) at the beginning, which sets $n$ for each scatter/gather process in the workflow.
 In addition, $n$ can be set via the command line via the flag \lstinline!--set-scatter!.
 For example, here, we could set the number of scatter items to 16 by specifying \lstinline!--set-scatter someprocess=16!.
+This enables the user to better scale the data analysis workflow to its computing platform, beyond the defaults provided by the workflow designer.
 
-\paragraph{Streaming (b).}
+\paragraph{Streaming (\autoref{fig:design-patterns}b).}
 Snakemake allows to stream output between jobs, instead of writing it to disk (see \autoref{m-sec:streaming} in the main document).
-Here, the output of rule \lstinline!step1! and \lstinline!step2! is streamed into rule \lstinline!step3!.
+Here, the output of rule \lstinline!step1! (line 1) and \lstinline!step2! (line 7) is streamed into rule \lstinline!step3! (line 13).
 
-\paragraph{Non-file parameters (c).}
-Often, data analysis steps need additional non-file input in the form of parameters, that are for example obtained from the workflow configuration (see \autoref{m-sec:automation} in the main document).
+\paragraph{Non-file parameters (\autoref{fig:design-patterns}c).}
+Data analysis steps can need additional non-file input in the form of parameters, that are for example obtained from the workflow configuration (see \autoref{m-sec:automation} in the main document).
 Both input files and such non-file parameters can optionally be defined via a Python function, which is evaluated for each job, when wildcard values are known.
-In this example, we define a lambda expression (an anonymous function in Python), that retrieves a threshold depending on the value of the wildcard sample (\lstinline!w.sample!).
-Wildcard values are passed as the first positional argument to such functions (here \lstinline!w!).
+In this example, we define a lambda expression (an anonymous function in Python), that retrieves a threshold depending on the value of the wildcard sample (\lstinline!w.sample!, line 7).
+Wildcard values are passed as the first positional argument to such functions (here \lstinline!w!, line 7).
 
-\paragraph{Sample sheet based configuration (d).}
+\paragraph{Sample sheet based configuration (\autoref{fig:design-patterns}d).}
 Often, scientific experiments entail multiple samples, for which meta-information is known (e.g. gender, tissue etc. in biomedicine).
 Portable encapsulated projects (PEPs, \url{https://pep.databio.org}) are an approach to standardize such information and provide them in a shareable format.
 Snakemake workflows can be directly integrated with PEPs, thereby allowing to configure them via meta-information that is contained in the sample sheets defined by the PEP.
-Here, a pepfile is defined, followed by an aggregation over all samples defined in the contained sample sheet.
+Here, a pepfile (line 1) along with a validation schema (line 2) is defined, followed by an aggregation over all samples defined in the contained sample sheet.
 
-\paragraph{Conditional execution (e).}
+\paragraph{Conditional execution (\autoref{fig:design-patterns}e).}
+By default, Snakemake determines the entire DAG of jobs upfront, before the first job is executed.
+However, sometimes the analysis path that shall be taken depends on some intermediate results.
+For example, this is the case when filtering samples based on quality control criteria.
+At the beginning of the data analysis, some quality control (QC) step is performed, which yields QC values for each sample.
+The actual analysis that shall happen afterwards might be only suitable for samples that pass the QC.
+Hence, one might have to filter out samples that do not pass the QC.
+Since the QC is an intermediate result of the same data analysis, it can be necessary to determine the part of the DAG that comes downstream of the QC only after QC has been finalized.
+Of course, one option is to separate QC and the actual analysis into two workflows, or defining a separate target rule for QC, such that it can be manually completed upfront, before the actualy analalysis is started.
+Alternatively, if QC shall happen automatically as part of the whole workflow, one can make use of Snakemake's conditional execution capabilities.
+In the example, we define that the \lstinline!qc! rule shall be a so-called \lstinline!checkpoint!.
+Rules can depend on such checkpoints by obtaining their output from a global \lstinline!checkpoints! object (line 2), that is accessed inside of a function, which is passed to the \lstinline!input! directive of the rule (line 11).
+This function is re-evaluated after the checkpoint has been executed (and its output files are present), thereby allowing to inspect the content of the checkoint's output files, and decide about the input files based on that.
+In this example, the checkpoint rule \lstinline!qc! creates a TSV file, which the function loads, in order to extract only those samples for which the column \lstinline!"some-value"! contains a value greater than $90$ (line 6).
+Only for those samples, the file \lstinline!"results/processed/{sample}.txt"! is requested, which is then generated by applying the rule \lstinline!process! for each of these samples.
+
+\paragraph{Benchmarking (\autoref{fig:design-patterns}f)}
+Sometimes, a data analysis entails the benchmarking of certain tools in terms of runtime, CPU, and memory consumption.
+Snakemake directly supports such benchmarking by defining a \lstinline!benchmark! directive in a rule (line 7).
+This directive takes a path to a TSV file.
+Upon execution of a job spawned from such a rule, Snakemake will constantly measure CPU and memory consumption, and store averaged results together with runtime information into the given TSV file.
+Benchmark files can be input to other rules, for example in order to generate plots or summary statistics.
 
 \printbibliography
 \end{document}
