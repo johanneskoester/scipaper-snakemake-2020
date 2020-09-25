@@ -110,7 +110,7 @@ Snakemake allows to stream output between jobs, instead of writing it to disk (s
 Here, the output of rule \lstinline!step1! and \lstinline!step2! is streamed into rule \lstinline!step3!.
 
 \paragraph{Non-file parameters (c).}
-Often, data analysis steps need additional non-file input in the form of parameters, that are for example obtained from the workflow configuration (see \autoref{m-sec:automation} in the main document).
+Data analysis steps can need additional non-file input in the form of parameters, that are for example obtained from the workflow configuration (see \autoref{m-sec:automation} in the main document).
 Both input files and such non-file parameters can optionally be defined via a Python function, which is evaluated for each job, when wildcard values are known.
 In this example, we define a lambda expression (an anonymous function in Python), that retrieves a threshold depending on the value of the wildcard sample (\lstinline!w.sample!).
 Wildcard values are passed as the first positional argument to such functions (here \lstinline!w!).
