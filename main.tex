@@ -40,12 +40,18 @@
 
 \begin{document}
 
-\author[1,2,\sharedfirst]{Felix Mölder}
-\author[6,\sharedfirst]{Kim Philip Jablonski}
-\author[4,\sharedfirst]{Michael Hall}
-\author[4,\sharedfirst]{Brice Letcher}
-\author[3,\sharedfirst]{Soo Lee}
-\author[5,\sharedfirst]{Vanessa Sochat}
+\author[1,2]{Felix Mölder}
+\author[6]{Kim Philip Jablonski}
+\author[4]{Michael Hall}
+\author[4]{Brice Letcher}
+\author[3]{Soo Lee}
+\author[5]{Vanessa Sochat}
+\author[8]{Sven O. Twardziok}
+\author[9]{Alexander Kanitz}
+\author[1]{Jan Forster}
+\author[1]{David Lähnemann}
+\author{Chris Tomkins-Tinch}
+\author{Sven Nahnsen}
 \author[1,7,\corresponding]{Johannes Köster}
 \affil[1]{Algorithms for reproducible bioinformatics, Genome Informatics, Institute of Human Genetics, University Hospital Essen, University of Duisburg-Essen, Essen, Germany}
 \affil[2]{Institute of Pathology, University Hospital Essen, University of Duisburg-Essen, Essen, Germany}
@@ -54,6 +60,9 @@
 \affil[5]{Stanford Computing, Stanford University}
 \affil[6]{ETH Zürich}
 \affil[7]{Medical Oncology, Harvard Medical School, Harvard University, Boston, USA}
+\affil[8]{Charité - Universitätsmedizin Berlin, corporate member of Freie Universität Berlin, Humboldt-Universität zu Berlin, and Berlin Institute of Health (BIH), Center for Digital Health, Berlin, Germany}
+\affil[9]{Biozentrum, University of Basel, Switzerland & SIB Swiss Institute of
+Bioinformatics / ELIXIR Switzerland, Lausanne, Switzerland}
 \sharedfirsttext{Shared first author}
 \correspondingtext{To whom correspondence should be addressed}
 
@@ -146,8 +155,7 @@ In the following, we describe how sustainability is achieved with Snakemake by f
 The key idea of Snakemake is that workflows are specified by decomposing them into steps, which are represented as~\emph{rules~}(Fig.~\ref{fig:example}).
 Each rule describes how to obtain a set of output files from a set of input files.
 This can happen via a shell command, a block of Python code, an external script (Python, R, or Julia), a Jupyter notebook (\url{https://jupyter.org}), or a so-called tool wrapper (see Sec.~\ref{sec:modularization}).
-Depending on the used computing platform and how Snakemake is configured, input and output files are either stored on disk, or in a remote storage (e.g. FTP, Amazon S3, Google Storage, etc.)
-.
+Depending on the used computing platform and how Snakemake is configured, input and output files are either stored on disk, or in a remote storage (e.g. FTP, Amazon S3, Google Storage, etc.).
 By the use of wildcards, rules can be generic.
 For example, see the rule~\lstinline!select_by_country! in Fig.~\ref{fig:example}a.
 It can be applied to generate any output file of the form~\lstinline!results/by-country/{country}.csv!, with~\lstinline!{country}! being a wildcard that can be replaced with any non-empty string.
@@ -270,7 +278,7 @@ In the future, Snakemake reports will be extended to additionally follow the RO-
 \subsection{Scalability}
 
 Being able to scale a workflow to available computational resources is crucial for both reproducing previous results as well as adapting a data analysis for a novel research question or dataset.
-Like many other state of the art workflow management systems, Snakemake allows to scale workflows to various computational platforms, ranging from single workstations to large compute servers, any cluster middleware, grid computing, and cloud computing (with native support for Kubernetes, the Google Life Science API, and Amazon AWS).
+Like many other state of the art workflow management systems, Snakemake allows to scale workflows to various computational platforms, ranging from single workstations to large compute servers, any cluster middleware, grid computing, and cloud computing (with native support for Kubernetes, the Google Life Science API, Amazon AWS, TES (\url{https://www.ga4gh.org}), and Microsoft Azure, the latter two in an upcoming release).
 
 Snakemake's design ensures that scaling a workflow to a specific platform should only entail the modification of command line parameters.
 The workflow itself can remain untouched.
