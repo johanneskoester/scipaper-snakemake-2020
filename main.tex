@@ -40,25 +40,16 @@
 
 \begin{document}
 
-\author[1,2,\sharedfirst]{Felix Mölder}
-\author[3,\sharedfirst]{Soo Lee}
-\author[4,\sharedfirst]{Michael Hall}
-\author[4,\sharedfirst]{Brice Letcher}
-\author[5,\sharedfirst]{Vanessa Sochat}
-\author[6,\sharedfirst]{Kim Philip Jablonski}
-\author[1,7,\corresponding]{Johannes Köster}
-\affil[1]{Algorithms for reproducible bioinformatics, Genome Informatics, Institute of Human Genetics, University Hospital Essen, University of Duisburg-Essen, Essen, Germany}
-\affil[2]{Institute of Pathology, University Hospital Essen, University of Duisburg-Essen, Essen, Germany}
-\affil[3]{Biomedical Informatics, Harvard Medical School, Harvard University, Boston, USA}
-\affil[4]{EMBL-EBI}
-\affil[5]{Stanford Computing, Stanford University}
-\affil[6]{ETH Zürich}
-\affil[7]{Medical Oncology, Harvard Medical School, Harvard University, Boston, USA}
-\sharedfirsttext{Shared first author}
-\correspondingtext{To whom correspondence should be addressed}
+\author[1,2]{Felix Mölder}
+\author[6]{Kim Philip Jablonski}
+\author[4]{Michael Hall}
+\author[4]{Brice Letcher}
+\author[5]{Vanessa Sochat}
+\author[3]{Soo Lee}
+\author[8]{Sven O.
+	Twardziok} \author[9]{Alexander Kanitz} \author[1]{Jan Forster} \author{Chris Tomkins-Tinch} \author{Christian Meesters} \author{Sven Nahnsen} \author[1,7,\corresponding]{Johannes Köster} \affil[1]{Algorithms for reproducible bioinformatics, Genome Informatics, Institute of Human Genetics, University Hospital Essen, University of Duisburg-Essen, Essen, Germany} \affil[2]{Institute of Pathology, University Hospital Essen, University of Duisburg-Essen, Essen, Germany} \affil[3]{Biomedical Informatics, Harvard Medical School, Harvard University, Boston, USA} \affil[4]{EMBL-EBI} \affil[5]{Stanford Computing, Stanford University} \affil[6]{ETH Zürich} \affil[7]{Medical Oncology, Harvard Medical School, Harvard University, Boston, USA} \affil[8]{Charité - Universitätsmedizin Berlin, corporate member of Freie Universität Berlin, Humboldt-Universität zu Berlin, and Berlin Institute of Health (BIH), Center for Digital Health, Berlin, Germany} \affil[9]{Biozentrum, University of Basel, Switzerland \& SIB Swiss Institute of Bioinformatics / ELIXIR Switzerland, Lausanne, Switzerland} \sharedfirsttext{Shared first author} \correspondingtext{To whom correspondence should be addressed} 
 
-\title{Sustainable data analysis with Snakemake}
-\maketitle
+\title{Sustainable data analysis with Snakemake} \maketitle 
 
 \begin{abstract}
 	Modern data analysis often entails tens of heterogeneous steps, from the application of command line tools to the usage of scripting languages like R or Python for the generation of plots and tables.
@@ -100,7 +91,7 @@ Here, a main advantage is that the same workflow definition can be executed on v
 Today, several of the above mentioned approaches support full in silico reproducibility of data analyses (e.g. Galaxy, Nextflow, Snakemake, WDL, CWL), via allowing the definition and automatic scalable execution of each involved step, together with the ability to define and automatically deploy the software stack needed for each step (e.g. via the Conda package manager,~\url{https://docs.conda.io}, or Docker containers~\url{https://www.docker.com}).
 
 Reproducibility is important to generate trust in scientific results.
-However, we postulate that a truly sustainable data analysis needs to consider a full hierarchy of interdependent aspects (see Fig.~\ref{fig:sustainability}).
+However, we postulate that a truly sustainable data analysis needs to consider a full hierarchy of additional interdependent aspects (see Fig.~\ref{fig:sustainability}).
 
 \begin{figure}
 	\image{sustainability-in-wms.pdf}
@@ -146,6 +137,8 @@ In the following, we describe how sustainability is achieved with Snakemake by f
 The key idea of Snakemake is that workflows are specified by decomposing them into steps, which are represented as~\emph{rules~}(Fig.~\ref{fig:example}).
 Each rule describes how to obtain a set of output files from a set of input files.
 This can happen via a shell command, a block of Python code, an external script (Python, R, or Julia), a Jupyter notebook (\url{https://jupyter.org}), or a so-called tool wrapper (see Sec.~\ref{sec:modularization}).
+Depending on the used computing platform and how Snakemake is configured, input and output files are either stored on disk, or in a remote storage (e.g. FTP, Amazon S3, Google Storage, etc.)
+.
 By the use of wildcards, rules can be generic.
 For example, see the rule~\lstinline!select_by_country! in Fig.~\ref{fig:example}a.
 It can be applied to generate any output file of the form~\lstinline!results/by-country/{country}.csv!, with~\lstinline!{country}! being a wildcard that can be replaced with any non-empty string.
@@ -170,11 +163,7 @@ Then, Snakemake goes on recursively for the latter, until all input files of all
 Where necessary, it is possible to provide arbitrary Python code to infer input files based on wildcard values or even the contents of output files generated by upstream jobs.
 
 \autoref{fig:example}a illustrates all major design patterns needed to define workflows with Snakemake: workflow configuration (line 1), aggregations (line 5-8), specific (line 33-43) and generic (line 45-53) transformations, target rules (line 3-8), log file definition, software stack definition, as well as shell command, script, and wrapper integration.
-Supplementary \autoref{s-sec:design-patterns} presents additional, more exotic patterns, that can nevertheless be helpful in certain situations.
-
-\paragraph{Conditional execution}
-One strength of Snakemake is that the DAG of jobs can be fully determined in advance, such that often a complete execution plan can be shown before the workflow is processed.
-However, sometimes it can be necessary to decide about parts of the DAG based on the results of previous steps.
+Supplementary \autoref{s-sec:design-patterns} presents additional, more exotic patterns, that can nevertheless be helpful in certain situations (e.g. conditional execution).
 
 \subsection{Readability}
 
@@ -225,15 +214,17 @@ Upon saving of the notebook, Snakemake generalizes it such that other jobs from 
 
 \paragraph{Tool wrappers.}
 Reoccuring tools or libraries can be shared between workflows via Snakemake tool wrappers.
-\url{https://snakemake-wrappers.readthedocs.io} provides a central repository that allows deposition of new wrappers by the community.
+A central repository (\url{https://snakemake-wrappers.readthedocs.io}) allows the community to share wrappers with each other.
 Each wrapper consists of a Python or R script that either uses some libraries of the respective scripting language or calls a shell command.
 Moreover, each wrapper provides a Conda environment that defines the used software stack, including tool and library versions (see \autoref{sec:portability}).
 Often, shell command wrappers contain some additional code that works around various idiosyncracies of the wrapped tool (e.g. dealing with temporary directories or converting job properties into command line arguments).
 Upon each repository change, all wrappers are automatically tested to run without errors.
 Inclusion of a wrapper works by simply copying and adapting (e.g. by modifying input and output file paths) a provided example rule.
 Upon execution, the wrapper code and the Conda environment are downloaded from the repository and automatically deployed to the running system.
+In addition to single wrappers the wrapper repository also offers pre-defined, tested combinations of wrappers that constitue entire sub-workflows for common tasks (called meta-wrappers).
+This is particularly useful for combinations of steps that reoccur in many data analyses.
 
-\subsubsection{Standardized code linting and formatting.}
+\subsubsection{Standardized code linting and formatting.}\label{sec:style}
 
 The readability of programming code can be heavily influenced by following a common style and best practices \parencite{tysell_sundkvist_code_2017}.
 Therefore Snakemake provides automatic code formatting (via the tool \lstinline!snakefmt!) of workflows, together with any contained Python code.
@@ -272,7 +263,7 @@ In the future, Snakemake reports will be extended to additionally follow the RO-
 \subsection{Scalability}
 
 Being able to scale a workflow to available computational resources is crucial for both reproducing previous results as well as adapting a data analysis for a novel research question or dataset.
-Like many other state of the art workflow management systems, Snakemake allows to scale workflows to various computational platforms, ranging from single workstations to large compute servers, any cluster middleware, grid computing, and cloud computing (with native support for Kubernetes, the Google Life Science API, and Amazon AWS).
+Like many other state of the art workflow management systems, Snakemake allows to scale workflows to various computational platforms, ranging from single workstations to large compute servers, any cluster middleware, grid computing, and cloud computing (with native support for Kubernetes, the Google Life Science API, Amazon AWS, TES (\url{https://www.ga4gh.org}), and Microsoft Azure, the latter two in an upcoming release).
 
 Snakemake's design ensures that scaling a workflow to a specific platform should only entail the modification of command line parameters.
 The workflow itself can remain untouched.
@@ -393,6 +384,23 @@ However, it does not tell anything about the methodological validity (correctnes
 The latter can only be secured by having a transparent yet accessible view on the analysis code.
 
 By analyzing its readability and presenting its modularization, portability, reporting, scheduling, caching, partitioning, and streaming abilities, we have shown how Snakemake supports all these aspects, and thereby provides a comprehensive framework for sustainable data analysis.
+
+\section{Author contributions}
+Felix Mölder has designed and implemented the job scheduling mechanism (\autoref{sec:scheduling}).
+Kim Philip Jablonski has designed and implemented Jupyter notebook integration (\autoref{sec:modularization}).
+Michael Hall and Brice Letcher have designed and implemented automated code formatting (\autoref{sec:style}).
+Vanessa Sochat has designed and implemented the Google Life Science API execution backend, as well as various improvements to Google storage support (\autoref{sec:scalability}).
+Soo Lee has designed and implemented the AWS execution backend via integration with Tibanna (\autoref{sec:scalability}).
+Sven O.
+Twardziok and Alexander Kanitz have designed and implemented the TES execution backend (\autoref{sec:scalability}).
+Jan Forster has designed and implemented meta-wrapper support (\autoref{sec:modularization}).
+Chris Tomkins-Tinch has designed and implemented remote storage support (\autoref{sec:automation}).
+Christian Meesters has supervised the implementation of an initial prototype of the graph partitioning functionality (\autoref{sec:partitioning}).
+Sven Nahnsen has provided the initial idea of using blockchain hashing to fingerprint output files a priori.
+Johannes Köster has written the manuscript and implemented all other features that occur in the text but are not explicitly mentioned in above listing.
+
+\section{Acknowledgements}
+We deeply thank all contributors to the Snakemake, Snakemake-Profile, Snakemake-Workflows, and Snakemake-Wrappers codebase.
 
 \printbibliography
 \end{document}
