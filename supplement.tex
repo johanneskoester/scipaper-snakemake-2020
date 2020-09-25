@@ -142,6 +142,7 @@ Sometimes, a data analysis entails the benchmarking of certain tools in terms of
 Snakemake directly supports such benchmarking by defining a \lstinline!benchmark! directive in a rule (line 7, \autoref{fig:design-patterns}f).
 This directive takes a path to a TSV file.
 Upon execution of a job spawned from such a rule, Snakemake will constantly measure CPU and memory consumption, and store averaged results together with runtime information into the given TSV file.
+Benchmark files can be input to other rules, for example in order to generate plots or summary statistics.
 
 \printbibliography
 \end{document}
