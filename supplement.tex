@@ -132,7 +132,7 @@ Hence, one might have to filter out samples that do not pass the QC.
 Since the QC is an intermediate result of the same data analysis, it can be necessary to determine the part of the DAG that comes downstream of the QC only after QC has been finalized.
 Of course, one option is to separate QC and the actual analysis into two workflows, or defining a separate target rule for QC, such that it can be manually completed upfront, before the actualy analalysis is started.
 Alternatively, if QC shall happen automatically as part of the whole workflow, one can make use of Snakemake's conditional execution capabilities.
-In the example (\autoref{fig:design-patterns}e), we define that the \lstinline!qc! rule shall be a so-called \lstinline!checkpoint!.
+In the example, we define that the \lstinline!qc! rule shall be a so-called \lstinline!checkpoint!.
 Rules can depend on such checkpoints by obtaining their output from a global \lstinline!checkpoints! object (line 2), that is accessed inside of a function, which is passed to the \lstinline!input! directive of the rule (line 11).
 This function is re-evaluated after the checkpoint has been executed (and its output files are present), thereby allowing to inspect the content of the checkoint's output files, and decide about the input files based on that.
 In this example, the checkpoint rule \lstinline!qc! creates a TSV file, which the function loads, in order to extract only those samples for which the column \lstinline!"some-value"! contains a value greater than $90$ (line 6).
@@ -140,7 +140,7 @@ Only for those samples, the file \lstinline!"results/processed/{sample}.txt"! is
 
 \paragraph{Benchmarking (\autoref{fig:design-patterns}f)}
 Sometimes, a data analysis entails the benchmarking of certain tools in terms of runtime, CPU, and memory consumption.
-Snakemake directly supports such benchmarking by defining a \lstinline!benchmark! directive in a rule (line 7, \autoref{fig:design-patterns}f).
+Snakemake directly supports such benchmarking by defining a \lstinline!benchmark! directive in a rule (line 7).
 This directive takes a path to a TSV file.
 Upon execution of a job spawned from such a rule, Snakemake will constantly measure CPU and memory consumption, and store averaged results together with runtime information into the given TSV file.
 Benchmark files can be input to other rules, for example in order to generate plots or summary statistics.
