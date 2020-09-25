@@ -46,10 +46,30 @@
 \author[4]{Brice Letcher}
 \author[5]{Vanessa Sochat}
 \author[3]{Soo Lee}
-\author[8]{Sven O.
-	Twardziok} \author[9]{Alexander Kanitz} \author[1]{Jan Forster} \author{Chris Tomkins-Tinch} \author{Christian Meesters} \author{Sven Nahnsen} \author[1,7,\corresponding]{Johannes Köster} \affil[1]{Algorithms for reproducible bioinformatics, Genome Informatics, Institute of Human Genetics, University Hospital Essen, University of Duisburg-Essen, Essen, Germany} \affil[2]{Institute of Pathology, University Hospital Essen, University of Duisburg-Essen, Essen, Germany} \affil[3]{Biomedical Informatics, Harvard Medical School, Harvard University, Boston, USA} \affil[4]{EMBL-EBI} \affil[5]{Stanford Computing, Stanford University} \affil[6]{ETH Zürich} \affil[7]{Medical Oncology, Harvard Medical School, Harvard University, Boston, USA} \affil[8]{Charité - Universitätsmedizin Berlin, corporate member of Freie Universität Berlin, Humboldt-Universität zu Berlin, and Berlin Institute of Health (BIH), Center for Digital Health, Berlin, Germany} \affil[9]{Biozentrum, University of Basel, Switzerland \& SIB Swiss Institute of Bioinformatics / ELIXIR Switzerland, Lausanne, Switzerland} \sharedfirsttext{Shared first author} \correspondingtext{To whom correspondence should be addressed} 
+\author[8]{Sven~O.~Twardziok}
+\author[9]{Alexander Kanitz}
+\author[1]{Jan Forster}
+\author[10,8]{Manuel Holtgrewe}
+\author{Chris Tomkins-Tinch}
+\author{Christian Meesters}
+\author{Sven Nahnsen}
+\author[1,7,\corresponding]{Johannes Köster}
 
-\title{Sustainable data analysis with Snakemake} \maketitle 
+\affil[1]{Algorithms for reproducible bioinformatics, Genome Informatics, Institute of Human Genetics, University Hospital Essen, University of Duisburg-Essen, Essen, Germany}
+\affil[2]{Institute of Pathology, University Hospital Essen, University of Duisburg-Essen, Essen, Germany}
+\affil[3]{Biomedical Informatics, Harvard Medical School, Harvard University, Boston, USA}
+\affil[4]{EMBL-EBI}
+\affil[5]{Stanford Computing, Stanford University}
+\affil[6]{ETH Zürich}
+\affil[7]{Medical Oncology, Harvard Medical School, Harvard University, Boston, USA}
+\affil[8]{Charité - Universitätsmedizin Berlin, corporate member of Freie Universität Berlin, Humboldt-Universität zu Berlin, and Berlin Institute of Health (BIH), Center for Digital Health, Berlin, Germany}
+\affil[9]{Biozentrum, University of Basel, Switzerland \& SIB Swiss Institute of Bioinformatics / ELIXIR Switzerland, Lausanne, Switzerland}
+\affil[10]{CUBI – Core Unit Bioinformatics, Berlin Institute of Health, Berlin, Germany}
+\sharedfirsttext{Shared first author}
+\correspondingtext{To whom correspondence should be addressed}
+
+\title{Sustainable data analysis with Snakemake}
+\maketitle
 
 \begin{abstract}
 	Modern data analysis often entails tens of heterogeneous steps, from the application of command line tools to the usage of scripting languages like R or Python for the generation of plots and tables.
@@ -67,7 +87,7 @@ Performing data analysis has become ubiquitous across scientific disciplines.
 Along with that, securing \emph{in silico} reproducibility has been identified as a major challenge~\parencite{Mesirov2010,Baker2016,Munaf__2017}.
 In consequence, recent years have seen a wide adoption of scientific workflow management systems by the community.
 Countless workflow management systems have been published (see~\url{https://github.com/pditommaso/awesome-pipeline}).
-Roughly spoken, these can be partitioned into five niches, for which we will highlight the major representatives below.~ 
+Roughly spoken, these can be partitioned into five niches, for which we will highlight the major representatives below.
 
 First, workflow management systems like Galaxy~\parencite{Afgan2018} offer a graphical user interface for composition and execution of workflows.
 The obvious advantage is the shallow learning curve, making such systems accessible for everybody, without the need for programming skills.
@@ -393,6 +413,7 @@ Vanessa Sochat has designed and implemented the Google Life Science API executio
 Soo Lee has designed and implemented the AWS execution backend via integration with Tibanna (\autoref{sec:scalability}).
 Sven O.
 Twardziok and Alexander Kanitz have designed and implemented the TES execution backend (\autoref{sec:scalability}).
+Manuel Holtgrewe has designed and implemented benchmarking support (\autoref{s-sec:design-patterns}).
 Jan Forster has designed and implemented meta-wrapper support (\autoref{sec:modularization}).
 Chris Tomkins-Tinch has designed and implemented remote storage support (\autoref{sec:automation}).
 Christian Meesters has supervised the implementation of an initial prototype of the graph partitioning functionality (\autoref{sec:partitioning}).
