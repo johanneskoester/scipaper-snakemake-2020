@@ -293,7 +293,7 @@ Snakemake's design ensures that scaling a workflow to a specific platform should
 The workflow itself can remain untouched.
 Via configuration profiles, it is possible to persist and share the command line setup of Snakemake for any computing platform (\url{https://github.com/snakemake-profiles/doc}).
 
-\subsubsection{Job scheduling}
+\subsubsection{Job scheduling}\label{sec:scheduling}
 
 Naturally, due to their dependencies, not all jobs in a workflow can be executed at the same time.
 Instead, one can imagine two cut lines, that partition the DAG of jobs into those that are already finished, those that have already been scheduled but are not finished yet, and those that have not yet been scheduled.
