@@ -113,14 +113,14 @@ Here, the output of rule \lstinline!step1! and \lstinline!step2! is streamed int
 \paragraph{Non-file parameters (\autoref{fig:design-patterns}c).}
 Data analysis steps can need additional non-file input in the form of parameters, that are for example obtained from the workflow configuration (see \autoref{m-sec:automation} in the main document).
 Both input files and such non-file parameters can optionally be defined via a Python function, which is evaluated for each job, when wildcard values are known.
-In this example, we define a lambda expression (an anonymous function in Python), that retrieves a threshold depending on the value of the wildcard sample (\lstinline!w.sample!).
+In this example, we define a lambda expression (an anonymous function in Python), that retrieves a threshold depending on the value of the wildcard sample (\lstinline!w.sample!, line 8).
 Wildcard values are passed as the first positional argument to such functions (here \lstinline!w!).
 
 \paragraph{Sample sheet based configuration (\autoref{fig:design-patterns}d).}
 Often, scientific experiments entail multiple samples, for which meta-information is known (e.g. gender, tissue etc. in biomedicine).
 Portable encapsulated projects (PEPs, \url{https://pep.databio.org}) are an approach to standardize such information and provide them in a shareable format.
 Snakemake workflows can be directly integrated with PEPs, thereby allowing to configure them via meta-information that is contained in the sample sheets defined by the PEP.
-Here, a pepfile is defined, followed by an aggregation over all samples defined in the contained sample sheet.
+Here, a pepfile (line 1) along with a validation schema (line 2) is defined, followed by an aggregation over all samples defined in the contained sample sheet.
 
 \paragraph{Conditional execution (\autoref{fig:design-patterns}e).}
 By default, Snakemake determines the entire DAG of jobs upfront, before the first job is executed.
