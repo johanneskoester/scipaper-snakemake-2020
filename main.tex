@@ -317,7 +317,7 @@ Further, let $U_r$ be the free capacity of resource $r \in R$ (initially what is
 Next, we define variables $x_j \in \{0,1\}$ for each job $j \in J$, indicating whether a job is selected for execution ($1$) or not ($0$).
 Finally, for each temporary file $f \in F$, we define a variable $\delta_f \in [0,1]$ indicating the fraction of consuming jobs that have already or will be scheduled.
 We also call this variable the lifetime fraction of temporary file $f$.
-In other words, $\delta_f = 1.0$ means that all consuming jobs will be completed after this scheduling round has been processed.
+In other words, $\delta_f = 1.0$ means that all consuming jobs will be completed after this scheduling round has been processed (i.e. the lifetime of that file is over and it can be deleted).
 
 Then, the scheduling problem can be written as linear optimization problem 
 
