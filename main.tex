@@ -46,28 +46,10 @@
 \author[4]{Brice Letcher}
 \author[3]{Soo Lee}
 \author[5]{Vanessa Sochat}
-\author[8]{Sven O. Twardziok}
-\author[9]{Alexander Kanitz}
-\author[1]{Jan Forster}
-\author[1]{David Lähnemann}
-\author{Chris Tomkins-Tinch}
-\author{Sven Nahnsen}
-\author[1,7,\corresponding]{Johannes Köster}
-\affil[1]{Algorithms for reproducible bioinformatics, Genome Informatics, Institute of Human Genetics, University Hospital Essen, University of Duisburg-Essen, Essen, Germany}
-\affil[2]{Institute of Pathology, University Hospital Essen, University of Duisburg-Essen, Essen, Germany}
-\affil[3]{Biomedical Informatics, Harvard Medical School, Harvard University, Boston, USA}
-\affil[4]{EMBL-EBI}
-\affil[5]{Stanford Computing, Stanford University}
-\affil[6]{ETH Zürich}
-\affil[7]{Medical Oncology, Harvard Medical School, Harvard University, Boston, USA}
-\affil[8]{Charité - Universitätsmedizin Berlin, corporate member of Freie Universität Berlin, Humboldt-Universität zu Berlin, and Berlin Institute of Health (BIH), Center for Digital Health, Berlin, Germany}
-\affil[9]{Biozentrum, University of Basel, Switzerland & SIB Swiss Institute of
-Bioinformatics / ELIXIR Switzerland, Lausanne, Switzerland}
-\sharedfirsttext{Shared first author}
-\correspondingtext{To whom correspondence should be addressed}
+\author[8]{Sven O.
+	Twardziok} \author[9]{Alexander Kanitz} \author[1]{Jan Forster} \author[1]{David Lähnemann} \author{Chris Tomkins-Tinch} \author{Sven Nahnsen} \author[1,7,\corresponding]{Johannes Köster} \affil[1]{Algorithms for reproducible bioinformatics, Genome Informatics, Institute of Human Genetics, University Hospital Essen, University of Duisburg-Essen, Essen, Germany} \affil[2]{Institute of Pathology, University Hospital Essen, University of Duisburg-Essen, Essen, Germany} \affil[3]{Biomedical Informatics, Harvard Medical School, Harvard University, Boston, USA} \affil[4]{EMBL-EBI} \affil[5]{Stanford Computing, Stanford University} \affil[6]{ETH Zürich} \affil[7]{Medical Oncology, Harvard Medical School, Harvard University, Boston, USA} \affil[8]{Charité - Universitätsmedizin Berlin, corporate member of Freie Universität Berlin, Humboldt-Universität zu Berlin, and Berlin Institute of Health (BIH), Center for Digital Health, Berlin, Germany} \affil[9]{Biozentrum, University of Basel, Switzerland \& SIB Swiss Institute of Bioinformatics / ELIXIR Switzerland, Lausanne, Switzerland} \sharedfirsttext{Shared first author} \correspondingtext{To whom correspondence should be addressed} 
 
-\title{Sustainable data analysis with Snakemake}
-\maketitle
+\title{Sustainable data analysis with Snakemake} \maketitle 
 
 \begin{abstract}
 	Modern data analysis often entails tens of heterogeneous steps, from the application of command line tools to the usage of scripting languages like R or Python for the generation of plots and tables.
@@ -155,7 +137,8 @@ In the following, we describe how sustainability is achieved with Snakemake by f
 The key idea of Snakemake is that workflows are specified by decomposing them into steps, which are represented as~\emph{rules~}(Fig.~\ref{fig:example}).
 Each rule describes how to obtain a set of output files from a set of input files.
 This can happen via a shell command, a block of Python code, an external script (Python, R, or Julia), a Jupyter notebook (\url{https://jupyter.org}), or a so-called tool wrapper (see Sec.~\ref{sec:modularization}).
-Depending on the used computing platform and how Snakemake is configured, input and output files are either stored on disk, or in a remote storage (e.g. FTP, Amazon S3, Google Storage, etc.).
+Depending on the used computing platform and how Snakemake is configured, input and output files are either stored on disk, or in a remote storage (e.g. FTP, Amazon S3, Google Storage, etc.)
+.
 By the use of wildcards, rules can be generic.
 For example, see the rule~\lstinline!select_by_country! in Fig.~\ref{fig:example}a.
 It can be applied to generate any output file of the form~\lstinline!results/by-country/{country}.csv!, with~\lstinline!{country}! being a wildcard that can be replaced with any non-empty string.
