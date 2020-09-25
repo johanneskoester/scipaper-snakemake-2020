@@ -178,7 +178,7 @@ In shell commands, input and output files, as well as additional parameters are 
 
 When using script integration instead of shell commands, Snakemake automatically inserts an object giving access to all properties of the job (e.g. \lstinline!snakemake.output[0]!, see Fig.
 \ref{fig:example}c).
-This way, the boiler plate code for parsing command line arguments can be avoided.
+This way, boiler plate code for parsing command line arguments can be avoided.
 
 By replacing wildcards with concrete values, Snakemake turns any rule into a job which will be executed in order to generate the defined output files.
 Dependencies between jobs are implicit, and inferred automatically in the following way.
@@ -268,7 +268,7 @@ While efficiently sharing base libraries like Glib with the underlying operating
 
 \paragraph{Container integration}
 
-Instead defining conda environments, it is as well possible to define a container for each rule (via a \lstinline!container! directive, see \autoref{fig:example}a, line 38).
+Instead of defining conda environments, it is as well possible to define a container for each rule (via a \lstinline!container! directive, see \autoref{fig:example}a, line 38).
 Upon execution, Snakemake will pull the requested container image and run a job inside that container using Singularity \parencite{kurtzer_singularity_2017}.
 The advantage of using containers is that the execution environment can be controlled down to the system libraries, and becomes portable across operating systems, thereby further increasing reproducibility \parencite{gruning_practical_2018}.
 The downside of using containers is that generating and modifying container images requires requires additional effort, as well as storage, since the image has to be uploaded to a container registry.
@@ -283,6 +283,7 @@ Output files in the workflow can be annotated for automatic inclusion in the rep
 This enables the interactive exploration of results along with all available provenance information.
 Since the results are included into the report, their presentation does not depend on availability of server applications, making Snakemake reports easily portable and archivable.
 In the future, Snakemake reports will be extended to additionally follow the RO-crate standard, which will make them machine readable and allow an integrated representation and search from web services like \url{https://workflowhub.eu}.
+An example report is included as supplementary file 1.
 
 \subsection{Scalability}\label{sec:scalability}
 
