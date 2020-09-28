@@ -320,8 +320,7 @@ We also call this variable the lifetime fraction of temporary file $f$.
 In other words, $\delta_f = 1$ means that all consuming jobs will be completed after this scheduling round has been processed, in other words, the lifetime of that file is over and it can be deleted.
 To indicate the latter, we further define a binary variable $\gamma_f \in \{0,1\}$, with $\gamma_f = 1$ representing the case that $f$ can indeed be deleted, in other words, $\gamma_f = 1 \Leftrightarrow \delta_f = 1$.
 
-Then, the scheduling problem can be written as linear optimization problem 
-
+Then, the scheduling problem can be written as linear optimization problem
 \begin{align*}
 	\text{maximize } & 2U_\cores \cdot 2S \cdot \sum_{j \in J} x_j \cdot p_j + 2S \cdot \sum_{j \in J} x_j \cdot (u_{\cores,j} + 1) + S \cdot \sum_{f \in F} \gamma_f \cdot S_f + \sum_{f \in F} \delta_f \cdot S_f \\ \text{subject to } & x_j \in \{0,1\} \quad \forall j \in J\\ \quad & \delta_f \in [0,1] \quad  \forall f \in F\\ \quad & \gamma_f \in \{0,1\} \quad \forall f \in F\\ \quad & \sum_{j \in J} x_j \cdot u_{r,j} \leq U_r \quad \forall r \in R\\ \quad & \delta_f \leq \frac{\sum_{j \in J} x_j \cdot z_{f,j}}{\sum_{j \in J} z_{f,j}} \quad\forall f \in F\\ \quad & \gamma_f \leq \delta_f \quad\forall f \in F.
 \end{align*}
