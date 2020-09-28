@@ -331,7 +331,8 @@ The third constraint (together with the fact that it occurs in the maximization)
 
 The maximization optimizes four criteria, represented by the four terms that are summed up.
 First, we strive to prefer jobs with high priority.
-Second, we aim to maximize parallelization or the number of used cores.
+Second, we aim to maximize parallelization or the number of used cores\footnote{Snakemake also allows for jobs that use zero cores (i.e. $u_{\cores,j} = 0$), hence we add $+1$ to each summand of the second term.
+}.
 Third, we ensure that temporary files are deleted as soon as possible.
 Fourth, we try to reduce the lifetime of temporary files that cannot be deleted in this pass.
 
