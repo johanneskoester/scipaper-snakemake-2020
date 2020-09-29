@@ -300,11 +300,12 @@ Naturally, due to their dependencies, not all jobs in a workflow can be executed
 Instead, one can imagine two cut lines, that partition the DAG of jobs into those that are already finished, those that have already been scheduled but are not finished yet, and those that have not yet been scheduled (\autoref{fig:scheduling}a).
 Within the latter partition, all jobs that have no incoming edge from the same partition can be scheduled next.
 We call this the set $J$ of pending jobs.
-The scheduling problem a workflow manager like Snakemake has to solve is to select the subset $E \subseteq J$ that leads to an optimal execution of the workflow, while not exceeding given computational resources.
+The scheduling problem a workflow manager like Snakemake has to solve is to select the subset $E \subseteq J$ that leads to an optimal execution of the workflow, while not exceeding given computational resources (see \autoref{fig:scheduling}b,c for example solutions).
 Optimality of execution is thereby fueled by three criteria.
 First, it should be as fast as possible.
 Second, high priority jobs should be preferred (Snakemake allows prioritization of jobs via the workflow definition and the command line).
 Third, temporary output files should be deleted as fast as possible (Snakemake allows to mark output files as temporary, which leads to their automatic deletion once all consuming jobs have been finished).
+The latter guarantees the second example scheduling solution (\autoref{fig:scheduling}c).
 
 \begin{figure}
 	\centering
@@ -318,6 +319,7 @@ Third, temporary output files should be deleted as fast as possible (Snakemake a
 \newcommand{\N}{\mathbb{N}}
 \newcommand{\cores}{\text{c}}
 
+We solve the scheduling problem via linear programming as follows.
 Let $R$ be the set of resources used in the workflow (e.g. CPU cores and memory; by default, Snakemake only considers CPU cores which we in the following indicate with $\cores$, i.e. $R = \{\cores\}$).
 Let $F$ be the set of temporary files that will be generated during the workflow.
 We first define constants for each job $j \in J$: let $p_j \in \N$ be its priority, let $u_{r,j} \in \N$ be its usage of resource $r \in R$, and let $z_{f,j} \in \{0,1\}$ indicate whether it consumes temporary file $f \in F$ ($1$) or not ($0$).
