@@ -1,2 +1,1 @@
-# scipaper-template-default
-The default template for scipaper.
+This is the source code of the paper "Sustainable data analysis with Snakemake".
