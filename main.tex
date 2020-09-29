@@ -97,7 +97,7 @@ First, workflow management systems like Galaxy~\parencite{Afgan2018} offer a gra
 The obvious advantage is the shallow learning curve, making such systems accessible for everybody, without the need for programming skills.
 
 Second, with systems like Anduril~\parencite{Cervera2019}, Balsam~\parencite{papka2018}, Hyperloom~\parencite{cima2018hyperloom}, Jug~\parencite{Coelho_2017}, Pwrake~\parencite{Tanaka_2010}, Ruffus~\parencite{Goodstadt2010}, SciPipe~\parencite{Lampa2019}, SCOOP \parencite{SCOOP_XSEDE2014}, and COMPSs~\parencite{Lordan_2013} workflows are specified using~ a set of classes and functions for generic programming languages like Python, Scala and others.
-Such systems have the advantage that they can be used without a graphical interface (e.g. in a server environment), and that workflows can be straighforwardly managed with version control systems like Git (\url{https://git-scm.com}).~ 
+Such systems have the advantage that they can be used without a graphical interface (e.g. in a server environment), and that workflows can be straighforwardly managed with version control systems like Git (\url{https://git-scm.com}).~
 
 Third, with systems like Nextflow~\parencite{Di_Tommaso_2017}, Snakemake~\parencite{Köster2012}, BioQueue~\parencite{Yao2017}, Bpipe~\parencite{Sadedin2012}, ClusterFlow~\parencite{Ewels2016}, Cylc~\parencite{J_Oliver_2018},~and BigDataScript~\parencite{Cingolani_2014}, workflows are specified using a domain specific language (DSL).
 Here, the advantages of the second niche are shared, while adding the additional benefit of improved readability since the DSL provides statements and declarations that specifically model central components of workflow management, thereby obviating superfluous operators or boilerplate code.
@@ -200,7 +200,7 @@ The workflow definition language of Snakemake is designed to allow maximum reada
 For natural language readability, the occurrence of known words is important.~For example, the Dale-Chall readability formula derives a score from the fraction of potentially unknown words (which do not occur in a list of common words) among all words in a text~\parencite{chall_readability_1995}.
 For workflow definition languages, one has to additionally consider whether punctuation and operator usage is intuitively understandable.
 When analyzing above example workflow (Fig.~\ref{fig:example}a) under these aspects, code statements fall into seven categories (supplementary \autoref{s-sec:readability}).
-In addition, for each line, we can judge whether it needs 
+In addition, for each line, we can judge whether it needs
 
 \begin{enumerate}
 	\item domain knowledge (from the field analyzed in the given workflow),
