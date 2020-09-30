@@ -51,7 +51,7 @@ Statements in Snakemake workflow definitions fall into seven categories:
 	\item a Python statement.
 \end{enumerate}
 
-Below, we list the rationale of our assessment for each category in \autoref{m-fig:example}: 
+Below, we list the rationale of our assessment for each category in \autoref{m-fig:example}:
 
 \begin{enumerate}
 	\item The natural language word is either understandable with general education~(e.g.\ \lstinline!input:! and \lstinline!output:!) or technical knowledge (\lstinline!container:! or~\lstinline!conda:!).
@@ -100,7 +100,7 @@ Below, we explain each example in detail.
 \end{figure}
 
 \paragraph{Scatter/gather processes (\autoref{fig:design-patterns}a).}
-Snakemakes ability to emply arbitrary Python code for defining a rule's input and output files already enables any kind of scattering, gathering, and aggregations in workflows.
+Snakemake's ability to employ arbitrary Python code for defining a rule's input and output files already enables any kind of scattering, gathering, and aggregations in workflows.
 Nevertheless, it can be more readable and scalable to use Snakemake's explicit support for scatter/gather processes.
 A Snakemake workflow can have any number of such processes, each of which has a name (here \lstinline!someprocess!).
 In this example, the rule \lstinline!scatter! (line 4) splits some data into $n$ items; the rule \lstinline!step2! (line 8) is applied to each item; the rule \lstinline!gather! (line 14) aggregates over the outputs of \lstinline!step2! for each item.
@@ -133,7 +133,7 @@ At the beginning of the data analysis, some quality control (QC) step is perform
 The actual analysis that shall happen afterwards might be only suitable for samples that pass the QC.
 Hence, one might have to filter out samples that do not pass the QC.
 Since the QC is an intermediate result of the same data analysis, it can be necessary to determine the part of the DAG that comes downstream of the QC only after QC has been finalized.
-Of course, one option is to separate QC and the actual analysis into two workflows, or defining a separate target rule for QC, such that it can be manually completed upfront, before the actualy analalysis is started.
+Of course, one option is to separate QC and the actual analysis into two workflows, or defining a separate target rule for QC, such that it can be manually completed upfront, before the actual analysis is started.
 Alternatively, if QC shall happen automatically as part of the whole workflow, one can make use of Snakemake's conditional execution capabilities.
 In the example, we define that the \lstinline!qc! rule shall be a so-called \lstinline!checkpoint!.
 Rules can depend on such checkpoints by obtaining their output from a global \lstinline!checkpoints! object (line 2), that is accessed inside of a function, which is passed to the \lstinline!input! directive of the rule (line 11).
