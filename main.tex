@@ -169,7 +169,7 @@ Depending on the computing platform used and how Snakemake is configured, input 
 By the use of wildcards, rules can be generic.
 For example, see the rule~\lstinline!select_by_country! in Fig.~\ref{fig:example}a (line 20).
 It can be applied to generate any output file of the form~\lstinline!results/by-country/{country}.csv!, with~\lstinline!{country}! being a wildcard that can be replaced with any non-empty string.
-In shell commands, input and output files, as well as rules, additional parameters are directly accessible by enclosing the respective keywords in curly braces (in case of more than a single item in any of these, access can happen by name or index).
+In shell commands, input and output files, as well additional parameters, are directly accessible by enclosing the respective keywords in curly braces (in case of more than a single item in any of these, access can happen by name or index).
 
 \begin{figure}
 	\image{example-workflow.pdf}
