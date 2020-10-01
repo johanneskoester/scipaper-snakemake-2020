@@ -277,9 +277,7 @@ While efficiently sharing base libraries like Glib with the underlying operating
 
 Instead of defining Conda environments, it is also possible to define a container for each rule (via a \lstinline!container! directive, see \autoref{fig:example}a, line 38).
 Upon execution, Snakemake will pull the requested container image and run a job inside that container using Singularity \parencite{kurtzer_singularity_2017}.
-The advantage of using containers is that the execution environment can be controlled down to the system libraries, and becomes portable across operating systems, thereby further increasing reproducibility \parencite{gruning_practical_2018}.
-The downside of using containers is that generating and modifying container images requires additional effort, as well as storage, since the image has to be uploaded to a container registry.
-A sweet spot between containers and Conda can be exploited by combining \lstinline!container! and \lstinline!conda! directives.
+The advantage of using containers is that the execution environment can be controlled down to the system libraries, and becomes portable across operating systems, thereby further increasing reproducibility \parencite{gruning_practical_2018}. Containers already exist in centralized repositories for a wide range of scientific software applications, allowing easy integration info Snakemake workflows. Downsides of using containers are that they require storage on disk and additional effort is required to create them. A sweet spot between containers and Conda can be exploited by combining \lstinline!container! and \lstinline!conda! directives.
 In that case, Snakemake will generate the requested Conda environment inside of the container, providing the flexibility of Conda together with the additional reproducibility guarantees of containers.
 
 \subsection{Traceability and documentation}
