@@ -283,11 +283,12 @@ In that case, Snakemake will generate the requested Conda environment inside of 
 \subsection{Traceability and documentation}
 
 While processing a workflow, Snakemake tracks input files, output files, parameters, software, and code of each executed job.
-After completion, this information can be made available via self-contained, interactive, HTML based reports.
+After completion, this information can be made available via self-contained, interactive, static HTML reports.
 Output files in the workflow can be annotated for automatic inclusion in the report.
-This enables the interactive exploration of results along with all available provenance information.
-Since the results are included into the report, their presentation does not depend on availability of server applications, making Snakemake reports easily portable and archivable.
-In the future, Snakemake reports will be extended to additionally follow the RO-crate standard, which will make them machine readable and allow an integrated representation and search from web services like \url{https://workflowhub.eu}.
+These features enable interactive exploration of results alongside information about their provenance.
+Since results are embedded in such reports, their presentation does not depend on interactive server backends; this makes Snakemake reports portable and achievable.
+In the future, Snakemake reports will be extended to follow the RO-crate standard, which will make them machine-readable and allow integration with web services like \url{https://workflowhub.eu} to allow for search indexing and in-line display.
+
 An example report is included as supplementary file 1.
 
 \subsection{Scalability}\label{sec:scalability}
