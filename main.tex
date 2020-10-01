@@ -1,4 +1,4 @@
-\documentclass[parskip=half]{scrartcl}
+\documentclass[parskip=half, DIV=18]{scrartcl}
 \usepackage[utf8]{inputenc}
 \usepackage{amsmath}
 \usepackage{amssymb}
@@ -27,7 +27,7 @@
 \addFileDependency{supplement.tex}
 \addFileDependency{supplement.aux}
 
-\usepackage[maxbibnames=999,backend=bibtex]{biblatex}
+\usepackage[maxbibnames=999,backend=bibtex,url=false,doi=false]{biblatex}
 \addbibresource{literature.bib}
 
 \newcommand{\sharedfirst}{$\dagger$}
@@ -49,7 +49,7 @@
 \author[8]{Sven~O.~Twardziok}
 \author[9]{Alexander Kanitz}
 \author[14]{Andreas Wilm}
-\author[1,13]{Jan Forster}
+\author[1]{Jan Forster}
 \author[10,8]{Manuel Holtgrewe}
 \author[11,16]{Christopher H. Tomkins-Tinch}
 \author[12]{Sven Nahnsen}
@@ -65,10 +65,9 @@
 \affil[8]{Charité - Universitätsmedizin Berlin, corporate member of Freie Universität Berlin, Humboldt-Universität zu Berlin, and Berlin Institute of Health (BIH), Center for Digital Health, Berlin, Germany}
 \affil[9]{Biozentrum, University of Basel, Switzerland \& SIB Swiss Institute of Bioinformatics / ELIXIR Switzerland, Lausanne, Switzerland}
 \affil[10]{CUBI – Core Unit Bioinformatics, Berlin Institute of Health, Berlin, Germany}
-\affil[11]{Broad Institute of MIT and Harvard, Cambridge, MA, 02142, USA}
-\affil[12]{TODO}
-\affil[13]{TODO}
-\affil[14]{TODO}
+\affil[11]{Broad Institute of MIT and Harvard, Cambridge, USA}
+\affil[12]{Quantitative Biology Center (QBiC), University of Tübingen, Tübingen, Germany}
+\affil[14]{Microsoft Singapore, Singapore}
 \affil[15]{Swiss Institute of Bioinformatics (SIB), Basel, Switzerland}
 \affil[16]{Department of Organismic and Evolutionary Biology, Harvard University, Cambridge, MA, 02138, USA}
 \sharedfirsttext{Shared first author}
@@ -79,8 +78,8 @@
 
 \begin{abstract}
 	Data analysis often entails a multitude of heterogeneous steps, from the application of various command line tools to the usage of scripting languages like R or Python for the generation of plots and tables.
-	It is widely recognized that such processes have to be conducted in a reproducible way.
-	Reproducibility enables technical validation of a data analysis and regeneration of results on the original or even new data.
+	It is widely recognized that data analyses should ideally be conducted in a reproducible way.
+	Reproducibility enables technical validation and regeneration of results on the original or even new data.
 	However, reproducibility alone is by no means sufficient to deliver an analysis that is of lasting impact (i.e. sustainable) for the field, or even just one research group.
 	We postulate that it is equally important to ensure adaptability and transparency.
 	The former describes the ability to modify the analysis to answer extended or slightly different research questions.
@@ -94,10 +93,10 @@ By automating the analysis process, workflow management systems can help to achi
 Consequently, a ``Cambrian explosion'' of diverse scientific workflow management systems is in process; some are already in use by many and evolving, and countless others are emerging and being published (see~\url{https://github.com/pditommaso/awesome-pipeline}).
 Existing systems can be partitioned into five niches which we will describe below, with highlighted examples of each.
 
-First, workflow management systems like Galaxy~\parencite{Afgan2018}, often referred to as ``science gateways``~\parencite{Afgan2011-tv}, offer graphical user interfaces for composition and execution of workflows.
+First, workflow management systems like Galaxy~\parencite{Afgan2018}, often referred to as ``science gateways``~\parencite{Afgan2011-tv}, offer graphical, web-based user interfaces for composition and execution of workflows.
 The obvious advantages are the shallow learning curve and immediate web access, making such systems accessible for everybody, without the need for programming skills.
 
-Second, with systems like Anduril~\parencite{Cervera2019}, Balsam~\parencite{papka2018}, Hyperloom~\parencite{cima2018hyperloom}, Jug~\parencite{Coelho_2017}, Pwrake~\parencite{Tanaka_2010}, Ruffus~\parencite{Goodstadt2010}, SciPipe~\parencite{Lampa2019}, SCOOP \parencite{SCOOP_XSEDE2014}, and COMPSs~\parencite{Lordan_2013} workflows are specified using a set of classes and functions for generic programming languages like Python, Scala and others.
+Second, with systems like Anduril~\parencite{Cervera2019}, Balsam~\parencite{papka2018}, Hyperloom~\parencite{cima2018hyperloom}, Jug~\parencite{Coelho_2017}, Pwrake~\parencite{Tanaka_2010}, Ruffus~\parencite{Goodstadt2010}, SciPipe~\parencite{Lampa2019}, SCOOP \parencite{SCOOP_XSEDE2014}, and COMPSs~\parencite{Lordan_2013} workflows are specified using a set of classes and functions for generic programming languages like Python, Scala, and others.
 Such systems have the advantage that they can be used without a graphical interface (e.g. in a server environment), and that workflows can be straightforwardly managed with version control systems like Git (\url{https://git-scm.com}).
 
 Third, with systems like Nextflow~\parencite{Di_Tommaso_2017}, Snakemake~\parencite{Köster2012}, BioQueue~\parencite{Yao2017}, Bpipe~\parencite{Sadedin2012}, ClusterFlow~\parencite{Ewels2016}, Cylc~\parencite{J_Oliver_2018},~and BigDataScript~\parencite{Cingolani_2014}, workflows are specified using a domain specific language (DSL).
@@ -106,47 +105,47 @@ For Nextflow and Snakemake, since the DSL is implemented as an extension to a ge
 
 Fourth, with systems like Popper~\parencite{Jimenez_2017}, workflow specification happens in a purely declarative way, via configuration file formats like YAML~\parencite{Evans2009-vp}.
 These declarative systems share the concision and clarity of the third niche.
-In addition, workflow specification can be particularly readable for non developers.
+In addition, workflow specification can be particularly readable for non-developers.
 The caveat of these benefits is that by disallowing imperative or functional programming, these workflow systems can be more restrictive in the processes that can expressed.
 
 Fifth, there are system-independent workflow specification languages like CWL~\parencite{cwl} and WDL~\parencite{voss_full-stack_2017}.
 These define a declarative syntax for specifying workflows, which can be parsed and executed by arbitrary executors, e.g. Cromwell (\url{https://cromwell.readthedocs.io}), Toil~\parencite{Vivian_2017}, and Tibanna~\parencite{Lee_2019}.
 Here, a main advantage is that the same workflow definition can be executed on various specialized execution backends, thereby promising scalability to virtually any computing platform.
-Similar to the fourth niche, a downside is that imperative or functional programming is not or less integrated into the specification language, thereby limiting the expression power.
+Similar to the fourth niche, a downside is that imperative or functional programming is not or less integrated into the specification language, thereby limiting the expressive power.
 
-Today, several of the above mentioned approaches support full in silico reproducibility of data analyses (e.g. Galaxy, Nextflow, Snakemake, WDL, CWL), by allowing the definition and scalable execution of each involved step, including deployment of the software stack needed for each step (e.g. via the Conda package manager,~\url{https://docs.conda.io}, Docker,~\url{https://www.docker.com}), or Singularity~\parencite{kurtzer_singularity_2017} containers).
+Today, several of the above mentioned approaches support full in silico reproducibility of data analyses (e.g. Galaxy, Nextflow, Snakemake, WDL, CWL), by allowing the definition and scalable execution of each involved step, including deployment of the software stack needed for each step (e.g. via the Conda package manager,~\url{https://docs.conda.io}, Docker,~\url{https://www.docker.com}, or Singularity~\parencite{kurtzer_singularity_2017} containers).
 
 Reproducibility is important to generate trust in scientific results.
-However, we argue that a data analysis is only of lasting and sustained value for the authors and the scientific field if a hierarchy of hierarchy of additional interdependent properties is ensured (\autoref{fig:sustainability}).
+However, we argue that a data analysis is only of lasting and sustained value for the authors and the scientific field if a hierarchy of additional interdependent properties is ensured (\autoref{fig:sustainability}).
 
 \begin{figure}
-	\image{sustainability-in-wms.pdf}
+    \centering
+	\includegraphics[width=10cm]{sustainability-in-wms.pdf}
 	\caption{
 		Hierarchy of aspects to consider for sustainable data analysis.
 		By supporting the top layer, a workflow management system can promote the center layer, and thereby help to obtain true sustainability.
 	}\label{fig:sustainability}
 \end{figure}
 
-First, a data analysis gains full \emph{in silico} \emph{reproducibility} if it is \emph{automated}, \emph{portable}, and \emph{scalable}: 1) it must be able to be run with all software dependencies in exactly the needed versions, without manual configuration 2) it must be able to be automatically deployed to various computational platforms, and 3) it must run at varying levels of parallelism to suit project goals, the size of the datasets involved, and available hardware.
+First, to gain full in silico \emph{reproducibility}, a data analysis has to be \emph{automated}, \emph{scalable} to various computational platforms and levels of parallelism, and \emph{portable} in the sense that it is able to be automatically deployed with all required software in exactly the needed versions.
 
 Second, while being able to reproduce results is a major achievement, \emph{transparency} is equally important: the validity of results can only be fully assessed if the parameters, software, and custom code of each analysis step are fully accessible.
 On the level of the code, a data analysis therefore has to be \emph{readable} and well-\emph{documented}.
 On the level of the results it must be possible to \emph{trace} parameters, code, and components of the software stack through all involved steps.
 
-Finally, valid results yielded from a reproducible data analysis have greater meaning to scientific community if the analysis can be reused for other projects.
-In practice, direct reuse is almost never possible.
-Instead data analysis workflows must be \emph{adaptable} to new circumstances;  it must be possible to extend an analysis by replacing or modifying steps and adjusting parameters.
-Once changes have been made, a workflow is only truly adaptable if it can be run: it must be possible to easily execute an analysis in the varying computational environments of those who have made changes (e.g. at different institutes, or by those with cloud compute in mind). 
-For this, an analysis must again be \emph{portable} and \emph{scalable}.
-In addition, analysis code must be as \emph{readable} as possible so that it can be easily modified by new adopters.
+Finally, valid results yielded from a reproducible data analysis have greater meaning to the scientific community if the analysis can be reused for other projects.
+In practice, this will almost never be a plain reuse, and instead requires~\emph{adaptability} to new circumstances, for example, being able to extend the analysis, replace or modify steps, and adjust parameter choices.
+Such adaptability can only be achieved if the data analysis can easily be executed in a different computational environment (e.g. at a different institute or cloud environment), thus it has to be \emph{scalable} and \emph{portable} again (see \autoref{fig:sustainability}).
+In addition, it is crucial that the analysis code is as \emph{readable} as possible such that it can be easily modified.
 
-In this work, we show how data analysis sustainability in terms of these aspects is supported by Snakemake.
+In this work, we show how data analysis sustainability in terms of these aspects is supported by the open source workflow management system Snakemake (\url{https://snakemake.github.io}).
 Since its original publication in 2012, Snakemake has seen hundreds of releases and contributions (\autoref{fig:citations}c).
 It has gained wide adoption in the scientific community, culminating in, on average, more than six new citations per week, and over 700 citations in total (Fig.~\ref{fig:citations}a,b).
 This makes Snakemake one of the most widely used workflow management systems in science.
 
 \begin{figure}
-	\image{citations+development.pdf}
+    \centering
+	\includegraphics[width=10cm]{citations+development.pdf}
 	\caption{
 		Citations and development of Snakemake.
 		(a) citations by year of the original Snakemake article (note that the year 2020 is still incomplete at the time of writing).
@@ -159,7 +158,7 @@ This makes Snakemake one of the most widely used workflow management systems in 
 
 \section{Results}
 
-We present how Snakemake enables the researcher to conduct data analyses that have all the properties leading to reproducibility, transparency and adaptability. This in turns allows the analysis to become a sustainable resource both for the researcher themselves and the scientific community. 
+We present how Snakemake enables the researcher to conduct data analyses that have all the properties leading to reproducibility, transparency and adaptability. This in turn allows the analysis to become a sustainable resource both for the researcher themselves and the scientific community. 
 We structure the results by each of the properties leading to sustainable data analyses (\autoref{fig:sustainability}).
 
 We will thereby introduce relevant features of both the workflow definition language as well as the execution environment.
@@ -179,7 +178,8 @@ It can be applied to generate any output file of the form~\lstinline!results/by-
 In shell commands, input and output files, as well additional parameters, are directly accessible by enclosing the respective keywords in curly braces (in case of more than a single item in any of these, access can happen by name or index).
 
 \begin{figure}
-	\image{example-workflow.pdf}
+    \centering
+	\includegraphics[width=12cm]{example-workflow.pdf}
 	\caption{
 		Example Snakemake workflow. (a) workflow definition; hypothesized knowledge requirement for line readability is color-coded on the left next to the line numbers. (b) directed acyclic graph (DAG) of jobs, representing the automatically derived execution plan from the example workflow; job node colors reflect rule colors in the workflow definition. (c) content of script plot-hist.py referred from rule plot\_histogram. (d) knowledge requirements for readability by statement category (see supplementary \autoref{s-sec:readability}).
 	}
@@ -194,11 +194,11 @@ By replacing wildcards with concrete values, Snakemake turns any rule into a job
 
 Dependencies between jobs are implicit, and inferred automatically in the following way.
 For each input file of a job, Snakemake determines a rule that can generate it---for example by replacing wildcards again (ambiguity can be resolved by prioritization or constraining wildcards)---yielding another job.
-Then, Snakemake goes on recursively for the latter, until all input files of all jobs are either generated by another job or already present in the used storage (e.g. on disk).
+Then, Snakemake goes on recursively for the latter, until all input files of all jobs are either generated by another job or already present in the used storage (e.g., on disk).
 Where necessary, it is possible to provide arbitrary Python code to infer input files based on wildcard values or even the contents of output files generated by upstream jobs.
 
 \autoref{fig:example}a illustrates all major design patterns needed to define workflows with Snakemake: workflow configuration (line 1), aggregations (line 5-8), specific (line 33-43) and generic (line 45-53) transformations, target rules (line 3-8), log file definition, software stack definition, as well as shell command, script, and wrapper integration.
-Supplementary \autoref{s-sec:design-patterns} presents additional, more exotic patterns that can are helpful in certain situations (e.g. conditional execution).
+Supplementary \autoref{s-sec:design-patterns} presents additional, more exotic patterns that are helpful in certain situations (e.g. conditional execution).
 
 \subsection{Readability}
 
@@ -229,11 +229,11 @@ The file-centric description of workflows makes it intuitive to to infer depende
 \subsubsection{Modularization}\label{sec:modularization}
 
 Specific data analysis steps can become quite complicated, for example, when plotting figures or working around idiosyncrasies of external tools.
-It helps readability to modularize these away such that the reader of a workflow only has to inspect them if they are interested in the specific step.
+It helps readability to modularize these away such that the reader of a workflow only has to inspect them if interested in the specific step.
 Some of these steps can be quite specific and unique to the analysis.
 Others can be common to the scientific field and utilize widely used tools or libraries in a relatively standard way.
 For the latter, Snakemake provides the ability to deposit and use \emph{tool wrappers} in/from a central repository.
-In contrast, the former can require custom code, often written in various scripting languages like R or Python.
+In contrast, the former can require custom code, often written in scripting languages like R or Python.
 Snakemake allows the user to modularize such steps either into scripts or to craft them interactively by integrating with Jupyter notebooks (\url{https://jupyter.org}).
 
 \paragraph{Script integration.}
@@ -247,7 +247,7 @@ The notebook server can be accessed via a web browser in order to interactively 
 Upon saving the notebook, Snakemake generalizes it such that other jobs from the same rule can subsequently re-use it automatically without the need for another interactive notebook session.
 
 \paragraph{Tool wrappers.}
-Reoccurring tools or libraries can be shared between workflows via Snakemake tool wrappers.
+Reoccurring tools or libraries can be shared between workflows via Snakemake tool wrappers (see \autoref{fig:example}a, line 52-53).
 A central public repository (\url{https://snakemake-wrappers.readthedocs.io}) allows the community to share wrappers with each other.
 Each wrapper consists of a Python or R script that either uses libraries of the respective scripting language or calls a shell command.
 Moreover, each wrapper provides a Conda environment defining the required software stack, including tool and library versions (see \autoref{sec:portability}).
@@ -267,7 +267,7 @@ In addition, Snakemake has a built in \emph{code linter} that detects code viola
 \subsection{Portability}\label{sec:portability}
 
 Being able to deploy a data analysis workflow to an unprepared system depends on: (a) the ability to install the workflow management system itself, and (b) the ability to obtain and use the required software stack for each analysis step.
-Snakemake itself is easily deployable via the Conda package manager (\url{https://conda.io}), as a Python package (\url{https://pypi.io}) or a Docker container (\url{https://hub.docker.com/r/snakemake/snakemake}).
+Snakemake itself is easily deployable via the Conda package manager (\url{https://conda.io}), as a Python package (\url{https://pypi.io}), or a Docker container (\url{https://hub.docker.com/r/snakemake/snakemake}).
 
 The management of software stacks needed for individual rules is directly integrated into Snakemake itself, via two complementary mechanisms.
 
@@ -317,11 +317,11 @@ Optimality of execution is thereby fueled by three criteria.
 First, it should be as fast as possible.
 Second, high-priority jobs should be preferred (Snakemake allows prioritization of jobs via the workflow definition and the command line).
 Third, temporary output files should be deleted as fast as possible (Snakemake allows output files to be marked as temporary, which leads to their automatic deletion once all consuming jobs have been finished).
-The latter guarantees the second, optimal, example scheduling solution (\autoref{fig:scheduling}c).
+The latter guarantees the second, optimal, example scheduling solution in \autoref{fig:scheduling}c.
 
 \begin{figure}
 	\centering
-	\includegraphics[width=0.5\textwidth]{scheduling.pdf}
+	\includegraphics[width=5cm]{scheduling.pdf}
 	\caption{Snakemake scheduling problem. (a) Example workflow DAG.
 		The greenish area depicts those jobs that are ready for scheduling (because all input files are present) at a given time during the workflow execution.
 		In addition, we assume that the red job at the root generates a temporary file, which could be deleted once all blue jobs are finished.
@@ -331,8 +331,9 @@ The latter guarantees the second, optimal, example scheduling solution (\autoref
 \newcommand{\N}{\mathbb{N}}
 \newcommand{\cores}{\text{c}}
 
-We solve the scheduling problem via integer linear programming (ILP) as follows.
-Let $R$ be the set of resources used in the workflow (e.g., CPU cores and memory; by default, Snakemake only considers CPU cores which we in the following indicate with $\cores$, i.e., $R = \{\cores\}$).
+We solve the scheduling problem via an integer linear program (ILP) as follows.
+Let $R$ be the set of resources used in the workflow (e.g., CPU cores and memory).
+By default, Snakemake only considers CPU cores which we in the following indicate with $\cores$, i.e., $R = \{\cores\}$.
 Let $F$ be the set of temporary files that will be generated during the workflow.
 We first define constants for each job $j \in J$: let $p_j \in \N$ be its priority, let $u_{r,j} \in \N$ be its usage of resource $r \in R$, and let $z_{f,j} \in \{0,1\}$ indicate whether it consumes temporary file $f \in F$ ($1$) or not ($0$).
 Further, let $U_r$ be the free capacity of resource $r \in R$ (initially what is provided to Snakemake on the command line, later what is left given already running resources), and let $S_f$ be the size of file $f \in F$.
@@ -340,7 +341,7 @@ Further, let $U_r$ be the free capacity of resource $r \in R$ (initially what is
 Next, we define variables $x_j \in \{0,1\}$ for each job $j \in J$, indicating whether a job is selected for execution ($1$) or not ($0$).
 For each temporary file $f \in F$, we define a variable $\delta_f \in [0,1]$ indicating the fraction of consuming jobs that have already or will be scheduled.
 We also call this variable the lifetime fraction of temporary file $f$.
-In other words, $\delta_f = 1$ means that all consuming jobs will be completed after this scheduling round has been processed, in other words, the lifetime of that file is over and it can be deleted.
+In other words, $\delta_f = 1$ means that all consuming jobs will be completed after this scheduling round has been processed, such that the lifetime of that file is over and it can be deleted.
 To indicate the latter, we further define a binary variable $\gamma_f \in \{0,1\}$, with $\gamma_f = 1$ representing the case that $f$ can indeed be deleted, in other words, $\gamma_f = 1 \Leftrightarrow \delta_f = 1$.
 
 Then, the scheduling problem can be written as ILP:
@@ -349,13 +350,12 @@ Then, the scheduling problem can be written as ILP:
 \end{align*}
 
 The first constraint ensures that the available amount $U_r$ of each resource $r \in R$ is not exceeded by the selection.
-The second constraint (together with the fact that it occurs in the maximization) calculates the lifetime fraction of each temporary file $f \in F$.
-The third constraint (together with the fact that it occurs in the maximization) calculates whether temporary file $f \in F$ can be deleted.
+The second constraint (together with the fact that $\delta_f$ occurs in the maximization) calculates the lifetime fraction of each temporary file $f \in F$.
+The third constraint (together with the fact that $\gamma_f$ occurs in the maximization) calculates whether temporary file $f \in F$ can be deleted.
 
 The maximization optimizes four criteria, represented by the four terms that are summed up.
 First, we strive to prefer jobs with high priority.
 Second, we aim to maximize parallelization or the number of used cores\footnote{Snakemake also allows for jobs that use zero cores (i.e. $u_{\cores,j} = 0$), hence we add $+1$ to each summand of the second term.}.
-
 Third, we ensure that temporary files are deleted as soon as possible.
 Fourth, we try to reduce the lifetime of temporary files that cannot be deleted in this pass.
 
@@ -366,7 +366,7 @@ Technically, this order is enforced by multiplying each criterion sum with a val
 
 Unless the user explicitly requests it, all jobs will have the same priority, meaning that in general the optimization problem maximizes the number of used cores while trying to get rid of as many temporary files as possible.
 
-\subsubsection{Caching between workflows}
+\subsubsection{Caching between workflows}\label{sec:caching}
 
 While data analyses usually entail the handling of multiple datasets or samples that are specific to a particular project, they often also rely on retrieval and post-processing of common datasets.
 For example, in the life sciences, such datasets include reference genomes and corresponding annotations.
@@ -380,12 +380,12 @@ The downside of all these approaches is that the transparency of the data analys
 
 Snakemake provides a new, generic approach to the problem which does not have this downside (see \autoref{fig:caching}).
 Leveraging workflow-inherent information, Snakemake can calculate a hash value for each job that unambiguously captures exactly how an output file is generated, prior to actually generating the file.
-This hash can be used to store and lookup output files in a central cache (e.g. a folder on the same machine or in a remote storage).
-For any output file in a workflow, if the corresponding rule is marked as eligible for caching, Snakemake can obtain the file from the cache if it has been created before in a different workflow or by a different user on the same system, thereby saving computation time, as well as disk space (the file can be linked instead of copied).
+This hash can be used to store and lookup output files in a central cache (e.g., a folder on the same machine or in a remote storage).
+For any output file in a workflow, if the corresponding rule is marked as eligible for caching, Snakemake can obtain the file from the cache if it has been created before in a different workflow or by a different user on the same system, thereby saving computation time, as well as disk space (on local machines, the file can be linked instead of copied).
 
 \begin{figure}
 	\centering
-	\includegraphics[width=0.7\textwidth]{caching.pdf}
+	\includegraphics[width=10cm]{caching.pdf}
 	\caption{
 		Blockchain based between workflow caching scheme of Snakemake.
 		If a job is eligible for caching, its code, parameters, raw input files, software environment and the hashes of its dependencies are used to calculate a SHA-256 hash value, under which the output files are stored in a central cache.
@@ -411,13 +411,14 @@ For short-running jobs, this can result in a considerable overhead, as jobs wait
 To minimize such overhead, Snakemake offers the ability to partition the DAG of jobs into subgraphs that will be submitted together, as a single cluster or cloud job.
 
 Partitioning happens by assigning rules to groups (see \autoref{fig:grouping}).
-Upon execution, Snakemake determines connected subgraphs with the same assigned group for each job, and submits such subgraphs together (as a so called \emph{group job}) instead of submitting each job separately.
+Upon execution, Snakemake determines connected subgraphs with the same assigned group for each job and submits such subgraphs together (as a so called \emph{group job}) instead of submitting each job separately.
 For each group, it is in addition possible to define how many connected subgraphs shall be spanned when submitting (one by default).
 This way, it is possible to adjust the partition size to the needs of the available computational platform.
 The resource usage of a group job is determined by sorting involved jobs topologically, summing resource usage per level and taking the maximum over all levels.
 
 \begin{figure}
-	\image{group-jobs.pdf}
+    \centering
+	\includegraphics[width=15cm]{group-jobs.pdf}
 	\caption{Job graph partitioning by assigning rules to groups.
 		Two rules of the example workflow (\autoref{fig:example}a) are grouped together, (a) spanning one connected component, (b) spanning two connected components, and (c) spanning five connected components.
 		Resulting submitted group jobs are represented as grey boxes.
@@ -439,7 +440,6 @@ Adaptable data analyses can not only be repeated on the same data, but also be m
 While reproducibility is a necessary property for checking the validity of scientific results, it is not sufficient.
 Being able to reproduce exactly the same figure on a different machine tells us that the analysis is robust and valid from a technical perspective.
 However, it does not tell anything about the methodological validity (correctness of statistical assumptions, avoidance of overfitting, etc.).
-
 The latter can only be secured by having a transparent yet accessible view on the analysis code.
 
 By analyzing its readability and presenting its modularization, portability, reporting, scheduling, caching, partitioning, and streaming abilities, we have shown how Snakemake supports all these aspects, and thereby provides a comprehensive framework for sustainable data analysis.
