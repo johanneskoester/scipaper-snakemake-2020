@@ -426,16 +426,14 @@ Snakemake ensures this by submitting producer and consumer as a group job (see \
 
 \section{Conclusion}
 
-While having been almost the holy grail of data analysis workflow management in recent years and being certainly of high importance, reproducibility alone is not enough to sustain the hours of work that scientists invest in crafting data analyses.
-Here, we outlined how the interplay of automation, scalability, portability, readability, traceability, and documentation can help to reach beyond reproducibility, making data analyses adaptable and transparent.
-Adaptable data analyses can not only be repeated on the same data, but also be modified and extended for new questions or scenarios, thereby greatly increasing their value for both the scientific community and the original authors.
-While reproducibility is a necessary property for checking the validity of scientific results, it is not sufficient.
-Being able to reproduce exactly the same figure on a different machine tells us that the analysis is robust and valid from a technical perspective.
-However, it does not tell anything about the methodological validity (correctness of statistical assumptions, avoidance of overfitting, etc.).
+While reproducibility has a goal of high importance for data analysis workflow management in recent years, reproducibility alone does not motivate scientists, engineers, and technicians when crafting data analyses.
 
-The latter can only be secured by having a transparent yet accessible view on the analysis code.
+Here, we have outlined benefits enabling and beyond reproducibility: automation, scalability, portability, readability, traceability, and documentation, and how these factors help make data analyses adaptable and transparent. These qualities allow data analyses to be created not solely as fulcrums for one person or one lab, but as force multipliers for the broader community in which they work.
 
-By analyzing its readability and presenting its modularization, portability, reporting, scheduling, caching, partitioning, and streaming abilities, we have shown how Snakemake supports all these aspects, and thereby provides a comprehensive framework for sustainable data analysis.
+Adaptable data analyses can not only be repeated on the same data, but also be modified and extended for new questions or scenarios, greatly increasing their value for both the scientific community and the original authors.
+While reproducibility is a necessary property for checking the validity of scientific results, it is helpful to go farther; the portability of being able to reproduce exactly the same figure on an entirely different machine tells us that an analysis is also robust and valid from a technical perspective. Methodological validity (correctness of statistical assumptions, avoidance of overfitting, etc.) can only be assessed through transparent and accessible analysis code.
+
+By analyzing its readability and presenting its modularization, portability, reporting, scheduling, caching, partitioning, and streaming abilities, we have shown how Snakemake supports all of these aspects, and provides a comprehensive framework for sustainable data analysis.
 
 \section{Author contributions}
 Felix Mölder has designed and implemented the job scheduling mechanism (\autoref{sec:scheduling}).
@@ -448,7 +446,7 @@ Twardziok and Alexander Kanitz have designed and implemented the TES execution b
 Andreas Wilm has designed and implemented the Microsoft Azure execution backend (\autoref{sec:scalability}).
 Manuel Holtgrewe has designed and implemented benchmarking support (supplementary \autoref{s-sec:design-patterns}).
 Jan Forster has designed and implemented meta-wrapper support (\autoref{sec:modularization}).
-Chris Tomkins-Tinch has designed and implemented remote storage support (\autoref{sec:automation}).
+Christopher Tomkins-Tinch has designed and implemented remote storage support and edited the manuscript (\autoref{sec:automation}).
 Christian Meesters has supervised the implementation of an initial prototype of the graph partitioning functionality (\autoref{sec:partitioning}).
 Sven Nahnsen has provided the initial idea of using blockchain hashing to fingerprint output files a priori.
 Johannes Köster has written the manuscript and implemented all other features that occur in the text but are not explicitly mentioned in above listing.
