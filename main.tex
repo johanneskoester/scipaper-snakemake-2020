@@ -85,34 +85,31 @@
 	Workflow management systems such as Snakemake allow researchers to codify their computational analyses in a way that allows them to be reused, understood, and extended by others in their field. 
 \end{abstract}
 
-Performing data analysis has become ubiquitous across scientific disciplines.
-Along with that, securing \emph{in silico} reproducibility has been identified as a major challenge~\parencite{Mesirov2010,Baker2016,Munaf__2017}.
-Consequently, recent years have seen a wide adoption of scientific workflow management systems by the community and countless workflow management systems have been published (see~\url{https://github.com/pditommaso/awesome-pipeline}).
-These can be partitioned into five niches, for which we will highlight the major representatives below.
+Despite the ubiquity of data analysis across scientific disciplines, it is a challenge to ensure \emph{in silico} reproducibility~\parencite{Mesirov2010,Baker2016,Munaf__2017}.
 
-First, workflow management systems like Galaxy~\parencite{Afgan2018} often referred to as ``science gateways``~\parencite{Afgan2011-tv} offer a graphical user interface for composition and execution of workflows.
-The obvious advantages are the shallow learning curve and immediate web access, making such systems accessible for everybody, without the need for programming skills.
+Consequently, a \emph{Cambrian explosion} of diverse scientific workflow management systems is in process; some are already in use by many and evolving, and countless others are emerging and being published (see~\url{https://github.com/pditommaso/awesome-pipeline}).
 
-Second, with systems like Anduril~\parencite{Cervera2019}, Balsam~\parencite{papka2018}, Hyperloom~\parencite{cima2018hyperloom}, Jug~\parencite{Coelho_2017}, Pwrake~\parencite{Tanaka_2010}, Ruffus~\parencite{Goodstadt2010}, SciPipe~\parencite{Lampa2019}, SCOOP \parencite{SCOOP_XSEDE2014}, and COMPSs~\parencite{Lordan_2013} workflows are specified using a set of classes and functions for generic programming languages like Python, Scala and others.
-Such systems have the advantage that they can be used without a graphical interface (e.g. in a server environment), and that workflows can be straightforwardly managed with version control systems like Git (\url{https://git-scm.com}).
+Extant workflow systems can be partitioned into five niches which we will describe below, with highlighted examples of each.
 
-Third, with systems like Nextflow~\parencite{Di_Tommaso_2017}, Snakemake~\parencite{Köster2012}, BioQueue~\parencite{Yao2017}, Bpipe~\parencite{Sadedin2012}, ClusterFlow~\parencite{Ewels2016}, Cylc~\parencite{J_Oliver_2018},~and BigDataScript~\parencite{Cingolani_2014}, workflows are specified using a domain specific language (DSL).
-Here, the advantages of the second niche are shared, while adding the additional benefit of improved readability since the DSL provides statements and declarations that specifically model central components of workflow management, thereby obviating superfluous operators or boilerplate code.
-For Nextflow and Snakemake, since the DSL is implemented as an extension to a generic programming language (Groovy and Python), access to the full power of the underlying programming language is maintained (e.g. for implementing conditional execution and handling configuration).
+First, workflow management systems like Galaxy~\parencite{Afgan2018}---often referred to as ``science gateways``~\parencite{Afgan2011-tv}---offer graphical user interfaces for composition and execution of workflows. Such systems allow one to become proficient quickly without the need to write code, and their immediate web access makes them accessible to everyone with an internet connection.
 
-Fourth, with systems like Popper~\parencite{Jimenez_2017}, workflow specification happens in a purely declarative way, via configuration file formats like YAML~\parencite{Evans2009-vp}.
-Here, most of the benefits of the third niche are shared.
-In addition, workflow specification can be particularly readable for non developers.
-This comes with the downside of being more restricted since the facilities of imperative or functional programming are not available.
+Second, systems like Anduril~\parencite{Cervera2019}, Balsam~\parencite{papka2018}, Hyperloom~\parencite{cima2018hyperloom}, Jug~\parencite{Coelho_2017}, Pwrake~\parencite{Tanaka_2010}, Ruffus~\parencite{Goodstadt2010}, SciPipe~\parencite{Lampa2019}, SCOOP \parencite{SCOOP_XSEDE2014}, and COMPSs~\parencite{Lordan_2013} specify workflows using a set of generic classes and functions for programming languages such as Python, Scala, and others.
+Such systems have the advantage that workflows are encoded in familiar languages, and described in text that can be straightforwardly managed with version control systems like Git (\url{https://git-scm.com}). They can be used without without a graphical interface, granting flexibility in the platforms on which they are run (e.g. from individual machines, or in a server environment).
 
-Fifth, there are system-independent workflow specification languages like CWL~\parencite{cwl} and WDL~\parencite{voss_full-stack_2017}.
-These define a (declarative) syntax for specifying workflows, which can be parsed and executed by arbitrary executors, e.g. Cromwell (\url{https://cromwell.readthedocs.io}), Toil~\parencite{Vivian_2017}, and Tibanna~\parencite{Lee_2019}.
-Here, a main advantage is that the same workflow definition can be executed on various specialized execution backends, thereby promising scalability to virtually any computing platform.
+Third, in systems like Nextflow~\parencite{Di_Tommaso_2017}, Snakemake~\parencite{Köster2012}, BioQueue~\parencite{Yao2017}, Bpipe~\parencite{Sadedin2012}, ClusterFlow~\parencite{Ewels2016}, Cylc~\parencite{J_Oliver_2018},~and BigDataScript~\parencite{Cingolani_2014}, workflows are specified using a domain-specific language (DSL).
+Members of this niche share the advantages of the second niche, while adding the additional benefit of improved readability; the DSL provides statements and declarations that specifically model central components of workflow management, reducing the need for superfluous operators and boilerplate code.
+For Nextflow and Snakemake, since the DSL is implemented as extensions to generic programming languages (Groovy and Python, respectively), these systems grant access to the full power of the underlying programming language (e.g. for implementing conditional execution and dynamic configuration).
 
-Today, several of the above mentioned approaches support full in silico reproducibility of data analyses (e.g. Galaxy, Nextflow, Snakemake, WDL, CWL), by allowing the definition and scalable execution of each involved step, including deployment of the software stack needed for each step (e.g. via the Conda package manager,~\url{https://docs.conda.io}, Docker,~\url{https://www.docker.com}), or Singularity~\parencite{kurtzer_singularity_2017} containers).
+Fourth, systems like Popper~\parencite{Jimenez_2017}, specify workflows in a purely declarative way, via configuration file formats like YAML~\parencite{Evans2009-vp}.
+These declarative systems share the concision and clarity of the third niche, with workflow specifications that can be particularly readable for non-developers. The caveat of these benefits is that by disallowing imperative or functional programming, these workflow systems can be more restrictive in the processes that can expressed.
+
+Fifth, there are execution system-independent workflow specification languages like CWL~\parencite{cwl} and WDL~\parencite{voss_full-stack_2017}.
+These languages define a (declarative) syntax for specifying workflows, which decouples workflow \emph{description} from workflow \emph{execution}. Workflows written in these languages can be parsed and run by any executor adhering to the language specification; e.g. Cromwell (\url{https://cromwell.readthedocs.io}), Toil~\parencite{Vivian_2017}, and Tibanna~\parencite{Lee_2019}. Workflows created with these languages have the advantage of being platform-agnostic; they can be run on various back-ends, with executors enabling scalability and portability to heterogeneous computing environments.
+
+At present, several members of the above niches allow for complete \emph{in silico} reproducibility of data analyses (e.g. Galaxy, Nextflow, Snakemake, WDL, CWL), by allowing, at each step, definition, deployment of software dependencies (e.g. via the Conda package manager,~\url{https://docs.conda.io}, Docker,~\url{https://www.docker.com}), or Singularity~\parencite{kurtzer_singularity_2017} containers), and scalable execution.
 
 Reproducibility is important to generate trust in scientific results.
-However, we postulate that a data analysis is of lasting value (and thus sustainability) for the authors and the scientific field only if a hierarchy of additional interdependent properties is ensured (see Fig.~\ref{fig:sustainability}).
+However, we postulate that a data analysis is of lasting value (and thus sustainability) for the authors and their scientific field only if a hierarchy of additional interdependent properties is ensured (see Fig.~\ref{fig:sustainability}).
 
 \begin{figure}
 	\image{sustainability-in-wms.pdf}
@@ -122,16 +119,18 @@ However, we postulate that a data analysis is of lasting value (and thus sustain
 	}\label{fig:sustainability}
 \end{figure}
 
-By being \emph{automated}, \emph{scalable} to various computational platforms and levels of parallelism, and \emph{portable} in the sense that it is able to be automatically deployed with all required software in exactly the needed versions, a data analysis gains full in silico \emph{reproducibility.}
+A data analysis gains full \emph{in silico} \emph{reproducibility} if it is \emph{automated}, \emph{portable}, and \emph{scalable}: 1) it must be able to be run with all software dependencies in exactly the needed versions, without manual configuration 2) it must be able to be automatically deployed to various computational platforms, and 3) it must run at varying levels of parallelism to suit project goals, the size of the datasets involved, and available hardware.
 
 While being able to reproduce results is a major achievement, \emph{transparency} is equally important: the validity of results can only be fully assessed if the parameters, software, and custom code of each analysis step are fully accessible.
-On the level of the code, a data analysis therefore has to be \emph{readable} and well \emph{documented}.
-On the level of the results it has to be possible to \emph{trace} parameters, software stack, and code through all involved steps.
+On the level of code, a data analysis therefore must be \emph{readable} and \emph{well-documented}.
+On the level of the results, it must be possible to \emph{trace} parameters, code, and components of the software stack through all involved steps.
 
-Finally, valid results yielded from a reproducible data analysis become even more beneficial for the scientific community once the analysis can be reused for other projects.
-In practice, this will almost never be a plain reuse, and instead requires~\emph{adaptability} to new circumstances, e.g., being able to extend the analysis, replace or modify steps and adjust parameter choices.
-Such adaptability can only be achieved if the data analysis can easily be executed in a different computational environment (e.g. at a different institute), thus it has to be \emph{scalable} and \emph{portable} again.
-In addition, it is crucial that the analysis code is as \emph{readable} as possible such that it can be easily modified.
+Finally, valid results yielded by a reproducible data analysis have greater meaning to the scientific community if the analysis to produce them can be reused for other projects.
+In practice, direct reuse is almost never possible. Instead, workflows must be ~\emph{adaptable} to new circumstances; it must be possible to extend an analysis by replacing or modifying steps and adjusting parameters.
+Once changes have been made, a workflow is only truly adaptable if it can be run: it must be possible to easily execute an analysis in the varying computational environments of those who have made changes (e.g. at different institutes, or by those with cloud compute in mind). For this, an analysis must again be \emph{portable} and \emph{scalable}.
+In addition, analysis code must be as \emph{readable} as possible so that it can be easily modified by new adopters.
+
+===============================
 
 In this work, we show how sustainability in terms of these aspects is supported by Snakemake.
 Since its original publication in 2012, Snakemake has seen hundreds of releases and contributions (\autoref{fig:citations}c).
