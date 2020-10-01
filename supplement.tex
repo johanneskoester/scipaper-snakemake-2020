@@ -43,7 +43,7 @@
 Statements in Snakemake workflow definitions fall into seven categories:
 \begin{enumerate}
 	\item a natural language word, followed by a colon (e.g.~\lstinline!input:! and~\lstinline!output:!),
-	\item the word ``rule'', followed by a name and a colon (e.g. \lstinline!rule\ convert\_to\_pdf:!),
+	\item the word ``rule'', followed by a name and a colon (e.g. \lstinline!rule convert_to_pdf:!),
 	\item a quoted filename pattern (e.g. \lstinline!"{prefix}.pdf"!),
 	\item a quoted shell command,
 	\item a quoted wrapper identifier,
@@ -54,11 +54,11 @@ Statements in Snakemake workflow definitions fall into seven categories:
 Below, we list the rationale of our assessment for each category in \autoref{m-fig:example}:
 
 \begin{enumerate}
-	\item The natural language word is either understandable with general education~(e.g.\ \lstinline!input:! and \lstinline!output:!) or technical knowledge (\lstinline!container:! or~\lstinline!conda:!).
+	\item The natural language word is either trivially understandable (e.g.\ \lstinline!input:! and \lstinline!output:!) or understandable with technical knowledge (\lstinline!container:! or~\lstinline!conda:!).
 	      The colon straightforwardly shows that the content follows next.
 	      Only for the wrapper directive (\lstinline!wrapper:!) one needs to have the Snakemake specific knowledge that it is possible to refer to publicly available tool wrappers.
 	\item
-	      The word rule is understandable with general education, and when
+	      The word ``rule'' is trivially understandable, and when
 	      carefully choosing rule names, at most domain knowledge is needed for
 	      understanding such statements.
 	\item
@@ -68,7 +68,7 @@ Below, we list the rationale of our assessment for each category in \autoref{m-f
 	      We hypothesize that wildcard definitions (e.g.~\lstinline!{country}!) are straightforwardly understandable as a placeholder.
 	\item
 	      Shell commands will usually need domain and technical knowledge for
-	      reception.
+	      understanding.
 	\item
 	      Wrapper identifiers can be understood with Snakemake knowledge only,
 	      since one needs to know about the central tool wrapper repository of
