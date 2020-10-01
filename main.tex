@@ -166,7 +166,7 @@ Each rule describes how to obtain a set of output files from a set of input file
 
 This can happen via a shell command, a block of Python code, an external script (Python, R, or Julia), a Jupyter notebook (\url{https://jupyter.org}), or a so-called wrapper (see Sec.~\ref{sec:modularization}).
 
-Depending on the computing platform used and how Snakemake is configured, input and output files are either stored on disk, or in a remote storage (e.g. FTP, Amazon S3, Google Storage, etc.).
+Depending on the computing platform used and how Snakemake is configured, input and output files are either stored on disk, or in remote storage (e.g. FTP, Amazon S3, Google Storage, NCBI GenBank, etc.).
 
 Through the use of wildcards, rules can be generic. For example, see the rule~\lstinline!select_by_country! in Fig.~\ref{fig:example}a (line 20): it can be applied to generate any output file of the form~\lstinline!results/by-country/{country}.csv!, with~\lstinline!{country}! being a wildcard that can be replaced with any non-empty string.
 
