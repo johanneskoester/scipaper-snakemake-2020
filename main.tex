@@ -246,10 +246,12 @@ A central public repository (\url{https://snakemake-wrappers.readthedocs.io}) al
 Each wrapper consists of a Python or R script that either uses libraries of the respective scripting language, or a script that calls a shell command.
 Moreover, each wrapper provides a Conda environment defining the software stack required, including tool and library versions (see \autoref{sec:portability}).
 Often, shell command wrappers contain some additional code that works around various idiosyncrasies of the wrapped tool (e.g. dealing with temporary directories or converting job properties into command line arguments).
-Upon each repository change, all wrappers are automatically tested to run without errors.
-Inclusion of a wrapper works by simply copying and adapting (e.g. by modifying input and output file paths) a provided example rule.
-Upon execution, the wrapper code and the Conda environment are downloaded from the repository and automatically deployed to the running system.
-In addition to single wrappers, the wrapper repository also offers pre-defined, tested combinations of wrappers that constitute entire sub-workflows for common tasks (called meta-wrappers).
+
+A wrapper can be used in a rule by simply copying and adapting a provided example rule (e.g. by modifying input and output file paths).
+
+Upon execution, the wrapper code and the Conda environment description are downloaded from the repository and automatically deployed to the running system.
+
+All wrappers are automatically tested to run without errors prior to inclusion in the repository, and upon each committed change. In addition to single wrappers, the wrapper repository also offers pre-defined, tested combinations of wrappers that constitute entire sub-workflows for common tasks (called meta-wrappers). 
 This is particularly useful for combinations of steps that reoccur in many data analyses.
 
 \subsubsection{Standardized code linting and formatting.}\label{sec:style}
