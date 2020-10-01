@@ -293,24 +293,24 @@ An example report is included as supplementary file 1.
 
 \subsection{Scalability}\label{sec:scalability}
 
-Being able to scale a workflow to available computational resources is crucial for both reproducing previous results as well as adapting a data analysis for a novel research question or dataset.
-Like many other state of the art workflow management systems, Snakemake allows to scale workflows to various computational platforms, ranging from single workstations to large compute servers, any cluster middleware, grid computing, and cloud computing (with native support for Kubernetes, the Google Life Sciences API, Amazon AWS, TES (\url{https://www.ga4gh.org}), and Microsoft Azure, the latter two in an upcoming release).
+Being able to scale a workflow to available computational resources is crucial for reproducing previous results as well as for adapting a data analysis for novel research questions or datasets.
 
-Snakemake's design ensures that scaling a workflow to a specific platform should only entail the modification of command line parameters.
-The workflow itself can remain untouched.
+Like many other state-of-the-art workflow management systems, Snakemake allows workflow execution to scale to various computational platforms, ranging from single workstations to large compute servers, any common cluster middleware (e.g. via DRMAA), grid computing, and cloud computing (with native support for Kubernetes, the Google Life Sciences API, Amazon AWS, TES (\url{https://www.ga4gh.org}), and Microsoft Azure, the latter two in an upcoming release).
+
+Snakemake's design ensures that only modification of command line parameters at the start of execution is required to scale a workflow to a specific compute platform; the workflow itself remains untouched.
 Via configuration profiles, it is possible to persist and share the command line setup of Snakemake for any computing platform (\url{https://github.com/snakemake-profiles/doc}).
 
 \subsubsection{Job scheduling}\label{sec:scheduling}
 
 Naturally, due to their dependencies, not all jobs in a workflow can be executed at the same time.
-Instead, one can imagine partitioning the DAG of jobs into three sections -- those that are already finished, those that have already been scheduled but are not finished yet, and those that have not yet been scheduled (\autoref{fig:scheduling}a).
+Instead, one can imagine partitioning the DAG of jobs into three sections---those that are already finished, those that have already been scheduled but are not finished yet, and those that have not yet been scheduled (\autoref{fig:scheduling}a).
 Within the latter partition, all jobs that have no incoming edge from the same partition can be scheduled next.
 We call this the set $J$ of pending jobs.
 The scheduling problem a workflow manager like Snakemake has to solve is to select the subset $E \subseteq J$ that leads to an optimal execution of the workflow, while not exceeding given computational resources (see \autoref{fig:scheduling}b,c for example solutions).
-Optimality of execution is thereby fueled by three criteria.
+Optimality of execution is thereby fueled by three criteria:
 First, it should be as fast as possible.
-Second, high priority jobs should be preferred (Snakemake allows prioritization of jobs via the workflow definition and the command line).
-Third, temporary output files should be deleted as fast as possible (Snakemake allows to mark output files as temporary, which leads to their automatic deletion once all consuming jobs have been finished).
+Second, high-priority jobs should be preferred (Snakemake allows prioritization of jobs via the workflow definition and the command line).
+Third, temporary output files should be deleted as fast as possible (Snakemake allows output files to be marked as temporary, which leads to their automatic deletion once all consuming jobs have been finished).
 The latter guarantees the second, optimal, example scheduling solution (\autoref{fig:scheduling}c).
 
 \begin{figure}
@@ -337,7 +337,7 @@ We also call this variable the lifetime fraction of temporary file $f$.
 In other words, $\delta_f = 1$ means that all consuming jobs will be completed after this scheduling round has been processed, in other words, the lifetime of that file is over and it can be deleted.
 To indicate the latter, we further define a binary variable $\gamma_f \in \{0,1\}$, with $\gamma_f = 1$ representing the case that $f$ can indeed be deleted, in other words, $\gamma_f = 1 \Leftrightarrow \delta_f = 1$.
 
-Then, the scheduling problem can be written as linear optimization problem
+Then, the scheduling problem can be written as a linear optimization problem:
 \begin{align*}
 	\text{maximize } & 2U_\cores \cdot 2S \cdot \sum_{j \in J} x_j \cdot p_j + 2S \cdot \sum_{j \in J} x_j \cdot (u_{\cores,j} + 1) + S \cdot \sum_{f \in F} \gamma_f \cdot S_f + \sum_{f \in F} \delta_f \cdot S_f \\ \text{subject to } & x_j \in \{0,1\} \quad \forall j \in J\\ \quad & \delta_f \in [0,1] \quad  \forall f \in F\\ \quad & \gamma_f \in \{0,1\} \quad \forall f \in F\\ \quad & \sum_{j \in J} x_j \cdot u_{r,j} \leq U_r \quad \forall r \in R\\ \quad & \delta_f \leq \frac{\sum_{j \in J} x_j \cdot z_{f,j}}{\sum_{j \in J} z_{f,j}} \quad\forall f \in F\\ \quad & \gamma_f \leq \delta_f \quad\forall f \in F.
 \end{align*}
