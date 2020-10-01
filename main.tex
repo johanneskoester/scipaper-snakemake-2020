@@ -130,11 +130,10 @@ In practice, direct reuse is almost never possible. Instead, workflows must be ~
 Once changes have been made, a workflow is only truly adaptable if it can be run: it must be possible to easily execute an analysis in the varying computational environments of those who have made changes (e.g. at different institutes, or by those with cloud compute in mind). For this, an analysis must again be \emph{portable} and \emph{scalable}.
 In addition, analysis code must be as \emph{readable} as possible so that it can be easily modified by new adopters.
 
-===============================
+In this work, we show how Snakemake supports full \emph{in silico} \emph{reproducibility} in each of the aspects mentioned.
 
-In this work, we show how sustainability in terms of these aspects is supported by Snakemake.
 Since its original publication in 2012, Snakemake has seen hundreds of releases and contributions (\autoref{fig:citations}c).
-It has gained wide adoption in the scientific community, culminating in, on average, more than six new citations per week, and over 700 citations in total (Fig.~\ref{fig:citations}a,b), making it one of the most widely used workflow management systems in science.
+It has gained wide adoption in the scientific community, culminating in, on average, more than six new citations per week, and over 700 citations in total (Fig.~\ref{fig:citations}a,b). This makes Snakemake one of the most widely-used workflow management systems in science.
 
 \begin{figure}
 	\image{citations+development.pdf}
@@ -150,15 +149,19 @@ It has gained wide adoption in the scientific community, culminating in, on aver
 
 \section{Results}
 
-We present how Snakemake enables the researcher to conduct data analyses that have all properties to become reproducible, adaptable, and transparent, such that they provide sustained value for the authors themselves and the scientific community.
-We will thereby introduce features of both the workflow definition language as well as the execution environment.
-Several of them are shared with other tools (e.g., Conda and container integration), while others are (at the time of writing) exclusive to Snakemake (e.g., the scheduling mechanism, the graph partitioning, the caching mechanism).
-Finally, there will be features that other tools provide while Snakemake does not (or not yet) offer them.
-We explicitly refrain from performing a full comparison with other tools, as we believe that such a view will never be unbiased (and quickly outdated), and should instead be provided by review articles or performed by the potential users based on their individual needs.
+Here we present how Snakemake allows data analyses to meet all criteria of being reproducible, adaptable, and transparent, and how analyses created with Snakemake can create sustained value for their authors themselves and the broader scientific community.
+
+We will introduce features of both the workflow definition language as well as the execution environment.
+Several of these features are shared with other tools (e.g., Conda and container integration), while others are (at the time of writing) exclusive to Snakemake (e.g., the scheduling mechanism, the graph partitioning, the caching mechanism).
+
+Finally, we address shortcomings by describing features of other tools which are (not yet) offered by Snakemake.
+
+We explicitly refrain from performing a full comparison with other tools, as we believe such a summary will never be unbiased or lasting. Readers wishing to select a workflow system should instead consult current documentation, review recent articles, and personally evaluate and try each system for their individual needs.
 
 \subsection{Automation}\label{sec:automation}
 
-The key idea of Snakemake is that workflows are specified by decomposing them into steps, which are represented as~\emph{rules~}(Fig.~\ref{fig:example}).
+The central idea of Snakemake is that workflows can be specified through decomposition into steps represented as~\emph{rules~}(Fig.~\ref{fig:example}).
+
 Each rule describes how to obtain a set of output files from a set of input files.
 This can happen via a shell command, a block of Python code, an external script (Python, R, or Julia), a Jupyter notebook (\url{https://jupyter.org}), or a so-called wrapper (see Sec.~\ref{sec:modularization}).
 Depending on the computing platform used and how Snakemake is configured, input and output files are either stored on disk, or in a remote storage (e.g. FTP, Amazon S3, Google Storage, etc.).
