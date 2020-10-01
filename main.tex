@@ -421,7 +421,7 @@ The resource usage of a group job is determined by sorting involved jobs topolog
 
 Sometimes, intermediate results of a data analysis can be huge, but not important enough to store persistently on disk.
 Apart from the option to mark such files as temporary so that Snakemake will automatically delete them when no longer needed, it is also possible to instruct Snakemake to never store them on disk at all by directly streaming their content from the producing job to to the consuming job.
-This requires the producing and consuming jobs have run at the same time on the same computing node (then, the output of the producer can be written to a small in-memory buffer; on Unix, this is called a named pipe).
+This requires the producing and consuming jobs have run at the same time on the same computing node.
 Snakemake ensures this by submitting producer and consumer as a group job (see \autoref{sec:partitioning}).
 
 \section{Conclusion}
