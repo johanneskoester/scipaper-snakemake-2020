@@ -217,34 +217,34 @@ While this example is obviously not as evolved as a real-world data analysis, th
 
 Since Snakemake supports modularization of workflow definitions, it is possible to hide technical parts of the workflow definition (e.g. helper functions or variables), in order to not distract the reader from understanding the main steps of the data analysis.
 
-Since dependencies between jobs are implicitly encoded via matching filename patterns, we hypothesize that in general no specific technical knowledge is necessary to understand the connections between the rules (except for special cases like conditional or dynamically determined dependencies).
-Instead, it should be quite intuitive to conclude that an input of one rule that reoccurs as an output of another reflects a dependency.
+Since dependencies between jobs are implicitly encoded via matching filename patterns, we hypothesize that, in general, no specific technical knowledge is necessary to understand the connections between the rules. One exception to this exists when conditional are used or dependencies are determined dynamically.
+The file-centric description of workflows makes it intuitive to to infer dependencies between steps; when the input of one rule reoccurs as the output of another, their link and order of execution is clear.
 
 \subsubsection{Modularization}\label{sec:modularization}
 
-Specific data analysis steps can become quite complicated, e.g., when plotting figures or working around idiosyncrasies of used tools.
-It helps readability to modularize these away such that the reader of a workflow only has to inspect them if they are interested in the specific step.
-Some of these steps can be quite specific and unique to the analysis.
-Others can be common to the scientific field and utilize reoccurring tools or libraries in a relatively standard way.
+Specific data analysis steps can become quite complicated, e.g., when plotting figures or working around idiosyncrasies of external tools.
+It helps readability to modularize longer processes like these so the reader of a workflow can inspect a smaller component if they are interested in the specific step.
+Some of these steps can be quite specific and unique to an analysis.
+Others can be common to the scientific field and utilize popular tools or libraries in a relatively standard way.
 For the latter, Snakemake provides the ability to deposit and use \emph{tool wrappers} in/from a central repository.
-In contrast, the former can require custom code, often written in various scripting languages like R or Python.
-Snakemake allows the user to modularize such steps either into scripts or to craft them interactively by integrating with Jupyter notebooks (\url{https://jupyter.org}).
+In contrast, the former can require small blocks of custom code, often written in various scripting languages like R or Python.
+
+Snakemake allows the user to further modularize such steps either into scripts or as interactive Jupyter notebooks (\url{https://jupyter.org}).
 
 \paragraph{Script integration.}
 Integrating a script works via a special \lstinline!script! directive (see \autoref{fig:example}a, line~42).
 The referred script does not need any boilerplate code, and can instead directly use all properties of the job (input files, output files, wildcard values, parameters, etc.), which are automatically inserted as a global \lstinline!snakemake! object before the script is executed (see \autoref{fig:example}c).
 
 \paragraph{Jupyter notebook integration.}
-Analogously to script integration, a \lstinline!notebook! directive allows to define a path to a Jupyter notebook.
-Via the command line interface, it is possible to instruct Snakemake to open a Jupyter notebook server for editing the notebook in the context of a specific job derived from the rule that refers to the notebook.
+Analogous to script integration, a \lstinline!notebook! directive allows a rule to specify a path to a Jupyter notebook. An option of the command line instructs Snakemake to open a Jupyter notebook server for editing a notebook in the context of a specific job derived from the rule that refers to the notebook.
 The notebook server can be accessed via a web browser in order to interactively program the notebook until the desired results (e.g. a certain plot or figure) are created as intended.
-Upon saving of the notebook, Snakemake generalizes it such that other jobs from the same rule can subsequently re-use it automatically without the need of another interactive notebook session.
+Upon saving the notebook, Snakemake generalizes it such that other jobs from the same rule can subsequently re-use it automatically without the need for another interactive notebook session.
 
 \paragraph{Tool wrappers.}
 Reoccurring tools or libraries can be shared between workflows via Snakemake tool wrappers.
-A central repository (\url{https://snakemake-wrappers.readthedocs.io}) allows the community to share wrappers with each other.
-Each wrapper consists of a Python or R script that either uses some libraries of the respective scripting language or calls a shell command.
-Moreover, each wrapper provides a Conda environment that defines the used software stack, including tool and library versions (see \autoref{sec:portability}).
+A central public repository (\url{https://snakemake-wrappers.readthedocs.io}) allows the community to share wrappers with each other.
+Each wrapper consists of a Python or R script that either uses libraries of the respective scripting language, or a script that calls a shell command.
+Moreover, each wrapper provides a Conda environment defining the software stack required, including tool and library versions (see \autoref{sec:portability}).
 Often, shell command wrappers contain some additional code that works around various idiosyncrasies of the wrapped tool (e.g. dealing with temporary directories or converting job properties into command line arguments).
 Upon each repository change, all wrappers are automatically tested to run without errors.
 Inclusion of a wrapper works by simply copying and adapting (e.g. by modifying input and output file paths) a provided example rule.
