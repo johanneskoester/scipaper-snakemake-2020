@@ -78,15 +78,11 @@
 \maketitle
 
 \begin{abstract}
-	Data analysis often entails a multitude of heterogeneous steps, from the application of various command line tools to the usage of scripting languages like R or Python for the generation of plots and tables.
-	It is widely recognized that such processes have to be conducted in a reproducible way.
-	Reproducibility enables technical validation of a data analysis and regeneration of results on the original or even new data.
-	However, reproducibility alone is by no means sufficient to deliver an analysis that is of lasting impact (i.e. sustainable) for the field, or even just one research group.
-	We postulate that it is equally important to ensure adaptability and transparency.
-	The former describes the ability to modify the analysis to answer extended or slightly different research questions.
-	The latter describes the ability to understand the analysis in order to judge whether it is not only technically, but methodologically valid.
-
-	Here, we analyze the properties needed for a data analysis to become reproducible, adaptable, and transparent, and show how the popular workflow management system Snakemake can be used to fulfill all these needs.
+	In this paper we analyze the properties needed for data analysis to be reproducible, adaptable and transparent, and show how the popular workflow management system, Snakemake, can be used to fulfill all of these needs.
+	Data analysis often requires a multitude of heterogeneous processes, from various command line tools for core analysis to scripting languages such as R or Python for cleaning data, creating tables, and generating figures. 
+    It is widely recognized that such processes are best linked in a reproducible and replicable way; this enables technical validation of an analytical method and regeneration of results from the original, or even new, data.
+	Reproducibility alone does not guarantee analysis will have with lasting (i.e. sustainable) impact for the field, or even just one research group: we postulate that it is equally important to ensure \emph{adaptability} and \emph{transparency}. An adaptable analysis is one that can be easily modified to answer extended or slightly different research questions. This is enabled by the transparency to understand whether an analysis is methodologically sound and technically valid.
+	Workflow management systems such as Snakemake allow researchers to codify their computational analyses in a way that allows them to be reused, understood, and extended by others in their field. 
 \end{abstract}
 
 Performing data analysis has become ubiquitous across scientific disciplines.
