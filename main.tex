@@ -256,21 +256,22 @@ This is particularly useful for combinations of steps that reoccur in many data 
 
 \subsubsection{Standardized code linting and formatting.}\label{sec:style}
 
-The readability of programming code can be heavily influenced by following a common style and best practices \parencite{tysell_sundkvist_code_2017}.
-Therefore Snakemake provides automatic code formatting (via the tool \lstinline!snakefmt!) of workflows, together with any contained Python code.
-In addition, Snakemake has a built in \emph{code linter} that detects code that violates best practices (e.g. missing directives, indentation issues, missing environment variables, etc.) while providing suggestions how to improve the code.
+The readability of programming code can be heavily influenced by adhering to common style and best practices \parencite{tysell_sundkvist_code_2017}.
+Snakemake provides automatic code formatting (via the tool \lstinline!snakefmt!) of workflows, together with any contained Python code.
+In addition, Snakemake has a built in \emph{code linter} that detects code violating best practices (e.g. missing directives, indentation issues, missing environment variables, etc.) and provides suggestions on how to improve the code.
 
 \subsection{Portability}\label{sec:portability}
 
-Being able to deploy a data analysis workflow to a new unprepared system depends on, (a) the ability to install the workflow management system itself, and (b) the ability to obtain and use the required software stack for each analysis step.
+Being able to deploy a data analysis workflow to an unprepared system depends on: (a) the ability to install the workflow management system itself, and (b) the ability to obtain and use the required software stack for each analysis step.
+
 Snakemake itself is easily deployable via the Conda package manager (\url{https://conda.io}), as a Python package (\url{https://pypi.io}) or a Docker container (\url{https://hub.docker.com/r/snakemake/snakemake}).
 
 The management of software stacks needed for individual rules is directly integrated into Snakemake itself, via two complementary mechanisms.
 
 \paragraph{Conda integration}
 
-For each rule, it is possible to define a software environment that will be automatically deployed via the Conda package manager (via a \lstinline!conda! directive, see \autoref{fig:example}a, line 15).
-While efficiently sharing base libraries like Glib with the underlying operating system, any software defined in the environment takes precedence over the same software in the operating system, and is isolated and independent from the same software in other Conda environments.
+For each rule, it is possible to define a software environment that will be automatically deployed via the Conda package manager (via a \lstinline!conda! directive, see \autoref{fig:example}a, line 15). Each environment is described by a lightweight YAML file used by conda to install constituent software.
+While efficiently sharing base libraries like Glib with the underlying operating system, software defined in the environment takes precedence over the same software in the operating system, and is isolated and independent from the same software in other Conda environments. 
 
 \paragraph{Container integration}
 
