@@ -353,29 +353,29 @@ Second, we aim to maximize parallelization or the number of used cores\footnote{
 Third, we ensure that temporary files are deleted as soon as possible.
 Fourth, we try to reduce the lifetime of temporary files that cannot be deleted in this pass.
 
-The four criteria shall be considered in lexicographical order, in other words, priority is most important, only upon ties do we consider parallelization.
+The four criteria shall be considered in lexicographical order, in other words: priority is most important, only upon ties do we consider parallelization.
 Given ties while optimizing parallelization, we consider the ability to delete temporary files.
 And only given ties when considering the latter, we take the lifetime of all temporary files that cannot be deleted immediately into account.
 Technically, this order is enforced by multiplying each criterion sum with a value that is at least as high as the maximum value that the equation right of it can acquire.
 
 Unless the user explicitly requests it, all jobs will have the same priority, meaning that in general the optimization problem maximizes the number of used cores while trying to get rid of as many temporary files as possible.
 
-\subsubsection{Between workflow caching}
+\subsubsection{Caching between workflows}
 
-While data analysis usually entails the handling of a set of datasets or samples that are specific to a particular project, it often additionally relies on a set of steps that retrieve and post-processes some common datasets.
-For example, in the life sciences, such datasets are reference genomes and corresponding annotations.
-Since such datasets potentially reoccur in many analyses conducted in a lab or institute, re-executing the corresponding analysis steps for retrieval and post-processing thereof for each individual data analysis would waste both disk space and computation time.
+While data analyses usually entail the handling of multiple datasets or samples that are specific to a particular project, they often also rely on retrieval and post-processing of common datasets.
+For example, in the life sciences, such datasets include reference genomes and corresponding annotations.
+Since such datasets potentially reoccur in many analyses conducted in a lab or at an institute, re-executing the  analysis steps for retrieval and post-processing of common datasets as part of individual analyses would waste both disk space and computation time.
 
-Historically, the solution in practice was to build up shared resources with the post processed datasets that could then be referred to from the workflow definition.
-For example, in the life sciences, this has led to the Illumina iGenomes resource (\url{https://support.illumina.com/sequencing/sequencing\_software/igenome.html}) and the GATK resource bundle (\url{https://gatk.broadinstitute.org/hc/en-us/articles/360035890811-Resource-bundle}).
-In addition, in order to provide a more flexible way of selection and retrieval for such shared resources, so-called reference management systems have been published, like Go Get Data (\url{https://gogetdata.github.io}) and RefGenie (\url{http://refgenie.databio.org}).
+Historically, the solution in practice was to compile shared resources with post-processed datasets that could be referred to from the workflow definition.
+For example, in the life sciences, this has led to the Illumina iGenomes resource (\url{https://support.illumina.com/sequencing/sequencing\_software/igenome.html}), and the GATK resource bundle (\url{https://gatk.broadinstitute.org/hc/en-us/articles/360035890811-Resource-bundle}).
+In addition, in order to provide a more flexible way of selection and retrieval for such shared resources, so-called "reference management" systems have been published, like Go Get Data (\url{https://gogetdata.github.io}) and RefGenie (\url{http://refgenie.databio.org}).
 Here, the logic for retrieval and post-processing is curated in a set of recipes or scripts, and the resulting resources can be automatically retrieved via command line utilities.
-The downside of all these approaches is that the transparency of the data analysis is hampered since the steps taken to obtain the used resources are hidden away and inaccessible without additional work for the reader of the data analysis.
+The downside of all these approaches is that the transparency of the data analysis is hampered by the steps taken to obtain the data, and the processes required are hidden from or inaccessible to the reader of the data analysis.
 
 Snakemake provides a new, generic approach to the problem which does not have this downside (see \autoref{fig:caching}).
-Leveraging the workflow-inherent information, Snakemake can calculate a hash value for each job that unambiguously captures exactly how an output file is generated, prior to actually generating the file.
+Leveraging workflow-inherent information, Snakemake can calculate a hash value for each job that unambiguously captures exactly how an output file is generated, prior to actually generating the file.
 This hash can be used to store and lookup output files in a central cache (e.g. a folder on the same machine or in a remote storage).
-Hence, for any output file in a workflow, if the corresponding rule is marked as eligible for caching, Snakemake can obtain the file from the cache if it has been created before in a different workflow or by a different user on the same system, thereby saving computation time, as well as disk space (the file can be linked instead of copied).
+For any output file in a workflow, if the corresponding rule is marked as eligible for caching, Snakemake can quickly copy or link to the file in the cache if it has been created before, even in a different workflow or by a different user on the same system, thereby saving computation time as well as disk space.
 
 \begin{figure}
 	\centering
