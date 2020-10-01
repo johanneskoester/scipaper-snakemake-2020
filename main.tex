@@ -294,7 +294,7 @@ An example report is included as supplementary file 1.
 \subsection{Scalability}\label{sec:scalability}
 
 Being able to scale a workflow to available computational resources is crucial for both reproducing previous results as well as adapting a data analysis for a novel research question or dataset.
-Like many other state of the art workflow management systems, Snakemake allows to scale workflows to various computational platforms, ranging from single workstations to large compute servers, any cluster middleware, grid computing, and cloud computing (with native support for Kubernetes, the Google Life Sciences API, Amazon AWS, TES (\url{https://www.ga4gh.org}), and Microsoft Azure, the latter two in an upcoming release).
+Like many other state of the art workflow management systems, Snakemake allows to scale workflows to various computational platforms, ranging from single workstations to large compute servers, any cluster middleware, grid computing, and cloud computing (with native support for Kubernetes, the Google Cloud Life Sciences API, Amazon AWS, TES (\url{https://www.ga4gh.org}), and Microsoft Azure, the latter two in an upcoming release).
 
 Snakemake's design ensures that scaling a workflow to a specific platform should only entail the modification of command line parameters.
 The workflow itself can remain untouched.
@@ -442,7 +442,7 @@ By analyzing its readability and presenting its modularization, portability, rep
 Felix Mölder has designed and implemented the job scheduling mechanism (\autoref{sec:scheduling}).
 Kim Philip Jablonski has designed and implemented Jupyter notebook integration (\autoref{sec:modularization}).
 Michael Hall and Brice Letcher have designed and implemented automated code formatting (\autoref{sec:style}).
-Vanessa Sochat has designed and implemented the Google Life Sciences API execution backend, as well as various improvements to Google storage support (\autoref{sec:scalability}).
+Vanessa Sochat has designed and implemented the Google Cloud Life Sciences API execution backend, as well as various improvements to Google storage support (\autoref{sec:scalability}).
 Soohyun Lee has designed and implemented the AWS execution backend via integration with Tibanna (\autoref{sec:scalability}).
 Sven O.
 Twardziok and Alexander Kanitz have designed and implemented the TES execution backend (\autoref{sec:scalability}).
