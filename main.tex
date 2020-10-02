@@ -27,7 +27,7 @@
 \addFileDependency{supplement.tex}
 \addFileDependency{supplement.aux}
 
-\usepackage[maxbibnames=999,backend=bibtex,url=false,doi=false]{biblatex}
+\usepackage[maxbibnames=999,backend=bibtex,url=false,doi=true,isbn=true]{biblatex}
 \addbibresource{literature.bib}
 
 \newcommand{\sharedfirst}{$\dagger$}
@@ -70,7 +70,6 @@
 \affil[14]{Microsoft Singapore, Singapore}
 \affil[15]{Swiss Institute of Bioinformatics (SIB), Basel, Switzerland}
 \affil[16]{Department of Organismic and Evolutionary Biology, Harvard University, Cambridge, MA, 02138, USA}
-\sharedfirsttext{Shared first author}
 \correspondingtext{To whom correspondence should be addressed}
 
 \title{Sustainable data analysis with Snakemake}
@@ -462,6 +461,8 @@ All authors have read and approved the manuscript.
 \section{Acknowledgements}
 We are most grateful for the thousands of Snakemake users, their enhancement proposals, bug reports, and efforts to perform sustainable data analyses.
 We deeply thank all contributors to the Snakemake, Snakemake-Profile, Snakemake-Workflows, and Snakemake-Wrappers codebases.
+This work was supported by the Netherlands Organisation for Scientific Research (NWO) (VENI grant 016.Veni.173.076, Johannes Köster), the German Research Foundation (SFB 876, Johannes Köster), and Google LLC (Vanessa Sochat and Johannes Köster).
 
 \printbibliography
+
 \end{document}
