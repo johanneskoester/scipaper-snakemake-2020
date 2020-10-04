@@ -34,12 +34,18 @@
 \usepackage[backend=bibtex,maxbibnames=999]{biblatex}
 \addbibresource{literature.bib}
 
+
+
 \begin{document}
 
-\title{Supplement: Sustainable data analysis with Snakemake}
+\title{Supplement:\\
+Sustainable data analysis with Snakemake}
 \maketitle
 
-\section{Readability}\label{sec:readability}
+
+\section{Readability}
+\label{sec:readability}
+
 Statements in Snakemake workflow definitions fall into seven categories:
 \begin{enumerate}
 	\item a natural language word, followed by a colon (e.g.~\lstinline!input:! and~\lstinline!output:!),
@@ -84,7 +90,10 @@ Below, we list the rationale of our assessment for each category in \autoref{m-f
 	      wildcard values).
 \end{enumerate}
 
-\section{Design patterns}\label{sec:design-patterns}
+
+
+\section{Design patterns}
+\label{sec:design-patterns}
 
 \autoref{fig:design-patterns} shows advanced design patterns which are less common but useful in certain situations.
 For brevity only rule properties that are necessary to understand each example are shown (e.g. omitting log directives and shell commands).
@@ -147,6 +156,24 @@ Snakemake directly supports such benchmarking by defining a \lstinline!benchmark
 This directive takes a path to a TSV file.
 Upon execution of a job spawned from such a rule, Snakemake will constantly measure CPU and memory consumption, and store averaged results together with runtime information into the given TSV file.
 Benchmark files can be input to other rules, for example in order to generate plots or summary statistics.
+
+
+
+\section{Scheduling: Furter Considerations}
+\label{sec:morescheduling}
+
+While the first releases of Snakemake used a greedy scheduler, the current implementation aims at using more efficient schedules by solving a mixed integer linear program (MILP) whenever there are free resources.
+While the current implementation works well, future releases may consider additional objectives:
+\begin{itemize}
+\item The current formulation leads to fast removal of existing temporary files. In addition, one may control creation of temporary files in the first place, such that only limited space is occupied by temporary files at any time point during workflow execution.
+\item It may also be beneficial to initially identify bottleneck jobs in the graph and prioritize them automatically instead of relying on the workflow author to prioritize them.
+\end{itemize}
+%%
+Because we consider different objectives hierarchically and use large constants in the objective function, currently a high solver precision is needed.
+If more objectives are considered in the future, an alternative hierarchical formulation may be used:
+First find the optimal objective value for the first (or the first two) objectives; then solve another MILP that maximizes less important objectives and ensures via constraints that the optimality of the most important objective(s) is not violated, or stays within, say, 5\% of the optimal value.
+
+
 
 \printbibliography
 \end{document}

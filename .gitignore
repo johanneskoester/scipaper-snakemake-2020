@@ -1,0 +1,11 @@
+*~
+*.aux
+*.bbl
+*.blg
+*.log
+*.out
+*.run.xml
+main.pdf
+main-blx.bib
+supplement.pdf
+supplement-blx.bib
