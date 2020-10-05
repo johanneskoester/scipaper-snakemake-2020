@@ -163,7 +163,7 @@ Benchmark files can be input to other rules, for example in order to generate pl
 \label{sec:morescheduling}
 
 While the first releases of Snakemake used a greedy scheduler, the current implementation aims at using more efficient schedules by solving a mixed integer linear program (MILP) whenever there are free resources.
-While the current implementation works well, future releases may consider additional objectives:
+The current implementation already works well; still, future releases may consider additional objectives:
 \begin{itemize}
 \item The current formulation leads to fast removal of existing temporary files. In addition, one may control creation of temporary files in the first place, such that only limited space is occupied by temporary files at any time point during workflow execution.
 \item It may also be beneficial to initially identify bottleneck jobs in the graph and prioritize them automatically instead of relying on the workflow author to prioritize them.
@@ -173,6 +173,11 @@ Because we consider different objectives hierarchically and use large constants 
 If more objectives are considered in the future, an alternative hierarchical formulation may be used:
 First find the optimal objective value for the first (or the first two) objectives; then solve another MILP that maximizes less important objectives and ensures via constraints that the optimality of the most important objective(s) is not violated, or stays within, say, 5\% of the optimal value.
 
+\newcommand{\cores}{\text{c}}
+
+We also need to mention a technical detail about the interaction between the scheduler and streams (\autoref{sec:design-patterns}).
+Some jobs that take part in handling a data stream may effectively use zero cores (because they mostly wait for data and then only read or write data), i.e.\ they have $u_{\cores,j} = 0$ in the MILP notation, which means that they do not contribute to the objective function. 
+We thus replace the MILP objective term that maximizes paralellization ($\sum_{j\in J}\, u_{\cores,j} \cdot x_j$) by the modified term $\sum_{j\in J}\, \max \{ u_{\cores,j}, 1\} \cdot x_j$ to ensure that the weight of any $x_j$ within the sum is at least~$1$.
 
 
 \printbibliography

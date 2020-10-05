@@ -311,11 +311,12 @@ Via configuration profiles, it is possible to persist and share the command line
 
 Because of their dependencies, not all jobs in a workflow can be executed at the same time.
 Instead, one can imagine partitioning the DAG of jobs into three sections: 
-those that are already finished, 
-those that have already been scheduled but are not finished yet, 
+those that are already finished,
+those that have already been scheduled but are not finished yet,
 and those that have not yet been scheduled (\autoref{fig:scheduling}a).
-Within the latter partition, all jobs that have only incoming edges from the partition of finished jobs (or no incoming edge et all) can be scheduled next.
-We call this the set~$J$ of pending jobs.
+Let us call the jobs in the latter partition $J^o$, the set of \emph{open} jobs.
+Within $J^o$, all jobs that have only incoming edges from the partition of finished jobs (or no incoming edge et all) can be scheduled next.
+We call this the set~$J$ of \emph{pending} jobs.
 The scheduling problem a workflow manager like Snakemake has to solve is to select the subset $E \subseteq J$ that leads to an efficient execution of the workflow, while not exceeding the given resources like hard drive space, I/O capacity and CPU cores.
 Snakemake solves the scheduling problem at the beginning of the workflow execution and whenever a job has finished and new jobs become pending.
 
@@ -343,9 +344,9 @@ Wwe assume that the red job at the root generates a temporary file, which may be
 \newcommand{\question}[1]{\textbf{({#1})}}
 
 We solve the scheduling problem via a mixed integer linear program (MILP) as follows.
-Let $R$ be the set of resources used in the workflow (e.g., CPU cores and memory).
+Let~$R$ be the set of resources used in the workflow (e.g., CPU cores and memory).
 By default, Snakemake only considers CPU cores which we indicate with $\cores$, i.e., $R = \{\cores\}$.
-Let $F$ be the set of temporary files that will be generated during the workflow. \question{or: that are currently present / present when the current instance of the scheduling problem will be solved. ??}
+Let~$F$ be the set of temporary files that are currently present.
 %% Constants
 We first define constants for each pending job $j \in J$: 
 Let $p_j \in \N$ be its priority, let $u_{r,j} \in \N$ be its usage of resource $r \in R$, and let $z_{f,j} \in \{0,1\}$ indicate whether it needs temporary file $f \in F$ as input ($z_{f,j}=1$) or not ($z_{f,j}=0$).
@@ -355,7 +356,7 @@ Let $S_f$ be the size of file $f \in F$, and let $S := \sum_{f\in F}\, S_f$ be b
 
 %% Variables
 Next, we define indicator variables $x_j \in \{0,1\}$ for each job $j \in J$, indicating whether a job is selected for execution ($1$) or not ($0$).
-For each temporary file $f \in F$, we define a variable $\delta_f \in [0,1]$ indicating the fraction of consuming jobs that will be scheduled among all pending jobs.
+For each temporary file $f \in F$, we define a variable $\delta_f \in [0,1]$ indicating the fraction of consuming jobs that will be scheduled among all open jobs.
 We also call this variable the lifetime fraction of temporary file $f$.
 In other words, $\delta_f = 1$ means that all consuming jobs will be completed after this scheduling round has been processed, such that the lifetime of that file is over and it can be deleted.
 To indicate the latter, we further define a binary variable $\gamma_f \in \{0,1\}$, with $\gamma_f = 1$ representing the case that $f$ can indeed be deleted, in other words, $\gamma_f = 1 \Leftrightarrow \delta_f = 1$.
@@ -365,11 +366,11 @@ To indicate the latter, we further define a binary variable $\gamma_f \in \{0,1\
 \begin{minipage}[t]{0.54\textwidth}
 \textbf{Objective:}
 \begin{align}
-\text{Maximize}\quad
-    & 2U_\cores \cdot 2S \cdot \sum_{j \in J} x_j \cdot p_j 
-  +   2S \cdot \sum_{j \in J} x_j \cdot (u_{\cores,j} + 1)  \nonumber \\
-{}+ & S \cdot \sum_{f \in F} \gamma_f \cdot S_f 
-  +   \sum_{f \in F} \delta_f \cdot S_f   \label{objective}
+\text{Maximize}\qquad
+    & 2U_\cores \cdot 2S \cdot \sum_{j \in J}\, p_j \cdot x_j
+  +   2S \cdot \sum_{j \in J}\, u_{\cores,j} \cdot x_j \qquad \nonumber \\
+&{}+   S \cdot \sum_{f \in F}\, S_f \cdot \gamma_f
+  +   \sum_{f \in F}\, S_f \cdot \delta_f  \label{objective}
 \end{align}
 subject to
 \begin{align}
@@ -379,7 +380,7 @@ x_j & \in \{0,1\} && \fueralle j \in J, \nonumber \\
 %%
 \sum_{j \in J} x_j \cdot u_{r,j} &\leq U_r && \fueralle r \in R,
     \label{cn:resources}\\
-\delta_f & \leq \frac{\sum_{j \in J}\, x_j \cdot z_{f,j}}{\sum_{j \in J}\, z_{f,j}} && \fueralle f \in F,
+\delta_f & \leq \frac{\sum_{j \in J}\, x_j \cdot z_{f,j}}{\sum_{j \in J^o}\, z_{f,j}} && \fueralle f \in F,
     \label{cn:lifetmp}\\
 \gamma_f &\leq \delta_f && \fueralle f \in F.
     \label{cn:deltmp}
@@ -399,7 +400,7 @@ lifetime fraction of~$f$; see \eqref{cn:lifetmp} \\[2ex]
 \begin{align*}
 p_j\in\N     :& \quad \text{priority of job $j\in J$} \\
 u_{r,j}\in\N :& \quad \text{$j$'s usage of resource~$r$} \\
-z_{f,j}\in\{0,1\} :& \quad \text{does job~$j$ need file~$f$?} \\
+z_{f,j}\     :& \quad \text{does job~$j\in J^o$ need file~$f$?} \\
 U_r\in\N     :& \quad \text{free capacity of resource~$r$}\\
 S_f\in\N     :& \quad \text{size of file~$f$} \\
 S\in\N       :& \quad \text{sum of file sizes $\sum\nolimits_f\, S_f$} \\
@@ -412,8 +413,9 @@ S\in\N       :& \quad \text{sum of file sizes $\sum\nolimits_f\, S_f$} \\
 Then, the scheduling problem can be written as the MILP depicted in Table~\ref{tab:milp}.
 The maximization optimizes four criteria, represented by four separate terms in \eqref{objective}.
 First, we strive to prefer jobs with high priority.
-Second, we aim to maximize parallelization or the number of used cores\footnote{Snakemake also allows for jobs that use zero cores (i.e.\ $u_{\cores,j} = 0$), hence we add $+1$ to each summand of the second term.}.
-\question{The $+1$ will prefer running more jobs 1-core jobs instead of one job that uses many cores, e.g. consider one 16-core job with value 17 and 16 one-core jobs with total value 32. Why not use $\max\{1, u_{\cores,j}\}$?}
+Second, we aim to maximize the number of used cores, i.e.\ the extent of paralellization.
+%\footnote{Snakemake also allows for jobs that use zero cores (i.e.\ $u_{\cores,j} = 0$), hence we add $+1$ to each summand of the second term.}.
+%\question{The $+1$ will prefer running more jobs 1-core jobs instead of one job that uses many cores, e.g. consider one 16-core job with value 17 and 16 one-core jobs with total value 32. Why not use $\max\{1, u_{\cores,j}\}$?}
 Third, we aim to delete existing temporary files as soon as possible.
 Fourth, we try to reduce the lifetime of temporary files that cannot be deleted in this pass.
 
@@ -426,8 +428,9 @@ Unless the user explicitly requests otherwise, all jobs have the same priority, 
 
 The constraints \eqref{cn:resources}--\eqref{cn:deltmp} ensure that the variables have the intended meaning and that the computed schedule does not violate resource constraints.
 Constraint \eqref{cn:resources} ensures that the available amount $U_r$ of each resource $r \in R$ is not exceeded by the selection.
-Constraint \eqref{cn:lifetmp} (together with the fact that $\delta_f$ occurs in the maximization) ensures that $\delta_{f}$ is ineed the lifetime fraction of temporary file $f \in F$.
-Constraint \eqref{cn:deltmp} (together with the fact that $\gamma_f$ occurs in the maximization) ensures that $\gamma_f=0$ if and only if $\delta_f < 1$ and hence calculates whether temporary file $f \in F$ can be deleted.
+Constraint \eqref{cn:lifetmp} (together with the fact that $\delta_f$ is being maximized) ensures that $\delta_{f}$ is ineed the lifetime fraction of temporary file $f \in F$.
+Note that the sum in the denominator extends over all open jobs, while the numerator only extends over pending jobs.
+Constraint \eqref{cn:deltmp} (together with the fact that $\gamma_f$ is being maximized) ensures that $\gamma_f=0$ if and only if $\delta_f < 1$ and hence calculates whether temporary file $f \in F$ can be deleted.
 
 Additional considerations and alternatives, which may be implemented in subsequent releases of Snakemake, are discussed in the Supplement.
 
