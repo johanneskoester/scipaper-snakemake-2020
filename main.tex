@@ -208,6 +208,17 @@ Where necessary, it is possible to provide arbitrary Python code to infer input 
 \autoref{fig:example}a illustrates all major design patterns needed to define workflows with Snakemake: workflow configuration (line 1), aggregations (line 5-8), specific (line 33-43) and generic (line 45-53) transformations, target rules (line 3-8), log file definition, software stack definition, as well as shell command, script, and wrapper integration.
 Supplementary \autoref{s-sec:design-patterns} presents additional, more exotic patterns that are helpful in certain situations (e.g. conditional execution).
 
+\subsubsection{Automated unit test generation}
+
+When maintaining and developing a production workflow, it is important to test each contained step, ideally upon every change to the workflow code.
+In software development, such tests are called \emph{unit tests} \cite{huizinga_automated_2007}.
+From a given source workflow with already computed results that have been checked for correctness, Snakemake can automatically generate a suite of unit tests, which can be executed via the Pytest framework (\url{https://pytest.org}).
+Each unit test consists of the execution of one rule, using input data taken from the source workflow.
+The generated results are by default compared byte-by-byte against the results given by in the source workflow.
+However, this behavior can be overwritten by the user.
+It is advisable to keep the input datasets of the source workflow small in order to ensure that unit tests finish quickly.
+
+
 \subsection{Readability}
 
 The workflow definition language of Snakemake is designed to allow maximum readability, which is crucial for transparency and adaptability.
@@ -443,8 +454,6 @@ Note that the sum in the denominator extends over all open jobs, while the numer
 Constraint \eqref{cn:deltmp} (together with the fact that $\gamma_f$ is being maximized) ensures that $\gamma_f=0$ if and only if $\delta_f < 1$ and hence calculates whether temporary file $f \in F$ can be deleted.
 
 Additional considerations and alternatives, which may be implemented in subsequent releases of Snakemake, are discussed in the Supplement.
-
-
 
 \subsubsection{Caching between workflows}\label{sec:caching}
 
