@@ -1,7 +1,10 @@
-\documentclass[parskip=half, DIV=18]{scrartcl}
+%\documentclass[parskip=half, DIV=18]{scrartcl}
+\documentclass[10pt,a4paper,twocolumn]{article}
+\usepackage{f1000_styles}
+
 \usepackage[utf8]{inputenc}
-\usepackage{amsmath}
-\usepackage{amssymb}
+%\usepackage{amsmath}
+%\usepackage{amssymb}
 \usepackage{graphicx}
 \usepackage{authblk}
 \PassOptionsToPackage{hyphens}{url}
@@ -76,6 +79,7 @@
 
 \title{Sustainable data analysis with Snakemake}
 \maketitle
+\thispagestyle{fancy}
 
 \begin{abstract}
 	Data analysis often entails a multitude of heterogeneous steps, from the application of various command line tools to the usage of scripting languages like R or Python for the generation of plots and tables.
@@ -89,6 +93,12 @@
 	Here, we analyze the properties needed for a data analysis to become reproducible, adaptable, and transparent.
 	We show how the popular workflow management system Snakemake can be used to guarantee this, and how it enables an ergonomic, combined, unified representation of all steps involved in data analysis, ranging from raw data processing, to quality control and fine-grained, interactive exploration and plotting of final results.
 \end{abstract}
+
+\section*{Keywords}
+
+data analysis, sustainability, reproducibility, transparency, adaptability, scalability
+
+\clearpage
 
 \section{Introduction}\label{sec:introduction}
 
@@ -127,7 +137,7 @@ However, we argue that a data analysis is only of lasting and sustained value fo
 
 \begin{figure}
     \centering
-	\includegraphics[width=10cm]{sustainability-in-wms.pdf}
+	\includegraphics[width=\columnwidth]{sustainability-in-wms.pdf}
 	\caption{
 		Hierarchy of aspects to consider for sustainable data analysis.
 		By supporting the top layer, a workflow management system can promote the center layer, and thereby help to obtain true sustainability.
@@ -152,7 +162,7 @@ This makes Snakemake one of the most widely used workflow management systems in 
 
 \begin{figure}
     \centering
-	\includegraphics[width=10cm]{citations+development.pdf}
+	\includegraphics[width=\columnwidth]{citations+development.pdf}
 	\caption{
 		Citations and development of Snakemake.
 		(a) citations by year of the original Snakemake article (note that the year 2020 is still incomplete at the time of writing).
@@ -185,7 +195,7 @@ For example, see the rule~\lstinline!select_by_country! in Fig.~\ref{fig:example
 It can be applied to generate any output file of the form~\lstinline!results/by-country/{country}.csv!, with~\lstinline!{country}! being a wildcard that can be replaced with any non-empty string.
 In shell commands, input and output files, as well additional parameters, are directly accessible by enclosing the respective keywords in curly braces (in case of more than a single item in any of these, access can happen by name or index).
 
-\begin{figure}
+\begin{figure*}
     \centering
 	\includegraphics[width=12cm]{example-workflow.pdf}
 	\caption{
@@ -194,7 +204,7 @@ In shell commands, input and output files, as well additional parameters, are di
 		Note that this is solely meant as a short yet comprehensive demonstration of the Snakemake syntax.
 	}
 	\label{fig:example}
-\end{figure}
+\end{figure*}
 
 When using script integration instead of shell commands, Snakemake automatically inserts an object giving access to all properties of the job (e.g. \lstinline!snakemake.output[0]!, see Fig.
 \ref{fig:example}c).
@@ -389,7 +399,7 @@ In other words, $\delta_f = 1$ means that all consuming jobs will be completed a
 To indicate the latter, we further define a binary variable $\gamma_f \in \{0,1\}$, with $\gamma_f = 1$ representing the case that $f$ can indeed be deleted, in other words, $\gamma_f = 1 \Leftrightarrow \delta_f = 1$.
 
 
-\begin{table}
+\begin{table*}
 \begin{minipage}[t]{0.54\textwidth}
 \textbf{Objective:}
 \begin{align}
@@ -399,7 +409,7 @@ To indicate the latter, we further define a binary variable $\gamma_f \in \{0,1\
 &{}+   S \cdot \sum_{f \in F}\, S_f \cdot \gamma_f
   +   \sum_{f \in F}\, S_f \cdot \delta_f  \label{objective}
 \end{align}
-subject to
+\hspace{0.6cm}subject to
 \begin{align}
 x_j & \in \{0,1\} && \fueralle j \in J, \nonumber \\
 \gamma_f & \in \{0,1\} && \fueralle f \in F, \nonumber \\ 
@@ -435,7 +445,7 @@ S\in\N       :& \quad \text{sum of file sizes $\sum\nolimits_f\, S_f$} \\
 \end{minipage}
 \caption{Mixed integer linear program for Snakemake's scheduling problem.}
 \label{tab:milp}
-\end{table}
+\end{table*}
 
 Then, the scheduling problem can be written as the MILP depicted in Table~\ref{tab:milp}.
 The maximization optimizes four criteria, represented by four separate terms in \eqref{objective}.
@@ -480,9 +490,9 @@ For any output file in a workflow, if the corresponding rule is marked as eligib
 
 \begin{figure}
 	\centering
-	\includegraphics[width=10cm]{caching.pdf}
+	\includegraphics[width=\columnwidth]{caching.pdf}
 	\caption{
-		Blockchain based between workflow caching scheme of Snakemake.
+		Blockchain-hashing based between workflow caching scheme of Snakemake.
 		If a job is eligible for caching, its code, parameters, raw input files, software environment and the hashes of its dependencies are used to calculate a SHA-256 hash value, under which the output files are stored in a central cache.
 		Subsequent runs of the same job (with the same dependencies) in other workflows can skip the execution and directly take the output files from the cache.
 	}
@@ -492,7 +502,15 @@ For any output file in a workflow, if the corresponding rule is marked as eligib
 The hash value is calculated in the following way.
 Let $J$ be the set of jobs of a workflow.
 For any job $j \in J$, let $c_j$ denote its code (shell command, script, wrapper, or notebook), let $P_j = \{(k_i, v_i) \mid i=0,\dots,m\}$ be its set of parameters (with key $k_i$ and JSON-encoded value $v_i$), let $F_j$ be its set of input files that are not created by any other job, and let $s_j$ be a string describing the associated software environment (either a container unique resource identifier, a Conda environment definition, or both).
-Then, assuming that job $j \in J$ with dependencies $D_j \subset J$ is the job of interest, we can calculate the hash value as $$ h(j) = h'\left( c_j \odot \left(\bigodot_{i=0}^m k_i \odot v_i \right) \odot \left( \bigodot_{f \in F_j} h'(f) \right) \odot s_j \odot \left( \bigodot_{j' \in D_j} h(j') \right) \right) $$ with $h'$ being the SHA-256 \parencite{Handschuh} hash function, $\odot$ being the string concatenation, and $\bigodot$ being the string concatenation of its operands in lexicographic order.
+Then, assuming that job $j \in J$ with dependencies $D_j \subset J$ is the job of interest, we can calculate the hash value as 
+
+\begin{align*}
+h(j) = h'\Bigg( &\left(\bigodot_{i=0}^m k_i \odot v_i \right) \odot c_j \odot \\
+&\left( \bigodot_{f \in F_j} h'(f) \right) \odot s_j \odot \\
+&\left( \bigodot_{j' \in D_j} h(j') \right) \Bigg)
+\end{align*}
+
+with $h'$ being the SHA-256 \parencite{Handschuh} hash function, $\odot$ being the string concatenation, and $\bigodot$ being the string concatenation of its operands in lexicographic order.
 
 The hash function $h(j)$ comprehensively describes everything that affects the content of the output files of job~\(j\), namely code, parameters, raw input files, the software environment and the input generated by jobs it depends on.
 For the latter, we recursively apply the hash function~\(h\) again.
@@ -513,14 +531,14 @@ For each group, it is in addition possible to define how many connected subgraph
 This way, it is possible to adjust the partition size to the needs of the available computational platform.
 The resource usage of a group job is determined by sorting involved jobs topologically, summing resource usage per level and taking the maximum over all levels.
 
-\begin{figure}
+\begin{figure*}
     \centering
 	\includegraphics[width=15cm]{group-jobs.pdf}
 	\caption{Job graph partitioning by assigning rules to groups.
 		Two rules of the example workflow (\autoref{fig:example}a) are grouped together, (a) spanning one connected component, (b) spanning two connected components, and (c) spanning five connected components.
 		Resulting submitted group jobs are represented as grey boxes.
 	}\label{fig:grouping}
-\end{figure}
+\end{figure*}
 
 \subsubsection{Streaming}\label{sec:streaming}
 
