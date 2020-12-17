@@ -179,7 +179,7 @@ We also need to mention a technical detail about the interaction between the sch
 Some jobs that take part in handling a data stream may effectively use zero cores (because they mostly wait for data and then only read or write data), i.e.\ they have $u_{\cores,j} = 0$ in the MILP notation, which means that they do not contribute to the objective function. 
 We thus replace the MILP objective term that maximizes paralellization ($\sum_{j\in J}\, u_{\cores,j} \cdot x_j$) by the modified term $\sum_{j\in J}\, \max \{ u_{\cores,j}, 1\} \cdot x_j$ to ensure that the weight of any $x_j$ within the sum is at least~$1$.
 
-\section{Performance}
+\section{Performance}\label{sec:performance}
 
 When executing a data analysis workflow, running time and resource usage is dominated by the executed jobs and the performance of the libraries and tools used in these.
 Nevertheless, Snakemake has to process dependencies between jobs, which can incur some startup time until the actual workflow is executed.
@@ -191,7 +191,7 @@ It can be seen that both runtime and memory increase linearly, starting from 0.2
 \begin{figure}
  \centering
  \includegraphics[width=\textwidth]{benchmark.pdf}
- \caption{Runtime and memory usage of Snakemake while building the graph of jobs depending on the number of jobs in the workflow.}\label{fig:benchmark}
+ \caption{Runtime and memory usage of Snakemake while building the graph of jobs depending on the number of jobs in the workflow. The Snakemake workflow generating the results is available at \url{https://doi.org/10.5281/zenodo.4244143} and a self-contained Snakemake report with workflow code is available as supplementary file.}\label{fig:benchmark}
 \end{figure}
 
 For future releases of Snakemake, we plan to further improve performance, for example by making use of PyPy (\url{https://www.pypy.org}), and by caching dependency resolution results between subsequent invocations of Snakemake.
