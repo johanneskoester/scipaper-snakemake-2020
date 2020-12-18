@@ -221,7 +221,7 @@ From this inference, Snakemake obtains a directed acyclic graph of jobs (DAG, se
 The time needed for this is linear in the number of jobs involved in the workflow, and negligible compared to the usual runtimes of the workflow steps (see supplementary \autoref{s-sec:performance}).
 
 \autoref{fig:example}a illustrates all major design patterns needed to define workflows with Snakemake: workflow configuration (line 1), aggregations (line 5-8), specific (line 33-43) and generic (line 45-53) transformations, target rules (line 3-8), log file definition, software stack definition, as well as shell command, script, and wrapper integration.
-Supplementary \autoref{s-sec:design-patterns} presents additional, more exotic patterns that are helpful in certain situations (e.g. conditional execution).
+Supplementary \autoref{s-sec:design-patterns} presents additional patterns that are helpful in certain situations (e.g. conditional execution, iteration, exploration of large parameter spaces, benchmarking, scatter/gather).
 
 \subsubsection{Automated unit test generation}
 
